@@ -14,6 +14,9 @@ namespace Project.Game
         private bool _canJump;
 
         private IPlayerCollisionHandler _defaultHandler;
+        private IPlayerInputService _inputService;
+
+        public event Action<PlayerCollisionInfo> OnCollided;
 
         public void SetJumpingStatus(bool status) =>
             _canJump = status;
@@ -37,7 +40,20 @@ namespace Project.Game
         public void SetDirection(PlayerDirection direction) =>
             SetDirectionInternal(direction == PlayerDirection.Right);
 
-        public event Action<PlayerCollisionInfo> OnCollided;
+        private void Start()
+        {
+            _rigidbody = GetComponent<Rigidbody2D>();
+            UpdateHorizontalVelocity();
+
+            _defaultHandler = new LevelPlayerCollisionHandler(this, _jumpHeight);
+            OnCollided += _defaultHandler.HandleCollision;
+
+            _inputService = GetComponent<LegacyInputService>();
+            _inputService.OnJumpInput += TryJumpInternal;
+        }
+
+        private void OnCollisionEnter2D(Collision2D other) =>
+            OnCollided?.Invoke(new PlayerCollisionInfo(other, Vector2.up, _defaultHandler));
 
         private void JumpInternal(float height)
         {
@@ -54,6 +70,9 @@ namespace Project.Game
             UpdateHorizontalVelocity();
         }
 
+        private bool GetInvertedDirection() =>
+            !_isCurrentDirectionRight;
+
         private void UpdateHorizontalVelocity()
         {
             var vel = _rigidbody.velocity;
@@ -61,32 +80,10 @@ namespace Project.Game
             _rigidbody.velocity = vel;
         }
 
-        private bool GetInvertedDirection() =>
-            !_isCurrentDirectionRight;
+        private void TryJumpInternal() =>
+            TryJump(_jumpHeight);
 
         private static float HeightToVelocity(float height, float gravity) =>
             Mathf.Sqrt(-2 * gravity * height);
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            OnCollided?.Invoke(new PlayerCollisionInfo(other, Vector2.up, _defaultHandler));
-        }
-
-        private void Update()
-        {
-            if (!Input.anyKeyDown)
-                return;
-
-            TryJump(_jumpHeight);
-        }
-
-        private void Start()
-        {
-            _rigidbody = GetComponent<Rigidbody2D>();
-            UpdateHorizontalVelocity();
-
-            _defaultHandler = new LevelPlayerCollisionHandler(this, _jumpHeight);
-            OnCollided += _defaultHandler.HandleCollision;
-        }
     }
 }
