@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Project
+namespace Project.Game
 {
     public class Player : MonoBehaviour, IPlayer
     {
@@ -9,9 +9,11 @@ namespace Project
         [SerializeField] private float _horizontalVelocity;
 
         private Rigidbody2D _rigidbody;
-        
+
         private bool _isCurrentDirectionRight;
         private bool _canJump;
+
+        private IPlayerCollisionHandler _defaultHandler;
 
         public void SetJumpingStatus(bool status) =>
             _canJump = status;
@@ -22,8 +24,12 @@ namespace Project
                 return false;
 
             JumpInternal(height);
+            SetJumpingStatus(false);
             return true;
         }
+
+        public void ForceJump(float height) =>
+            JumpInternal(height);
 
         public void InvertDirection() =>
             SetDirectionInternal(GetInvertedDirection());
@@ -31,11 +37,15 @@ namespace Project
         public void SetDirection(PlayerDirection direction) =>
             SetDirectionInternal(direction == PlayerDirection.Right);
 
+        public event Action<PlayerCollisionInfo> OnCollided;
+
         private void JumpInternal(float height)
         {
             var vel = _rigidbody.velocity;
             vel.y = HeightToVelocity(height, Physics2D.gravity.y);
             _rigidbody.velocity = vel;
+
+            UpdateHorizontalVelocity();
         }
 
         private void SetDirectionInternal(bool right)
@@ -59,39 +69,24 @@ namespace Project
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            var normal = other.contacts[0].normal.normalized;
-            
-            if (normal.y == 1)
-            {
-                JumpInternal(_jumpHeight);
-                SetJumpingStatus(true);
-                UpdateHorizontalVelocity();
-                return;
-            }
-
-            if (Mathf.Abs(normal.x) == 1)
-            {
-                InvertDirection();
-                UpdateHorizontalVelocity();
-                return;
-            }
+            OnCollided?.Invoke(new PlayerCollisionInfo(other, Vector2.up, _defaultHandler));
         }
 
         private void Update()
         {
             if (!Input.anyKeyDown)
                 return;
-            
-            if (!TryJump(_jumpHeight))
-                Debug.Log("Unable to jump");
-            else
-                SetJumpingStatus(false);
+
+            TryJump(_jumpHeight);
         }
 
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             UpdateHorizontalVelocity();
+
+            _defaultHandler = new LevelPlayerCollisionHandler(this, _jumpHeight);
+            OnCollided += _defaultHandler.HandleCollision;
         }
     }
 }

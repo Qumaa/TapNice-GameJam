@@ -1,4 +1,4 @@
-﻿namespace Project
+﻿namespace Project.Game
 {
     public enum PlayerDirection
     {
