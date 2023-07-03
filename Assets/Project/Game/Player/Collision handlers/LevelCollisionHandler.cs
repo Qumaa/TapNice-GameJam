@@ -1,10 +1,12 @@
-﻿namespace Project.Game
+﻿using System;
+
+namespace Project.Game
 {
-    public class LevelPlayerCollisionHandler : PlayerCollisionHandler
+    public class LevelCollisionHandler : PlayerCollisionHandler
     {
         private readonly float _jumpHeight;
 
-        public LevelPlayerCollisionHandler(IPlayer player, float jumpHeight) : base(player)
+        public LevelCollisionHandler(IPlayer player, float jumpHeight) : base(player)
         {
             _jumpHeight = jumpHeight;
         }

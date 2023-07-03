@@ -12,12 +12,14 @@ namespace Project.Game
         public readonly bool IsHorizontal;
         public readonly Vector2 RawNormal;
         public readonly Vector2 NormalizedNormal;
+        public readonly IPlayer Player;
         public readonly IPlayerCollisionHandler CollisionHandler;
 
-        public PlayerCollisionInfo(Collision2D collision, Vector2 up, IPlayerCollisionHandler collisionHandler)
+        public PlayerCollisionInfo(Collision2D collision, Vector2 up, IPlayerCollisionHandler collisionHandler, IPlayer player)
         {
             CollisionHandler = collisionHandler;
-            
+            Player = player;
+
             RawNormal = CalculateNormal(collision.contacts);
             NormalizedNormal = RawNormal.normalized;
 
