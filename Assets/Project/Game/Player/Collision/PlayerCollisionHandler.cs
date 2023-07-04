@@ -1,27 +1,26 @@
 ﻿namespace Project.Game
 {
-    public abstract class PlayerCollisionHandler : IPlayerCollisionHandler
+    public abstract class PlayerCollisionHandler : ICollisionHandler
     {
-        protected readonly IPlayer _player;
+        private static ICollisionHandler _defaultHandler;
 
-        protected PlayerCollisionHandler(IPlayer player)
-        {
-            _player = player;
-        }
-
+        public static ICollisionHandler DefaultHandler => _defaultHandler ??= new LevelCollisionHandler();
+        
         public abstract void HandleCollision(PlayerCollisionInfo collision);
 
-        protected void DefaultHandling(PlayerCollisionInfo collision)
+        protected static void DefaultHandling(PlayerCollisionInfo collision)
         {
+            var player = collision.Player;
+            
             if (collision.IsVertical)
             {
-                _player.Jump();
-                _player.Bounce();
-                _player.CanJump = true;
+                player.Jump();
+                player.Bounce();
+                player.CanJump = true;
                 return;
             }
 
-            _player.InvertDirection();
+            player.InvertDirection();
         }
     }
 }

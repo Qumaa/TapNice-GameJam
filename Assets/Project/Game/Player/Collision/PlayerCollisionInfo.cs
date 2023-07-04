@@ -13,9 +13,9 @@ namespace Project.Game
         public readonly Vector2 RawNormal;
         public readonly Vector2 NormalizedNormal;
         public readonly IPlayer Player;
-        public readonly IPlayerCollisionHandler CollisionHandler;
+        public readonly ICollisionHandler CollisionHandler;
 
-        public PlayerCollisionInfo(Collision2D collision, Vector2 up, IPlayerCollisionHandler collisionHandler, IPlayer player)
+        public PlayerCollisionInfo(Collision2D collision, Vector2 up, ICollisionHandler collisionHandler, IPlayer player)
         {
             CollisionHandler = collisionHandler;
             Player = player;

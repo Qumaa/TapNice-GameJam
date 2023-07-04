@@ -1,35 +1,38 @@
-﻿using Project.Game;
+﻿using System;
+using Project.Game;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Project.Architecture
 {
     public class TempGameState : GameState
     {
         private readonly PlayerConfig _playerConfig;
+        private readonly ICollisionHandler[] _handlersTable;
 
         public TempGameState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig) : base(game, stateMachine)
         {
             _playerConfig = playerConfig;
+            var items = Enum.GetNames(typeof(CollisionHandlerType)).Length;
+            _handlersTable = new ICollisionHandler[items];
         }
 
         public override void Enter()
         {
             var player = CreatePlayer();
-            InitCollisionHandlers(player);
+            InitCollisionHandlers();
         }
 
-        private void InitCollisionHandlers(IPlayer player)
+        private void InitCollisionHandlers()
         {
-            var sceneHandlers =
+            var handlerContainers =
                 Object.FindObjectsByType<SceneCollisionHandlerContainer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             
-            if (sceneHandlers.Length == 0)
+            if (handlerContainers.Length == 0)
                 return;
             
-            var handler = new FinishCollisionHandler(player);
-            
-            foreach(var sceneHandler in sceneHandlers)
-                sceneHandler.SetHandler(handler);
+            foreach(var handlerContainer in handlerContainers)
+                handlerContainer.SetHandler(GetCollisionHandler(handlerContainer.HandlerType));
         }
 
         private IPlayer CreatePlayer()
@@ -47,5 +50,18 @@ namespace Project.Architecture
         public override void Exit()
         {
         }
+
+        private ICollisionHandler GetCollisionHandler(CollisionHandlerType type) =>
+            _handlersTable[(int) type] ??= CreateHandler(type);
+
+        private static ICollisionHandler CreateHandler(CollisionHandlerType type) =>
+            type switch
+            {
+                CollisionHandlerType.Default => PlayerCollisionHandler.DefaultHandler,
+                CollisionHandlerType.Finish => new FinishCollisionHandler(),
+                CollisionHandlerType.Trampoline => throw new NotImplementedException(),
+                CollisionHandlerType.Discharger => throw new NotImplementedException(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
     }
 }

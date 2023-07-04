@@ -5,7 +5,6 @@ namespace Project.Game
 {
     public class Player : MonoBehaviour, IPlayer
     {
-        private IPlayerCollisionHandler _defaultHandler;
         private IPlayerInputService _inputService;
         private SpriteRenderer _renderer;
         private Rigidbody2D _rigidbody;
@@ -34,8 +33,6 @@ namespace Project.Game
             _renderer = GetComponent<SpriteRenderer>();
             _rigidbody = GetComponent<Rigidbody2D>();
 
-            _defaultHandler = new LevelCollisionHandler(this);
-
             _inputService = GetComponent<LegacyInputService>();
             _inputService.OnJumpInput += TryJumpInternal;
         }
@@ -47,8 +44,8 @@ namespace Project.Game
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (!other.gameObject.TryGetComponent<IPlayerCollisionHandler>(out var handler))
-                handler = _defaultHandler;
+            if (!other.gameObject.TryGetComponent<ICollisionHandler>(out var handler))
+                handler = PlayerCollisionHandler.DefaultHandler;
 
             var info = new PlayerCollisionInfo(other, Vector2.up, handler, this);
 
