@@ -107,7 +107,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: 11efd2b1bf02e144ea5c0cfe22438618, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &675146756
 CircleCollider2D:
@@ -137,11 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be7f3ff1a6b9cd428b880ba7218db27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpHeight: 2
-  _horizontalVelocity: 4
-  _initialDirection: 0
-  _playerColor: {r: 1, g: 1, b: 1, a: 1}
-  _canJumpPlayerColor: {r: 0.22191167, g: 0.66609347, b: 0.8584906, a: 1}
 --- !u!114 &5390531886975297232
 MonoBehaviour:
   m_ObjectHideFlags: 0

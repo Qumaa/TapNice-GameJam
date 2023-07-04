@@ -12,6 +12,7 @@ namespace Project.Game
         private Color _playerCanJumpColor;
         private bool _isCurrentDirectionRight;
         private bool _canJump;
+        private bool _hasCollided;
 
         public float JumpHeight { get; set; }
         public float HorizontalSpeed { get; set; }
@@ -44,6 +45,11 @@ namespace Project.Game
 
         private void OnCollisionEnter2D(Collision2D other)
         {
+            if (_hasCollided)
+                return;
+
+            _hasCollided = true;
+            
             if (!other.gameObject.TryGetComponent<ICollisionHandler>(out var handler))
                 handler = PlayerCollisionHandler.DefaultHandler;
 
@@ -51,8 +57,11 @@ namespace Project.Game
 
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);
-            
-            Debug.Log("collision");
+        }
+
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            _hasCollided = false;
         }
 
         public void Jump() =>

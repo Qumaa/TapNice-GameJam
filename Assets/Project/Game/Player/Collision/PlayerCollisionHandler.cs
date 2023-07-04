@@ -1,4 +1,6 @@
-﻿namespace Project.Game
+﻿using UnityEngine;
+
+namespace Project.Game
 {
     public abstract class PlayerCollisionHandler : ICollisionHandler
     {
@@ -20,6 +22,7 @@
                 return;
             }
 
+            Debug.Log(collision.NormalizedNormal);
             player.InvertDirection();
         }
     }

@@ -6,8 +6,8 @@ namespace Project.Game
 {
     public readonly struct PlayerCollisionInfo
     {
-        private const float _ROUNDING_ERROR = 0.01f;
-        
+        private static readonly float _directionError = Mathf.Cos(45); // error in angles
+
         public readonly bool IsVertical;
         public readonly bool IsHorizontal;
         public readonly Vector2 RawNormal;
@@ -36,6 +36,6 @@ namespace Project.Game
             };
 
         private static bool IsInTheSameDirection(Vector2 direction1, Vector2 direction2) =>
-            1 - Vector2.Dot(direction1, direction2) < _ROUNDING_ERROR;
+            1 - Vector2.Dot(direction1, direction2) < _directionError;
     }
 }

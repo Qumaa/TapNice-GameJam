@@ -2,7 +2,7 @@
 
 namespace Project.Game
 {
-    public class SceneCollisionHandlerContainer : MonoBehaviour, ICollisionHandler, ICollisionHandlerContainer
+    public class SceneCollisionHandlerContainer : MonoBehaviour, ICollisionHandler
     {
         [SerializeField] private CollisionHandlerType _handlerType;
 
@@ -14,11 +14,5 @@ namespace Project.Game
 
         public void SetHandler(ICollisionHandler handler) =>
             _underlyingHandler = handler;
-    }
-
-    public interface ICollisionHandlerContainer
-    {
-        CollisionHandlerType HandlerType { get; }
-        void SetHandler(ICollisionHandler handler);
     }
 }
