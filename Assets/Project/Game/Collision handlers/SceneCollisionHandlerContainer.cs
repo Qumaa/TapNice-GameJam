@@ -2,13 +2,13 @@
 
 namespace Project.Game
 {
-    public class SceneCollisionHandler : MonoBehaviour, IPlayerCollisionHandler
+    public class SceneCollisionHandlerContainer : MonoBehaviour, IPlayerCollisionHandler
     {
         private IPlayerCollisionHandler _underlyingHandler;
         public void HandleCollision(PlayerCollisionInfo collision) =>
             _underlyingHandler.HandleCollision(collision);
 
-        public void Initialize(IPlayerCollisionHandler handler) =>
+        public void SetHandler(IPlayerCollisionHandler handler) =>
             _underlyingHandler = handler;
     }
 }

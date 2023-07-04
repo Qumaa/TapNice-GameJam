@@ -5,102 +5,97 @@ namespace Project.Game
 {
     public class Player : MonoBehaviour, IPlayer
     {
-        [SerializeField] private float _jumpHeight;
-        [SerializeField] private float _horizontalVelocity;
-        [SerializeField] private PlayerDirection _initialDirection;
-        [SerializeField] private Color _playerColor;
-        [SerializeField] private Color _canJumpPlayerColor;
-        [SerializeField] private TrailRenderer _trailRenderer;
-
-        private Rigidbody2D _rigidbody;
+        private IPlayerCollisionHandler _defaultHandler;
+        private IPlayerInputService _inputService;
         private SpriteRenderer _renderer;
-
+        private Rigidbody2D _rigidbody;
+        private Color _playerDefaultColor;
+        private Color _playerCanJumpColor;
         private bool _isCurrentDirectionRight;
         private bool _canJump;
 
-        private IPlayerCollisionHandler _defaultHandler;
-        private IPlayerInputService _inputService;
+        public float JumpHeight { get; set; }
+        public float HorizontalSpeed { get; set; }
+
+        public bool CanJump
+        {
+            get => _canJump;
+            set => SetJumpingStatus(value);
+        }
+
+        public PlayerDirection Direction { get; set; }
 
         public event Action<PlayerCollisionInfo> OnCollided;
+        public event Action OnJumped;
+        public event Action OnBounced;
 
-        private void Start()
+        private void Awake()
         {
             _renderer = GetComponent<SpriteRenderer>();
             _rigidbody = GetComponent<Rigidbody2D>();
-            SetDirection(_initialDirection);
 
-            _defaultHandler = new LevelCollisionHandler(this, _jumpHeight);
+            _defaultHandler = new LevelCollisionHandler(this);
 
             _inputService = GetComponent<LegacyInputService>();
             _inputService.OnJumpInput += TryJumpInternal;
-
-            InitializeFinishHandlers();
         }
 
-        private void InitializeFinishHandlers()
+        private void Start()
         {
-            var sceneHandlers =
-                FindObjectsByType<SceneCollisionHandler>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            
-            if (sceneHandlers.Length == 0)
-                return;
-            
-            var handler = new FinishCollisionHandler(this);
-            
-            foreach(var sceneHandler in sceneHandlers)
-                sceneHandler.Initialize(handler);
+            UpdateHorizontalVelocity();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (!other.gameObject.TryGetComponent<IPlayerCollisionHandler>(out var handler))
                 handler = _defaultHandler;
-            
+
             var info = new PlayerCollisionInfo(other, Vector2.up, handler, this);
-            
+
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);
         }
 
-        public void SetJumpingStatus(bool status)
-        {
-            _canJump = status;
-            UpdateColor();
-        }
+        public void Jump() =>
+            JumpInternal();
 
-        public bool TryJump(float height)
-        {
-            if (!_canJump)
-                return false;
-
-            JumpInternal(height);
-            SetJumpingStatus(false);
-            return true;
-        }
-
-        public void ForceJump(float height) =>
-            JumpInternal(height);
+        public void Bounce() =>
+            OnBounced?.Invoke();
 
         public void InvertDirection() =>
             SetDirectionInternal(GetInvertedDirection());
 
+        public void SetColors(Color cantJump, Color canJump)
+        {
+            _playerDefaultColor = cantJump;
+            _playerCanJumpColor = canJump;
+            UpdateColors();
+        }
+
+        private void SetJumpingStatus(bool status)
+        {
+            _canJump = status;
+            UpdateColors();
+        }
+
         public void SetDirection(PlayerDirection direction) =>
             SetDirectionInternal(PlayerDirectionToInternalBool(direction));
 
-        private void UpdateColor()
+        private void TryJumpInternal()
         {
-            var color = _canJump ? _canJumpPlayerColor : _playerColor;
-
-            _trailRenderer.startColor = _trailRenderer.endColor = _renderer.color = color;
+            if (this.TryJump())
+                CanJump = false;
         }
 
-        private void JumpInternal(float height)
+        private void JumpInternal()
         {
             var vel = _rigidbody.velocity;
-            vel.y = HeightToVelocity(height, Physics2D.gravity.y);
+            vel.y = HeightToVelocity(JumpHeight, Physics2D.gravity.y);
             _rigidbody.velocity = vel;
 
             UpdateHorizontalVelocity();
+            
+            OnJumped?.Invoke();
         }
 
         private void SetDirectionInternal(bool right)
@@ -109,18 +104,22 @@ namespace Project.Game
             UpdateHorizontalVelocity();
         }
 
+        private void UpdateColors()
+        {
+            var color = CanJump ? _playerCanJumpColor : _playerDefaultColor;
+
+            _renderer.color = color;
+        }
+
         private bool GetInvertedDirection() =>
             !_isCurrentDirectionRight;
 
         private void UpdateHorizontalVelocity()
         {
             var vel = _rigidbody.velocity;
-            vel.x = _isCurrentDirectionRight ? _horizontalVelocity : -_horizontalVelocity;
+            vel.x = _isCurrentDirectionRight ? HorizontalSpeed : -HorizontalSpeed;
             _rigidbody.velocity = vel;
         }
-
-        private void TryJumpInternal() =>
-            TryJump(_jumpHeight);
 
         private static float HeightToVelocity(float height, float gravity) =>
             Mathf.Sqrt(-2 * gravity * height);

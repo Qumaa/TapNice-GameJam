@@ -139,6 +139,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpHeight: 2
   _horizontalVelocity: 4
+  _initialDirection: 0
+  _playerColor: {r: 1, g: 1, b: 1, a: 1}
+  _canJumpPlayerColor: {r: 0.22191167, g: 0.66609347, b: 0.8584906, a: 1}
 --- !u!114 &5390531886975297232
 MonoBehaviour:
   m_ObjectHideFlags: 0

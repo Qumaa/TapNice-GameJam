@@ -10,5 +10,18 @@
         }
 
         public abstract void HandleCollision(PlayerCollisionInfo collision);
+
+        protected void DefaultHandling(PlayerCollisionInfo collision)
+        {
+            if (collision.IsVertical)
+            {
+                _player.Jump();
+                _player.Bounce();
+                _player.CanJump = true;
+                return;
+            }
+
+            _player.InvertDirection();
+        }
     }
 }
