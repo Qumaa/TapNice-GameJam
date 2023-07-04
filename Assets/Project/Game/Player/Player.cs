@@ -51,6 +51,8 @@ namespace Project.Game
 
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);
+            
+            Debug.Log("collision");
         }
 
         public void Jump() =>

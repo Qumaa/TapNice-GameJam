@@ -7,7 +7,7 @@ namespace Project.Game
         public override void HandleCollision(PlayerCollisionInfo collision)
         {
             DefaultHandling(collision);
-            Debug.Log("Finish");
+            // Debug.Log("Finish");
         }
     }
 }
