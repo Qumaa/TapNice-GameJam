@@ -5,8 +5,8 @@ namespace Project.Game
 {
     public interface IPlayer
     {
-        public Affectable<float> JumpHeight { get; set; }
-        public float HorizontalSpeed { get; set; }
+        public IAffectable<float> JumpHeight { get; }
+        public IAffectable<float> HorizontalSpeed { get; }
         public bool CanJump { get; set; }
         public PlayerDirection Direction { get; set; }
 
@@ -28,6 +28,5 @@ namespace Project.Game
         void Bounce();
 
         void InvertDirection();
-        void SetColors(Color cantJump, Color canJump);
     }
 }

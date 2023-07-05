@@ -1,5 +1,6 @@
 ﻿using System;
 using Project.Game;
+using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -11,7 +12,8 @@ namespace Project.Architecture
         private readonly ICollisionHandler[] _handlersTable;
         private readonly IEffectsManager _effectsManager;
 
-        public TempGameState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig) : base(game, stateMachine)
+        public TempGameState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig) : base(game,
+            stateMachine)
         {
             _playerConfig = playerConfig;
             var items = Enum.GetNames(typeof(CollisionHandlerType)).Length;
@@ -26,45 +28,53 @@ namespace Project.Architecture
             InitCollisionHandlers();
         }
 
-        private void InitCollisionHandlers()
+        public override void Exit()
         {
-            var handlerContainers =
-                Object.FindObjectsByType<SceneCollisionHandlerContainer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            
-            if (handlerContainers.Length == 0)
-                return;
-            
-            foreach(var handlerContainer in handlerContainers)
-                handlerContainer.SetHandler(GetCollisionHandler(handlerContainer.HandlerType));
         }
 
         private IPlayer CreatePlayer()
         {
             var obj = Object.Instantiate(_playerConfig.PlayerPrefab);
-            var player = obj.GetComponent<IPlayer>();
-            
-            player.HorizontalSpeed = _playerConfig.HorizontalSpeed;
-            player.JumpHeight = _playerConfig.JumpHeight;
-            player.SetColors(_playerConfig.PlayerDefaultColor, _playerConfig.PlayerCanJumpColor);
+
+            var collisionDetector = obj.GetComponent<ICollisionDetector>();
+            var playerLocomotor = new RigidbodyPlayerLocomotor(obj.GetComponent<Rigidbody2D>(),
+                CreateAffectable(_playerConfig.JumpHeight), CreateAffectable(_playerConfig.HorizontalSpeed));
+            var colors = new PlayerColors(obj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
+                _playerConfig.PlayerCanJumpColor);
+
+
+            var player = new Player(collisionDetector, playerLocomotor, colors);
 
             return player;
         }
 
-        public override void Exit()
+        private void InitCollisionHandlers()
         {
+            var handlerContainers =
+                Object.FindObjectsByType<SceneCollisionHandlerContainer>(FindObjectsInactive.Include,
+                    FindObjectsSortMode.None);
+
+            if (handlerContainers.Length == 0)
+                return;
+
+            foreach (var handlerContainer in handlerContainers)
+                handlerContainer.SetHandler(GetCollisionHandler(handlerContainer.HandlerType));
         }
 
         private ICollisionHandler GetCollisionHandler(CollisionHandlerType type) =>
             _handlersTable[(int) type] ??= CreateHandler(type);
 
-        private ICollisionHandler CreateHandler(CollisionHandlerType type) =>
+        private static ICollisionHandler CreateHandler(CollisionHandlerType type) =>
             type switch
             {
                 CollisionHandlerType.Default => new LevelCollisionHandler(),
-                CollisionHandlerType.Finish => new FinishCollisionHandler(_effectsManager),
+                CollisionHandlerType.Finish => new FinishCollisionHandler(),
                 CollisionHandlerType.Trampoline => throw new NotImplementedException(),
                 CollisionHandlerType.Discharger => throw new NotImplementedException(),
                 _ => throw new ArgumentOutOfRangeException()
             };
+
+        private IAffectable<float> CreateAffectable(float baseValue) =>
+            new Affectable<float>(baseValue, _effectsManager);
     }
 }

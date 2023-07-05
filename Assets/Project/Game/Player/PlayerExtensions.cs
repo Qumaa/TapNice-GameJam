@@ -2,13 +2,16 @@
 {
     public static class PlayerExtensions
     {
-        public static bool TryJump(this IPlayer player)
+        /// <summary>
+        /// If player's flag <see cref="IPlayer.CanJump"/> is true, calls <see cref="IPlayer.Jump"/> and sets the flag to false
+        /// </summary>
+        public static void JumpIfPossible(this IPlayer player)
         {
             if (!player.CanJump)
-                return false;
+                return;
 
             player.Jump();
-            return true;
+            player.CanJump = false;
         }
     }
 }

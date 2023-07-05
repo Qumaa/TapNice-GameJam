@@ -12,9 +12,7 @@ namespace Project.Game
             
             if (collision.IsVertical)
             {
-                player.Jump();
                 player.Bounce();
-                player.CanJump = true;
                 return;
             }
 

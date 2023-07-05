@@ -6,25 +6,28 @@ namespace Project.Game
     public class Affectable<T> : IAffectable<T>
     {
         private readonly List<IEffect<T>> _effects;
-        private T _baseValue;
+        private readonly IEffectsManager _effectsManager;
+        private T _rawValue;
 
-        public T BaseValue
+        public T RawValue
         {
-            get => _baseValue;
-            set => SetBaseValue(value);
+            get => _rawValue;
+            set => SetRawValue(value);
         }
 
         public T AffectedValue { get; private set; }
 
-        public Affectable(T baseValue)
+        public Affectable(T rawValue, IEffectsManager effectsManager)
         {
-            _baseValue = baseValue;
+            AffectedValue = _rawValue = rawValue;
+            _effectsManager = effectsManager;
             _effects = new List<IEffect<T>>();
         }
 
         public void AddEffect(IEffect<T> effect)
         {
             _effects.Add(effect);
+            _effectsManager.AddEffect(effect);
             effect.SetSource(this);
             CacheAffectedValue();
         }
@@ -35,9 +38,9 @@ namespace Project.Game
             CacheAffectedValue();
         }
 
-        private void SetBaseValue(T newValue)
+        private void SetRawValue(T newValue)
         {
-            _baseValue = newValue;
+            _rawValue = newValue;
             CacheAffectedValue();
         }
 
@@ -45,12 +48,6 @@ namespace Project.Game
             AffectedValue = CalculateAffectedValue();
 
         private T CalculateAffectedValue() =>
-            _effects.Aggregate(BaseValue, (accumulated, effect) => effect.ApplyTo(accumulated));
-
-        public static implicit operator Affectable<T>(T val) =>
-            new(val);
-
-        public static implicit operator T(Affectable<T> affectable) =>
-            affectable.AffectedValue;
+            _effects.Aggregate(RawValue, (accumulated, effect) => effect.ApplyTo(accumulated));
     }
 }

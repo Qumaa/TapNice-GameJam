@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05ee7c79b9498048994cdf63be62692, type: 3}
   m_Name: Player Config
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 8086202144671042886, guid: 2adbc6fae13a3444585693148142c55f, type: 3}
+  _playerPrefab: {fileID: 7001501657090169909, guid: 2adbc6fae13a3444585693148142c55f, type: 3}
   _jumpHeight: 2
   _horizontalSpeed: 4
   _playerColor: {r: 1, g: 1, b: 1, a: 1}

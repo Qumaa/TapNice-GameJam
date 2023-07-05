@@ -3,20 +3,14 @@ using UnityEngine;
 
 namespace Project.Game
 {
-    public class Player : MonoBehaviour, IPlayer
+    public class Player : IPlayer
     {
-        private IPlayerInputService _inputService;
-        private SpriteRenderer _renderer;
-        private Rigidbody2D _rigidbody;
-        private Color _playerDefaultColor;
-        private Color _playerCanJumpColor;
-        private bool _isCurrentDirectionRight;
+        private readonly IPlayerLocomotor _playerLocomotor;
+        private readonly IPlayerColors _playerColors;
         private bool _canJump;
-        private bool _hasCollided;
-        private PlayerDirection _direction;
 
-        public Affectable<float> JumpHeight { get; set; }
-        public float HorizontalSpeed { get; set; }
+        public IAffectable<float> JumpHeight => _playerLocomotor.JumpHeight;
+        public IAffectable<float> HorizontalSpeed => _playerLocomotor.HorizontalSpeed;
 
         public bool CanJump
         {
@@ -26,35 +20,47 @@ namespace Project.Game
 
         public PlayerDirection Direction
         {
-            get => _direction;
-            set => SetDirection(value);
+            get => _playerLocomotor.Direction;
+            set => _playerLocomotor.Direction = value;
         }
 
         public event Action<PlayerCollisionInfo> OnCollided;
         public event Action OnJumped;
         public event Action OnBounced;
 
-        private void Awake()
+        public Player(ICollisionDetector collisionDetector, IPlayerLocomotor playerLocomotor, IPlayerColors playerColors)
         {
-            _renderer = GetComponent<SpriteRenderer>();
-            _rigidbody = GetComponent<Rigidbody2D>();
+            _playerLocomotor = playerLocomotor;
+            _playerColors = playerColors;
 
-            _inputService = GetComponent<LegacyInputService>();
-            _inputService.OnJumpInput += TryJumpInternal;
+            collisionDetector.OnCollided += HandleCollision;
+            _playerLocomotor.UpdateHorizontalVelocity();
         }
 
-        private void Start()
+        public void Jump()
         {
-            UpdateHorizontalVelocity();
+            _playerLocomotor.Jump();
+            OnJumped?.Invoke();
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
+        public void Bounce()
         {
-            if (_hasCollided)
-                return;
+            _playerLocomotor.Jump();
+            CanJump = true;
+            OnBounced?.Invoke();
+        }
 
-            _hasCollided = true;
+        public void InvertDirection() =>
+            Direction = Direction == PlayerDirection.Right ? PlayerDirection.Left : PlayerDirection.Right;
 
+        private void SetJumpingStatus(bool status)
+        {
+            _canJump = status;
+            _playerColors.UpdateColors(CanJump);
+        }
+
+        private void HandleCollision(Collision2D other)
+        {
             var handler = other.gameObject.GetComponent<ICollisionHandler>();
 
             var info = new PlayerCollisionInfo(other, Vector2.up, handler, this);
@@ -62,89 +68,5 @@ namespace Project.Game
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);
         }
-
-        private void OnCollisionExit2D(Collision2D other)
-        {
-            _hasCollided = false;
-        }
-
-        public void Jump()
-        {
-            JumpInternal();
-            OnJumped?.Invoke();
-        }
-
-        public void Bounce()
-        {
-            JumpInternal();
-            CanJump = true;
-            OnBounced?.Invoke();
-        }
-
-        public void InvertDirection() =>
-            SetDirectionInternal(GetInvertedDirection());
-
-        public void SetColors(Color cantJump, Color canJump)
-        {
-            _playerDefaultColor = cantJump;
-            _playerCanJumpColor = canJump;
-            UpdateColors();
-        }
-
-        private void SetJumpingStatus(bool status)
-        {
-            _canJump = status;
-            UpdateColors();
-        }
-
-        private void SetDirection(PlayerDirection direction)
-        {
-            _direction = direction;
-            SetDirectionInternal(PlayerDirectionToInternalBool(direction));
-        }
-
-        private void TryJumpInternal()
-        {
-            if (this.TryJump())
-                CanJump = false;
-        }
-
-        private void JumpInternal()
-        {
-            var vel = _rigidbody.velocity;
-            vel.y = HeightToVelocity(JumpHeight, Physics2D.gravity.y);
-            _rigidbody.velocity = vel;
-
-            UpdateHorizontalVelocity();
-        }
-
-        private void SetDirectionInternal(bool right)
-        {
-            _isCurrentDirectionRight = right;
-            UpdateHorizontalVelocity();
-        }
-
-        private void UpdateColors()
-        {
-            var color = CanJump ? _playerCanJumpColor : _playerDefaultColor;
-
-            _renderer.color = color;
-        }
-
-        private bool GetInvertedDirection() =>
-            !_isCurrentDirectionRight;
-
-        private void UpdateHorizontalVelocity()
-        {
-            var vel = _rigidbody.velocity;
-            vel.x = _isCurrentDirectionRight ? HorizontalSpeed : -HorizontalSpeed;
-            _rigidbody.velocity = vel;
-        }
-
-        private static float HeightToVelocity(float height, float gravity) =>
-            Mathf.Sqrt(-2 * gravity * height);
-
-        private static bool PlayerDirectionToInternalBool(PlayerDirection direction) =>
-            direction == PlayerDirection.Right;
     }
 }
