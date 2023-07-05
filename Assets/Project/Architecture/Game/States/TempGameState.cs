@@ -9,17 +9,20 @@ namespace Project.Architecture
     {
         private readonly PlayerConfig _playerConfig;
         private readonly ICollisionHandler[] _handlersTable;
+        private readonly IEffectsManager _effectsManager;
 
         public TempGameState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig) : base(game, stateMachine)
         {
             _playerConfig = playerConfig;
             var items = Enum.GetNames(typeof(CollisionHandlerType)).Length;
             _handlersTable = new ICollisionHandler[items];
+            _effectsManager = new EffectsManager();
         }
 
         public override void Enter()
         {
             var player = CreatePlayer();
+            player.OnBounced += _effectsManager.UseEffects;
             InitCollisionHandlers();
         }
 
@@ -54,11 +57,11 @@ namespace Project.Architecture
         private ICollisionHandler GetCollisionHandler(CollisionHandlerType type) =>
             _handlersTable[(int) type] ??= CreateHandler(type);
 
-        private static ICollisionHandler CreateHandler(CollisionHandlerType type) =>
+        private ICollisionHandler CreateHandler(CollisionHandlerType type) =>
             type switch
             {
-                CollisionHandlerType.Default => PlayerCollisionHandler.DefaultHandler,
-                CollisionHandlerType.Finish => new FinishCollisionHandler(),
+                CollisionHandlerType.Default => new LevelCollisionHandler(),
+                CollisionHandlerType.Finish => new FinishCollisionHandler(_effectsManager),
                 CollisionHandlerType.Trampoline => throw new NotImplementedException(),
                 CollisionHandlerType.Discharger => throw new NotImplementedException(),
                 _ => throw new ArgumentOutOfRangeException()

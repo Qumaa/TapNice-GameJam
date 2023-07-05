@@ -4,7 +4,7 @@
     {
         T BaseValue { get; set; }
         T AffectedValue { get; }
-        void Add(IEffect<T> effect);
-        void Remove(IEffect<T> effect);
+        void AddEffect(IEffect<T> effect);
+        void RemoveEffect(IEffect<T> effect);
     }
 }

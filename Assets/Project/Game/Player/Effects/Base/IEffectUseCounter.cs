@@ -1,6 +1,6 @@
 ﻿namespace Project.Game
 {
-    public interface IAffectableUseCounter
+    public interface IEffectUseCounter
     {
         /// <summary>
         /// Consumes one usage from the underlying effect

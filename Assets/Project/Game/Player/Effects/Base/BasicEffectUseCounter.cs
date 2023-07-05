@@ -1,11 +1,11 @@
 ﻿namespace Project.Game
 {
-    public struct BasicAffectableUseCounter : IAffectableUseCounter
+    public class BasicEffectUseCounter : IEffectUseCounter
     {
         private readonly int _defaultUses;
         private int _usesLeft;
 
-        public BasicAffectableUseCounter(int uses)
+        public BasicEffectUseCounter(int uses)
         {
             _usesLeft = _defaultUses = uses;
         }

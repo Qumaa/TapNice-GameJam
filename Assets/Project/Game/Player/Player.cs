@@ -13,8 +13,9 @@ namespace Project.Game
         private bool _isCurrentDirectionRight;
         private bool _canJump;
         private bool _hasCollided;
+        private PlayerDirection _direction;
 
-        public float JumpHeight { get; set; }
+        public Affectable<float> JumpHeight { get; set; }
         public float HorizontalSpeed { get; set; }
 
         public bool CanJump
@@ -23,7 +24,11 @@ namespace Project.Game
             set => SetJumpingStatus(value);
         }
 
-        public PlayerDirection Direction { get; set; }
+        public PlayerDirection Direction
+        {
+            get => _direction;
+            set => SetDirection(value);
+        }
 
         public event Action<PlayerCollisionInfo> OnCollided;
         public event Action OnJumped;
@@ -49,9 +54,8 @@ namespace Project.Game
                 return;
 
             _hasCollided = true;
-            
-            if (!other.gameObject.TryGetComponent<ICollisionHandler>(out var handler))
-                handler = PlayerCollisionHandler.DefaultHandler;
+
+            var handler = other.gameObject.GetComponent<ICollisionHandler>();
 
             var info = new PlayerCollisionInfo(other, Vector2.up, handler, this);
 
@@ -64,11 +68,18 @@ namespace Project.Game
             _hasCollided = false;
         }
 
-        public void Jump() =>
+        public void Jump()
+        {
             JumpInternal();
+            OnJumped?.Invoke();
+        }
 
-        public void Bounce() =>
+        public void Bounce()
+        {
+            JumpInternal();
+            CanJump = true;
             OnBounced?.Invoke();
+        }
 
         public void InvertDirection() =>
             SetDirectionInternal(GetInvertedDirection());
@@ -86,8 +97,11 @@ namespace Project.Game
             UpdateColors();
         }
 
-        public void SetDirection(PlayerDirection direction) =>
+        private void SetDirection(PlayerDirection direction)
+        {
+            _direction = direction;
             SetDirectionInternal(PlayerDirectionToInternalBool(direction));
+        }
 
         private void TryJumpInternal()
         {
@@ -102,8 +116,6 @@ namespace Project.Game
             _rigidbody.velocity = vel;
 
             UpdateHorizontalVelocity();
-            
-            OnJumped?.Invoke();
         }
 
         private void SetDirectionInternal(bool right)

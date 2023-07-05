@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace Project.Game
+﻿namespace Project.Game
 {
     public class LevelCollisionHandler : PlayerCollisionHandler
     {

@@ -5,7 +5,7 @@ namespace Project.Game
 {
     public interface IPlayer
     {
-        public float JumpHeight { get; set; }
+        public Affectable<float> JumpHeight { get; set; }
         public float HorizontalSpeed { get; set; }
         public bool CanJump { get; set; }
         public PlayerDirection Direction { get; set; }
@@ -14,11 +14,16 @@ namespace Project.Game
         event Action OnJumped;
         event Action OnBounced;
 
+        /// <summary>
+        /// Call this method when player gives an input.
+        /// This method invokes <see cref="OnJumped"/> event.
+        /// </summary>
         void Jump();
 
         /// <summary>
         /// Call this method when player hits the floor.
-        /// This method should only invoke <see cref="OnBounced"/>
+        /// This method will invoke <see cref="OnBounced"/>, jump without invoking <see cref="OnJumped"/>
+        /// and set <see cref="CanJump"/> to true.
         /// </summary>
         void Bounce();
 

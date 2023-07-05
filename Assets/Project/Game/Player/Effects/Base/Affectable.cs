@@ -5,7 +5,7 @@ namespace Project.Game
 {
     public class Affectable<T> : IAffectable<T>
     {
-        private List<IEffect<T>> _effects;
+        private readonly List<IEffect<T>> _effects;
         private T _baseValue;
 
         public T BaseValue
@@ -16,13 +16,20 @@ namespace Project.Game
 
         public T AffectedValue { get; private set; }
 
-        public void Add(IEffect<T> effect)
+        public Affectable(T baseValue)
+        {
+            _baseValue = baseValue;
+            _effects = new List<IEffect<T>>();
+        }
+
+        public void AddEffect(IEffect<T> effect)
         {
             _effects.Add(effect);
+            effect.SetSource(this);
             CacheAffectedValue();
         }
 
-        public void Remove(IEffect<T> effect)
+        public void RemoveEffect(IEffect<T> effect)
         {
             _effects.Remove(effect);
             CacheAffectedValue();
@@ -38,6 +45,12 @@ namespace Project.Game
             AffectedValue = CalculateAffectedValue();
 
         private T CalculateAffectedValue() =>
-            _effects.Aggregate(BaseValue, (accumulated, effect) => effect.Apply(accumulated));
+            _effects.Aggregate(BaseValue, (accumulated, effect) => effect.ApplyTo(accumulated));
+
+        public static implicit operator Affectable<T>(T val) =>
+            new(val);
+
+        public static implicit operator T(Affectable<T> affectable) =>
+            affectable.AffectedValue;
     }
 }
