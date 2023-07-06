@@ -1,7 +1,10 @@
-﻿namespace Project.Game
+﻿using UnityEngine;
+
+namespace Project.Game
 {
     public interface IPlayerLocomotor
     {
+        public Vector2 Position { get; set; }
         public PlayerDirection Direction { get; set; }
         public IAffectable<float> JumpHeight { get; }
         public IAffectable<float> HorizontalSpeed { get; }

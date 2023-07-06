@@ -34,12 +34,15 @@ namespace Project.Architecture
 
         private IPlayer CreatePlayer()
         {
+            var spawnPoint = Object.FindObjectOfType<PlayerSpawnPoint>();
+
             var obj = Object.Instantiate(_playerConfig.PlayerPrefab);
 
             var inputService = obj.GetComponent<IPlayerInputService>();
             var collisionDetector = obj.GetComponent<ICollisionDetector>();
             var playerLocomotor = new RigidbodyPlayerLocomotor(obj.GetComponent<Rigidbody2D>(),
-                CreateAffectable(_playerConfig.JumpHeight), CreateAffectable(_playerConfig.HorizontalSpeed));
+                CreateAffectable(_playerConfig.JumpHeight), CreateAffectable(_playerConfig.HorizontalSpeed),
+                spawnPoint.Position, spawnPoint.PlayerDirection);
             var colors = new PlayerColors(obj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
                 _playerConfig.PlayerCanJumpColor);
 

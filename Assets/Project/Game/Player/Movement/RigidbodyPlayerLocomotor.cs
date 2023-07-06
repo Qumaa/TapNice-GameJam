@@ -8,6 +8,12 @@ namespace Project.Game
         private bool _isCurrentDirectionRight;
         private PlayerDirection _direction;
 
+        public Vector2 Position
+        {
+            get => _rigidbody.position;
+            set => _rigidbody.position = value;
+        }
+
         public PlayerDirection Direction
         {
             get => _direction;
@@ -19,11 +25,13 @@ namespace Project.Game
         public IAffectable<float> HorizontalSpeed { get; }
 
         public RigidbodyPlayerLocomotor(Rigidbody2D rigidbody, IAffectable<float> jumpHeight,
-            IAffectable<float> horizontalSpeed)
+            IAffectable<float> horizontalSpeed, Vector3 initialPosition, PlayerDirection initialDirection)
         {
             _rigidbody = rigidbody;
             JumpHeight = jumpHeight;
             HorizontalSpeed = horizontalSpeed;
+            Position = initialPosition;
+            Direction = initialDirection;
         }
 
         public void UpdateHorizontalVelocity()
