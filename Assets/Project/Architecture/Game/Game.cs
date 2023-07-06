@@ -22,14 +22,12 @@ namespace Project.Architecture
             Start();
         }
 
-        private void Start()
-        {
+        private void Start() =>
             _stateMachine.SetState<BootState>();
-        }
 
         private void InitializeStates(PlayerConfig playerConfig)
         {
-            var director = new GameStateMachineDirector(this, playerConfig);
+            var director = new GameStateMachineDirector(this, playerConfig, new SyncSceneLoader(), new EffectsManager());
             
             director.Build(_stateMachine);
         }

@@ -1,22 +1,32 @@
 ﻿namespace Project.Architecture
 {
-    public class LoadLevelState : ExitableGameState, IEnterableGameState<string>, IEnterableGameState<ushort>
+    public class LoadLevelState : ExitableGameState, IEnterableGameState<string>, IEnterableGameState<int>
     {
-        public LoadLevelState(IGame game, IGameStateMachine stateMachine) : base(game, stateMachine)
+        private readonly ISceneLoader _sceneLoader;
+        
+        public LoadLevelState(IGame game, IGameStateMachine stateMachine, ISceneLoader sceneLoader) : 
+            base(game, stateMachine)
         {
+            _sceneLoader = sceneLoader;
         }
 
         public void Enter(string sceneName)
         {
-            //todo: scene loading
+            _sceneLoader.LoadScene(sceneName);
+            MoveNext();
         }
 
-        public void Enter(ushort arg)
+        public void Enter(int sceneIndex)
         {
+            _sceneLoader.LoadScene(sceneIndex);
+            MoveNext();
         }
 
         public override void Exit()
         {
         }
+
+        private void MoveNext() =>
+            _stateMachine.SetState<LevelInitState>();
     }
 }

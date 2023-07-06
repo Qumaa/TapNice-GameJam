@@ -9,17 +9,19 @@ namespace Project.Architecture
         private readonly PlayerConfig _playerConfig;
         private readonly IEffectsManager _effectsManager;
 
-        public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig) : base(game,
+        public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig, IEffectsManager effectsManager) : base(game,
             stateMachine)
         {
             _playerConfig = playerConfig;
-            _effectsManager = new EffectsManager();
+            _effectsManager = effectsManager;
         }
 
         public override void Enter()
         {
             var player = CreatePlayer();
             player.OnBounced += _effectsManager.UseEffects;
+            
+            MoveNext();
         }
 
         public override void Exit()
@@ -28,6 +30,7 @@ namespace Project.Architecture
 
         private IPlayer CreatePlayer()
         {
+            //todo: move to level init, get rid of spawnpoint (it's not present in this state yet)
             var spawnPoint = Object.FindObjectOfType<PlayerSpawnPoint>();
 
             var playerObj = Object.Instantiate(_playerConfig.PlayerPrefab);
@@ -49,6 +52,9 @@ namespace Project.Architecture
 
             return player;
         }
+
+        private void MoveNext() =>
+            _stateMachine.SetState<LoadLevelState, int>(1);
 
         private IAffectable<float> CreateAffectable(float baseValue) =>
             new Affectable<float>(baseValue, _effectsManager);
