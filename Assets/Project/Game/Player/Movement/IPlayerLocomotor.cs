@@ -10,5 +10,6 @@ namespace Project.Game
         public IAffectable<float> HorizontalSpeed { get; }
         void Jump();
         void UpdateHorizontalVelocity();
+        void SetFrozen(bool frozen);
     }
 }

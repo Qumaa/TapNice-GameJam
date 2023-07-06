@@ -6,6 +6,7 @@ namespace Project.Game
     {
         private readonly Rigidbody2D _rigidbody;
         private bool _isCurrentDirectionRight;
+        private bool _isFrozen;
         private PlayerDirection _direction;
 
         public Vector2 Position
@@ -32,6 +33,8 @@ namespace Project.Game
             HorizontalSpeed = horizontalSpeed;
             Position = initialPosition;
             Direction = initialDirection;
+
+            _isFrozen = false;
         }
 
         public void UpdateHorizontalVelocity()
@@ -40,6 +43,19 @@ namespace Project.Game
             var speed = HorizontalSpeed.AffectedValue;
             vel.x = IsDirectionRight(Direction) ? speed : -speed;
             _rigidbody.velocity = vel;
+        }
+
+        public void SetFrozen(bool frozen)
+        {
+            if (_isFrozen == frozen)
+                return;
+
+            _isFrozen = frozen;
+            
+            if (_isFrozen)
+                Freeze();
+            else
+                Unfreeze();
         }
 
         public void Jump()
@@ -53,6 +69,20 @@ namespace Project.Game
 
         private float HeightToVelocity(float height, float gravity) =>
             _rigidbody.mass * Mathf.Sqrt(-2 * gravity * height);
+
+        private void Freeze()
+        {
+            _isFrozen = true;
+
+            _rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+
+        private void Unfreeze()
+        {
+            _isFrozen = false;
+
+            _rigidbody.constraints = RigidbodyConstraints2D.None;
+        }
 
         private static bool IsDirectionRight(PlayerDirection direction) =>
             direction == PlayerDirection.Right;

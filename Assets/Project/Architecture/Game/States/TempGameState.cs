@@ -50,6 +50,7 @@ namespace Project.Architecture
             inputService.OnJumpInput += player.JumpIfPossible;
             player.OnCanJumpChanged += colors.UpdateColors;
             collisionDetector.OnCollided += player.HandleCollision;
+            player.Reset();
 
             return player;
         }

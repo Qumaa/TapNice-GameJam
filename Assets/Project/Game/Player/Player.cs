@@ -7,6 +7,7 @@ namespace Project.Game
     {
         private readonly IPlayerLocomotor _playerLocomotor;
         private bool _canJump;
+        private bool _initialJumpDone;
 
         public IAffectable<float> JumpHeight => _playerLocomotor.JumpHeight;
         public IAffectable<float> HorizontalSpeed => _playerLocomotor.HorizontalSpeed;
@@ -31,11 +32,16 @@ namespace Project.Game
         public Player(IPlayerLocomotor playerLocomotor)
         {
             _playerLocomotor = playerLocomotor;
-            _playerLocomotor.UpdateHorizontalVelocity();
         }
 
         public void Jump()
         {
+            if (!_initialJumpDone)
+            {
+                InitialJump();
+                return;
+            }
+            
             _playerLocomotor.Jump();
             OnJumped?.Invoke();
         }
@@ -50,15 +56,6 @@ namespace Project.Game
         public void InvertDirection() =>
             Direction = Direction == PlayerDirection.Right ? PlayerDirection.Left : PlayerDirection.Right;
 
-        private void SetJumpingStatus(bool status)
-        {
-            if (_canJump == status)
-                return;
-            
-            _canJump = status;
-            OnCanJumpChanged?.Invoke(_canJump);
-        }
-
         public void HandleCollision(Collision2D other)
         {
             var handler = other.gameObject.GetComponent<ICollisionHandler>();
@@ -67,6 +64,30 @@ namespace Project.Game
 
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);
+        }
+
+        public void Reset()
+        {
+            _initialJumpDone = false;
+            _playerLocomotor.SetFrozen(true);
+            _canJump = true;
+        }
+
+        private void InitialJump()
+        {
+            _playerLocomotor.SetFrozen(false);
+            _playerLocomotor.UpdateHorizontalVelocity();
+            _initialJumpDone = true;
+            OnJumped?.Invoke();
+        }
+
+        private void SetJumpingStatus(bool status)
+        {
+            if (_canJump == status)
+                return;
+            
+            _canJump = status;
+            OnCanJumpChanged?.Invoke(_canJump);
         }
     }
 }

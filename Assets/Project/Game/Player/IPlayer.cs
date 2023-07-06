@@ -30,5 +30,9 @@ namespace Project.Game
 
         void InvertDirection();
         void HandleCollision(Collision2D other);
+        /// <summary>
+        /// This method is called whenever a level is loaded and player is positioned on it.
+        /// </summary>
+        void Reset();
     }
 }
