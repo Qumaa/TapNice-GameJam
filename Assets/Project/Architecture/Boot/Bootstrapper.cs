@@ -8,7 +8,12 @@ namespace Project.Architecture
         [SerializeField] private PlayerConfig _playerConfig;
         
         private IGame _game;
-        
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
+
         private void Start()
         {
             _game = new Game(_playerConfig);

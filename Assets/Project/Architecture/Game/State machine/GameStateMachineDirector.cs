@@ -2,8 +2,8 @@
 {
     public struct GameStateMachineDirector : IGameStateMachineDirector
     {
-        private IGame _game;
-        private PlayerConfig _playerConfig;
+        private readonly IGame _game;
+        private readonly PlayerConfig _playerConfig;
 
         public GameStateMachineDirector(IGame game, PlayerConfig playerConfig)
         {
@@ -13,7 +13,9 @@
 
         public void Build(IGameStateMachine machine)
         {
-            machine.AddState(new TempGameState(_game, machine, _playerConfig));
+            machine.AddState(new BootState(_game, machine, _playerConfig))
+                .AddState(new LoadLevelState(_game, machine))
+                .AddState(new LevelInitState(_game, machine));
         }
     }
 }

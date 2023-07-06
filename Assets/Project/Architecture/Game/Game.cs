@@ -5,10 +5,9 @@ namespace Project.Architecture
 {
     public class Game : IGame
     {
-        private IGameStateMachine _stateMachine;
-
-        private List<IUpdatable> _updatables;
-        private List<IFixedUpdatable> _fixedUpdatables;
+        private readonly IGameStateMachine _stateMachine;
+        private readonly List<IUpdatable> _updatables;
+        private readonly List<IFixedUpdatable> _fixedUpdatables;
         
         public ICameraController CameraController { get; set; }
         public IPlayerInputService InputService { get; set; }
@@ -18,14 +17,14 @@ namespace Project.Architecture
             _updatables = new List<IUpdatable>();
             _fixedUpdatables = new List<IFixedUpdatable>();
             
-            InitializeStateMachine();
+            _stateMachine = new GameStateMachine();
             InitializeStates(playerConfig);
             Start();
         }
 
         private void Start()
         {
-            _stateMachine.SetState<TempGameState>();
+            _stateMachine.SetState<BootState>();
         }
 
         private void InitializeStates(PlayerConfig playerConfig)
@@ -34,9 +33,6 @@ namespace Project.Architecture
             
             director.Build(_stateMachine);
         }
-
-        private void InitializeStateMachine() =>
-            _stateMachine = new GameStateMachine();
 
         public void Update(float timeStep)
         {
