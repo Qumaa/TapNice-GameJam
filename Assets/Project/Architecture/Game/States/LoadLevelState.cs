@@ -1,20 +1,22 @@
 ﻿namespace Project.Architecture
 {
-    public class LoadLevelState : GameState
+    public class LoadLevelState : ExitableGameState, IEnterableGameState<string>, IEnterableGameState<ushort>
     {
-        // todo: parameters
         public LoadLevelState(IGame game, IGameStateMachine stateMachine) : base(game, stateMachine)
         {
         }
 
-        public override void Enter()
+        public void Enter(string sceneName)
         {
-            throw new System.NotImplementedException();
+            //todo: scene loading
+        }
+
+        public void Enter(ushort arg)
+        {
         }
 
         public override void Exit()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

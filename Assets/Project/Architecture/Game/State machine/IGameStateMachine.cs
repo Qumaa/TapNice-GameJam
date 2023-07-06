@@ -3,9 +3,12 @@
     public interface IGameStateMachine
     {
         IGameStateMachine AddState<T>(T state)
-            where T : IGameState;
+            where T : IExitableGameState;
 
         void SetState<T>()
-            where T : IGameState;
+            where T : IEnterableGameState;
+
+        void SetState<T, TArg>(TArg arg)
+            where T : IEnterableGameState<TArg>;
     }
 }
