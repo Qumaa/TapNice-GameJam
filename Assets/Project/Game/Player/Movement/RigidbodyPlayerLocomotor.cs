@@ -6,9 +6,16 @@ namespace Project.Game
     {
         private readonly Rigidbody2D _rigidbody;
         private bool _isCurrentDirectionRight;
+        private PlayerDirection _direction;
 
-        public PlayerDirection Direction { get; set; }
+        public PlayerDirection Direction
+        {
+            get => _direction;
+            set => SetDirection(value);
+        }
+
         public IAffectable<float> JumpHeight { get; }
+
         public IAffectable<float> HorizontalSpeed { get; }
 
         public RigidbodyPlayerLocomotor(Rigidbody2D rigidbody, IAffectable<float> jumpHeight,
@@ -41,5 +48,11 @@ namespace Project.Game
 
         private static bool IsDirectionRight(PlayerDirection direction) =>
             direction == PlayerDirection.Right;
+
+        private void SetDirection(PlayerDirection direction)
+        {
+            _direction = direction;
+            UpdateHorizontalVelocity();
+        }
     }
 }

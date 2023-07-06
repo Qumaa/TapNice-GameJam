@@ -10,7 +10,7 @@ namespace Project.Game
         {
             var player = collision.Player;
             
-            if (collision.IsVertical)
+            if (collision.IsDirectedUp)
             {
                 player.Bounce();
                 return;

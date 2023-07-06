@@ -8,7 +8,7 @@ namespace Project.Game
     {
         private static readonly float _directionError = Mathf.Cos(45); // error in angles
 
-        public readonly bool IsVertical;
+        public readonly bool IsDirectedUp;
         public readonly bool IsHorizontal;
         public readonly Vector2 RawNormal;
         public readonly Vector2 NormalizedNormal;
@@ -23,8 +23,8 @@ namespace Project.Game
             RawNormal = CalculateNormal(collision.contacts);
             NormalizedNormal = RawNormal.normalized;
 
-            IsVertical = IsInTheSameDirection(NormalizedNormal, up);
-            IsHorizontal = !IsVertical;
+            IsDirectedUp = IsInTheSameDirection(NormalizedNormal, up);
+            IsHorizontal = !IsDirectedUp && !IsInTheSameDirection(NormalizedNormal, -up);
         }
 
         private static Vector2 CalculateNormal(ContactPoint2D[] contacts) =>

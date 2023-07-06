@@ -1,13 +1,11 @@
-﻿using UnityEngine;
-
-namespace Project.Game
+﻿namespace Project.Game
 {
-    public class FinishCollisionHandler : PlayerCollisionHandler
+    public class DischargerCollisionHandler : PlayerCollisionHandler
     {
         public override void HandleCollision(PlayerCollisionInfo collision)
         {
             DefaultHandling(collision);
-            Debug.Log("Finish");
+            collision.Player.CanJump = false;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Project.Architecture
                 _playerConfig.PlayerCanJumpColor);
 
             var player = new Player(playerLocomotor);
-            inputService.OnJumpInput += player.Jump;
+            inputService.OnJumpInput += player.JumpIfPossible;
             player.OnCanJumpChanged += colors.UpdateColors;
             collisionDetector.OnCollided += player.HandleCollision;
 
@@ -72,8 +72,8 @@ namespace Project.Architecture
             {
                 CollisionHandlerType.Default => new LevelCollisionHandler(),
                 CollisionHandlerType.Finish => new FinishCollisionHandler(),
-                CollisionHandlerType.Trampoline => throw new NotImplementedException(),
-                CollisionHandlerType.Discharger => throw new NotImplementedException(),
+                CollisionHandlerType.Trampoline => new TrampolineCollisionHandler(),
+                CollisionHandlerType.Discharger => new DischargerCollisionHandler(),
                 _ => throw new ArgumentOutOfRangeException()
             };
 
