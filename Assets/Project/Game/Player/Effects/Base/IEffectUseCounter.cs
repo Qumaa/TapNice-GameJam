@@ -2,6 +2,7 @@
 {
     public interface IEffectUseCounter
     {
+        bool CanUse();
         /// <summary>
         /// Consumes one usage from the underlying effect
         /// </summary>
@@ -9,5 +10,6 @@
         bool Use();
 
         void Reset();
+        void MarkAsUnusable();
     }
 }

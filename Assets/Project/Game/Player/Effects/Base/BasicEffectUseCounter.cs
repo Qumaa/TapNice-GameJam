@@ -10,10 +10,19 @@
             _usesLeft = _defaultUses = uses;
         }
 
+        public bool CanUse() =>
+            CanUseInternal(_usesLeft);
+
         public bool Use() =>
-            _usesLeft-- > 0;
+            CanUseInternal(_usesLeft--);
 
         public void Reset() =>
             _usesLeft = _defaultUses;
+
+        public void MarkAsUnusable() =>
+            _usesLeft = 0;
+
+        private static bool CanUseInternal(int uses) =>
+            uses > 0;
     }
 }

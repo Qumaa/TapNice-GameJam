@@ -13,10 +13,11 @@ namespace Project.Game
         event Action<PlayerCollisionInfo> OnCollided;
         event Action OnJumped;
         event Action OnBounced;
+        event Action<bool> OnCanJumpChanged;
 
         /// <summary>
         /// Call this method when player gives an input.
-        /// This method invokes <see cref="OnJumped"/> event.
+        /// This method invokes the <see cref="OnJumped"/> event.
         /// </summary>
         void Jump();
 
@@ -28,5 +29,6 @@ namespace Project.Game
         void Bounce();
 
         void InvertDirection();
+        void HandleCollision(Collision2D other);
     }
 }

@@ -2,15 +2,19 @@
 {
     public class FinishCollisionHandler : PlayerCollisionHandler
     {
+        private readonly IContainer<ScalePlayerEffect> _container = new EffectsContainer<ScalePlayerEffect>(EffectFactory);
+
         public override void HandleCollision(PlayerCollisionInfo collision)
         {
             var player = collision.Player;
 
-            var effect = new ScalePlayerEffect(0, 2);
+            var effect = _container.Resolve();
             player.JumpHeight.AddEffect(effect);
             
             DefaultHandling(collision);
-            // Debug.Log("Finish");
         }
+
+        private static ScalePlayerEffect EffectFactory() =>
+            new(0, 2);
     }
 }

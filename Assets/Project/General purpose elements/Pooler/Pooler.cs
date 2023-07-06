@@ -4,12 +4,7 @@ namespace Project
 {
     public class Pooler<TTarget> : IPooler<TTarget>
     {
-        private Stack<TTarget> _pool;
-
-        public Pooler()
-        {
-            _pool = new Stack<TTarget>();
-        }
+        private readonly Stack<TTarget> _pool = new();
 
         public void Push(TTarget objToPool) =>
             _pool.Push(objToPool);

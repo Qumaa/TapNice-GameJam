@@ -1,10 +1,13 @@
-﻿namespace Project.Game
+﻿using System;
+
+namespace Project.Game
 {
     public abstract class Effect<T> : IEffect<T>
     {
         private IAffectable<T> _source;
         private IEffectUseCounter _useCounter;
 
+        public event Action<IEffect> OnExpired;
         public abstract T ApplyTo(T baseValue);
 
         void IEffect<T>.SetSource(IAffectable<T> source) =>
@@ -13,11 +16,18 @@
         public void Expire()
         {
             _source.RemoveEffect(this);
-            _useCounter.Reset();
+            GetUseCounter().MarkAsUnusable();
+            OnExpired?.Invoke(this);
         }
 
         public IEffectUseCounter GetUseCounter() =>
             _useCounter ??= CreateUseCounter();
+
+        public bool CanReuse() =>
+            !GetUseCounter().CanUse();
+
+        public void Reuse() =>
+            _useCounter.Reset();
 
         protected abstract IEffectUseCounter CreateUseCounter();
     }

@@ -6,7 +6,6 @@ namespace Project.Game
     public class Player : IPlayer
     {
         private readonly IPlayerLocomotor _playerLocomotor;
-        private readonly IPlayerColors _playerColors;
         private bool _canJump;
 
         public IAffectable<float> JumpHeight => _playerLocomotor.JumpHeight;
@@ -27,13 +26,11 @@ namespace Project.Game
         public event Action<PlayerCollisionInfo> OnCollided;
         public event Action OnJumped;
         public event Action OnBounced;
+        public event Action<bool> OnCanJumpChanged; 
 
-        public Player(ICollisionDetector collisionDetector, IPlayerLocomotor playerLocomotor, IPlayerColors playerColors)
+        public Player(IPlayerLocomotor playerLocomotor)
         {
             _playerLocomotor = playerLocomotor;
-            _playerColors = playerColors;
-
-            collisionDetector.OnCollided += HandleCollision;
             _playerLocomotor.UpdateHorizontalVelocity();
         }
 
@@ -55,11 +52,14 @@ namespace Project.Game
 
         private void SetJumpingStatus(bool status)
         {
+            if (_canJump == status)
+                return;
+            
             _canJump = status;
-            _playerColors.UpdateColors(CanJump);
+            OnCanJumpChanged?.Invoke(_canJump);
         }
 
-        private void HandleCollision(Collision2D other)
+        public void HandleCollision(Collision2D other)
         {
             var handler = other.gameObject.GetComponent<ICollisionHandler>();
 
