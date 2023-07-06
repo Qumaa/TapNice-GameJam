@@ -8,8 +8,8 @@ namespace Project.Game
     {
         private static readonly float _directionError = Mathf.Cos(45); // error in angles
 
-        public readonly bool IsDirectedUp;
-        public readonly bool IsHorizontal;
+        public readonly bool IsOnFloor;
+        public readonly bool IsOnWall;
         public readonly Vector2 RawNormal;
         public readonly Vector2 NormalizedNormal;
         public readonly IPlayer Player;
@@ -23,8 +23,8 @@ namespace Project.Game
             RawNormal = CalculateNormal(collision.contacts);
             NormalizedNormal = RawNormal.normalized;
 
-            IsDirectedUp = IsInTheSameDirection(NormalizedNormal, up);
-            IsHorizontal = !IsDirectedUp && !IsInTheSameDirection(NormalizedNormal, -up);
+            IsOnFloor = IsInTheSameDirection(NormalizedNormal, up);
+            IsOnWall = !IsOnFloor && !IsInTheSameDirection(NormalizedNormal, -up);
         }
 
         private static Vector2 CalculateNormal(ContactPoint2D[] contacts) =>

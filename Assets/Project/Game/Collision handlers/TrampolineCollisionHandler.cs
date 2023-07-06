@@ -6,12 +6,18 @@
 
         public override void HandleCollision(PlayerCollisionInfo collision)
         {
+            if (collision.IsOnFloor)
+                DoubleJumpHeightForOneJump(collision);
+
+            DefaultHandling(collision);
+        }
+
+        private void DoubleJumpHeightForOneJump(PlayerCollisionInfo collision)
+        {
             var player = collision.Player;
 
             var effect = _container.Resolve();
             player.JumpHeight.AddEffect(effect);
-            
-            DefaultHandling(collision);
         }
 
         private static ScalePlayerEffect EffectFactory() =>
