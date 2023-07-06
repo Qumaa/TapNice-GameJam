@@ -13,5 +13,15 @@ namespace Project.Architecture
         {
             _game = new Game(_playerConfig);
         }
+
+        private void Update()
+        {
+            _game.Update(Time.deltaTime);
+        }
+
+        private void FixedUpdate()
+        {
+            _game.FixedUpdate(Time.deltaTime);
+        }
     }
 }
