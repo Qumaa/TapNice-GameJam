@@ -13,7 +13,6 @@ namespace Project.Game
         event Action<PlayerCollisionInfo> OnCollided;
         event Action OnJumped;
         event Action OnBounced;
-        event Action<bool> OnCanJumpChanged;
 
         /// <summary>
         /// Call this method when player gives an input.
@@ -29,8 +28,6 @@ namespace Project.Game
         void Bounce();
 
         void InvertDirection();
-        void HandleCollision(Collision2D other);
-
         /// <summary>
         /// This method is called whenever a level is loaded and player have to be positioned on it.
         /// </summary>

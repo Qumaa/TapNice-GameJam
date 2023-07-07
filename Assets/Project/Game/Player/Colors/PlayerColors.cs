@@ -4,9 +4,9 @@ namespace Project.Game
 {
     public class PlayerColors : IPlayerColors
     {
-        private Color _playerCanJumpColor;
-        private Color _playerDefaultColor;
-        private SpriteRenderer _renderer;
+        private readonly Color _playerCanJumpColor;
+        private readonly Color _playerDefaultColor;
+        private readonly SpriteRenderer _renderer;
 
         public PlayerColors(SpriteRenderer renderer, Color playerDefaultColor, Color playerCanJumpColor)
         {
@@ -21,5 +21,11 @@ namespace Project.Game
 
             _renderer.color = color;
         }
+
+        public void Deactivate() =>
+            _renderer.enabled = false;
+
+        public void Activate() =>
+            _renderer.enabled = true;
     }
 }

@@ -5,12 +5,16 @@ namespace Project.Game
 {
     public class Player : IPlayer
     {
-        private readonly IPlayerLocomotor _playerLocomotor;
+        private readonly GameObject _gameObject;
+        private readonly IPlayerLocomotor _locomotor;
+        private readonly IPlayerColors _colors;
+        private readonly IPlayerInputService _inputService;
+        private readonly ICollisionDetector _collisionDetector;
         private bool _canJump;
-        private bool _initialJumpDone;
+        private Action _jumpStrategy;
 
-        public IAffectable<float> JumpHeight => _playerLocomotor.JumpHeight;
-        public IAffectable<float> HorizontalSpeed => _playerLocomotor.HorizontalSpeed;
+        public IAffectable<float> JumpHeight => _locomotor.JumpHeight;
+        public IAffectable<float> HorizontalSpeed => _locomotor.HorizontalSpeed;
 
         public bool CanJump
         {
@@ -20,36 +24,38 @@ namespace Project.Game
 
         public PlayerDirection Direction
         {
-            get => _playerLocomotor.Direction;
-            set => _playerLocomotor.Direction = value;
+            get => _locomotor.Direction;
+            set => _locomotor.Direction = value;
         }
 
         public event Action<PlayerCollisionInfo> OnCollided;
         public event Action OnJumped;
         public event Action OnBounced;
-        public event Action<bool> OnCanJumpChanged; 
 
-        public Player(IPlayerLocomotor playerLocomotor)
+        public Player(GameObject gameObject, IPlayerLocomotor locomotor, IPlayerColors colors,
+            IPlayerInputService inputService, ICollisionDetector collisionDetector)
         {
-            _playerLocomotor = playerLocomotor;
-            this.Reset();
+            _gameObject = gameObject;
+            _locomotor = locomotor;
+            _colors = colors;
+            _inputService = inputService;
+            _collisionDetector = collisionDetector;
+            
+            _inputService.OnJumpInput += this.JumpIfPossible;
+            _collisionDetector.OnCollided += HandleCollision;
+
+            _jumpStrategy = InitialJump;
         }
 
         public void Jump()
         {
-            if (!_initialJumpDone)
-            {
-                InitialJump();
-                return;
-            }
-            
-            _playerLocomotor.Jump();
+            _jumpStrategy();
             OnJumped?.Invoke();
         }
 
         public void Bounce()
         {
-            _playerLocomotor.Jump();
+            _locomotor.Jump();
             CanJump = true;
             OnBounced?.Invoke();
         }
@@ -57,7 +63,7 @@ namespace Project.Game
         public void InvertDirection() =>
             Direction = Direction == PlayerDirection.Right ? PlayerDirection.Left : PlayerDirection.Right;
 
-        public void HandleCollision(Collision2D other)
+        private void HandleCollision(Collision2D other)
         {
             var handler = other.gameObject.GetComponent<ICollisionHandler>();
 
@@ -69,32 +75,41 @@ namespace Project.Game
 
         public void Reset(Vector2 position, PlayerDirection direction)
         {
-            _playerLocomotor.Position = position;
-            _playerLocomotor.Direction = direction;
+            _locomotor.Position = position;
+            _locomotor.Direction = direction;
             
-            _initialJumpDone = false;
-            _playerLocomotor.SetFrozen(true);
+            _locomotor.SetFrozen(true);
             _canJump = true;
-        }
-
-        public void Deactivate()
-        {
-            // todo:
-            Debug.Log("deactivate player");
+            _jumpStrategy = InitialJump;
         }
 
         public void Activate()
         {
-            Debug.Log("activate player");
+            // _gameObject.SetActive(true);
+            _locomotor.Activate();
+            _colors.Activate();
+            _inputService.OnJumpInput += this.JumpIfPossible;
+            _collisionDetector.OnCollided += HandleCollision;
+        }
+
+        public void Deactivate()
+        {
+            // _gameObject.SetActive(false);
+            _locomotor.Deactivate();
+            _colors.Deactivate();
+            _inputService.OnJumpInput -= this.JumpIfPossible;
+            _collisionDetector.OnCollided -= HandleCollision;
         }
 
         private void InitialJump()
         {
-            _playerLocomotor.SetFrozen(false);
-            _playerLocomotor.UpdateHorizontalVelocity();
-            _initialJumpDone = true;
-            OnJumped?.Invoke();
+            _locomotor.SetFrozen(false);
+            _locomotor.UpdateHorizontalVelocity();
+            _jumpStrategy = NormalJump;
         }
+
+        private void NormalJump() =>
+            _locomotor.Jump();
 
         private void SetJumpingStatus(bool status)
         {
@@ -102,7 +117,7 @@ namespace Project.Game
                 return;
             
             _canJump = status;
-            OnCanJumpChanged?.Invoke(_canJump);
+            _colors.UpdateColors(_canJump);
         }
     }
 }

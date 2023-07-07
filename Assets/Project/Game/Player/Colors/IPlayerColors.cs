@@ -1,6 +1,6 @@
 ﻿namespace Project.Game
 {
-    public interface IPlayerColors
+    public interface IPlayerColors : IActivatable
     {
         void UpdateColors(bool canJump);
     }

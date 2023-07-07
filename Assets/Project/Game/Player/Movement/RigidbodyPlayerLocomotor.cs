@@ -68,19 +68,11 @@ namespace Project.Game
         private float HeightToVelocity(float height, float gravity) =>
             _rigidbody.mass * Mathf.Sqrt(-2 * gravity * height);
 
-        private void Freeze()
-        {
-            _isFrozen = true;
-
+        private void Freeze() =>
             _rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
-        }
 
-        private void Unfreeze()
-        {
-            _isFrozen = false;
-
+        private void Unfreeze() =>
             _rigidbody.constraints = RigidbodyConstraints2D.None;
-        }
 
         private static bool IsDirectionRight(PlayerDirection direction) =>
             direction == PlayerDirection.Right;
@@ -90,5 +82,11 @@ namespace Project.Game
             _direction = direction;
             UpdateHorizontalVelocity();
         }
+
+        public void Deactivate() =>
+            Freeze();
+
+        public void Activate() =>
+            Unfreeze();
     }
 }
