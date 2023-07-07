@@ -53,7 +53,7 @@ namespace Project.Architecture
         }
 
         private void MoveNext() =>
-            _stateMachine.SetState<LoadLevelState, int>(1);
+            _stateMachine.SetState<MenuState>();
 
         private IAffectable<float> CreateAffectable(float baseValue) =>
             new Affectable<float>(baseValue, _effectsManager);

@@ -21,6 +21,7 @@ namespace Project.Architecture
         public void Build(IGameStateMachine machine)
         {
             machine.AddState(new BootState(_game, machine, _playerConfig, _effectsManager))
+                .AddState(new MenuState(_game, machine, _sceneLoader))
                 .AddState(new LoadLevelState(_game, machine, _sceneLoader))
                 .AddState(new LevelInitState(_game, machine));
         }

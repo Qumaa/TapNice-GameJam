@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -6886400743406783579}
   m_Layer: 0
   m_Name: Level
-  m_TagString: Untagged
+  m_TagString: Collision handler container
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

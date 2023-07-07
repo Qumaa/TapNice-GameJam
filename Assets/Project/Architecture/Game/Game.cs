@@ -28,7 +28,7 @@ namespace Project.Architecture
 
         private void InitializeStates(PlayerConfig playerConfig)
         {
-            var director = new GameStateMachineDirector(this, playerConfig, new SyncSceneLoader(), new EffectsManager());
+            var director = new GameStateMachineDirector(this, playerConfig, new SyncSceneLoader(new SceneLoadingOperationHandler()), new EffectsManager());
             
             director.Build(_stateMachine);
         }
