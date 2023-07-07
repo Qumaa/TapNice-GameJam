@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Project.Game
 {
-    public class LegacyInputService : MonoBehaviour, IPlayerInputService
+    public class LegacyInputService : MonoBehaviour, IGameInputService
     {
-        public event Action OnJumpInput;
+        public event Action OnScreenTouchInput;
 
         private void Update()
         {
             if (Input.anyKeyDown)
-                OnJumpInput?.Invoke();
+                OnScreenTouchInput?.Invoke();
         }
     }
 }

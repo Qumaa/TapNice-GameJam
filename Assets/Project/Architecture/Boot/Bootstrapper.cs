@@ -1,4 +1,5 @@
 using System;
+using Project.Game;
 using UnityEngine;
 
 namespace Project.Architecture
@@ -17,6 +18,8 @@ namespace Project.Architecture
         private void Start()
         {
             _game = new Game(_playerConfig);
+            _game.InputService = GetComponent<IGameInputService>();
+            _game.Start();
         }
 
         private void Update()

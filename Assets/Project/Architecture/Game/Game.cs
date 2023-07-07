@@ -10,7 +10,7 @@ namespace Project.Architecture
         private readonly List<IFixedUpdatable> _fixedUpdatables;
         
         public ICameraController CameraController { get; set; }
-        public IPlayerInputService InputService { get; set; }
+        public IGameInputService InputService { get; set; }
         public IPlayer Player { get; set; }
 
         public Game(PlayerConfig playerConfig)
@@ -20,10 +20,9 @@ namespace Project.Architecture
             
             _stateMachine = new GameStateMachine();
             InitializeStates(playerConfig);
-            Start();
         }
 
-        private void Start() =>
+        public void Start() =>
             _stateMachine.SetState<BootState>();
 
         private void InitializeStates(PlayerConfig playerConfig)

@@ -35,14 +35,13 @@ namespace Project.Architecture
             var playerObj = Object.Instantiate(_playerConfig.PlayerPrefab);
             Object.DontDestroyOnLoad(playerObj);
 
-            var inputService = playerObj.GetComponent<IPlayerInputService>();
             var collisionDetector = playerObj.GetComponent<ICollisionDetector>();
             var playerLocomotor = new RigidbodyPlayerLocomotor(playerObj.GetComponent<Rigidbody2D>(),
                 CreateAffectable(_playerConfig.JumpHeight), CreateAffectable(_playerConfig.HorizontalSpeed));
             var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
                 _playerConfig.PlayerCanJumpColor);
 
-            var player = new Player(playerObj, playerLocomotor, colors, inputService, collisionDetector);
+            var player = new Player(playerObj, playerLocomotor, colors, _game.InputService, collisionDetector);
             
             player.Deactivate();
 

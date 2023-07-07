@@ -8,7 +8,7 @@ namespace Project.Game
         private readonly GameObject _gameObject;
         private readonly IPlayerLocomotor _locomotor;
         private readonly IPlayerColors _colors;
-        private readonly IPlayerInputService _inputService;
+        private readonly IGameInputService _inputService;
         private readonly ICollisionDetector _collisionDetector;
         private bool _canJump;
         private Action _jumpStrategy;
@@ -33,7 +33,7 @@ namespace Project.Game
         public event Action OnBounced;
 
         public Player(GameObject gameObject, IPlayerLocomotor locomotor, IPlayerColors colors,
-            IPlayerInputService inputService, ICollisionDetector collisionDetector)
+            IGameInputService inputService, ICollisionDetector collisionDetector)
         {
             _gameObject = gameObject;
             _locomotor = locomotor;
@@ -41,7 +41,7 @@ namespace Project.Game
             _inputService = inputService;
             _collisionDetector = collisionDetector;
             
-            _inputService.OnJumpInput += this.JumpIfPossible;
+            _inputService.OnScreenTouchInput += this.JumpIfPossible;
             _collisionDetector.OnCollided += HandleCollision;
 
             _jumpStrategy = InitialJump;
@@ -88,7 +88,7 @@ namespace Project.Game
             // _gameObject.SetActive(true);
             _locomotor.Activate();
             _colors.Activate();
-            _inputService.OnJumpInput += this.JumpIfPossible;
+            _inputService.OnScreenTouchInput += this.JumpIfPossible;
             _collisionDetector.OnCollided += HandleCollision;
         }
 
@@ -97,7 +97,7 @@ namespace Project.Game
             // _gameObject.SetActive(false);
             _locomotor.Deactivate();
             _colors.Deactivate();
-            _inputService.OnJumpInput -= this.JumpIfPossible;
+            _inputService.OnScreenTouchInput -= this.JumpIfPossible;
             _collisionDetector.OnCollided -= HandleCollision;
         }
 
