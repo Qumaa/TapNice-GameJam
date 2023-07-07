@@ -5,7 +5,6 @@ namespace Project.Game
 {
     public class Player : IPlayer
     {
-        private readonly GameObject _gameObject;
         private readonly IPlayerLocomotor _locomotor;
         private readonly IPlayerColors _colors;
         private readonly IGameInputService _inputService;
@@ -32,10 +31,9 @@ namespace Project.Game
         public event Action OnJumped;
         public event Action OnBounced;
 
-        public Player(GameObject gameObject, IPlayerLocomotor locomotor, IPlayerColors colors,
+        public Player(IPlayerLocomotor locomotor, IPlayerColors colors,
             IGameInputService inputService, ICollisionDetector collisionDetector)
         {
-            _gameObject = gameObject;
             _locomotor = locomotor;
             _colors = colors;
             _inputService = inputService;
@@ -85,7 +83,6 @@ namespace Project.Game
 
         public void Activate()
         {
-            // _gameObject.SetActive(true);
             _locomotor.Activate();
             _colors.Activate();
             _inputService.OnScreenTouchInput += this.JumpIfPossible;
@@ -94,7 +91,6 @@ namespace Project.Game
 
         public void Deactivate()
         {
-            // _gameObject.SetActive(false);
             _locomotor.Deactivate();
             _colors.Deactivate();
             _inputService.OnScreenTouchInput -= this.JumpIfPossible;

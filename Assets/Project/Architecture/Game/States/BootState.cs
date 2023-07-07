@@ -41,7 +41,7 @@ namespace Project.Architecture
             var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
                 _playerConfig.PlayerCanJumpColor);
 
-            var player = new Player(playerObj, playerLocomotor, colors, _game.InputService, collisionDetector);
+            var player = new Player(playerLocomotor, colors, _game.InputService, collisionDetector);
             
             player.Deactivate();
 
