@@ -26,13 +26,11 @@ namespace Project.Game
         public IAffectable<float> HorizontalSpeed { get; }
 
         public RigidbodyPlayerLocomotor(Rigidbody2D rigidbody, IAffectable<float> jumpHeight,
-            IAffectable<float> horizontalSpeed, Vector3 initialPosition, PlayerDirection initialDirection)
+            IAffectable<float> horizontalSpeed)
         {
             _rigidbody = rigidbody;
             JumpHeight = jumpHeight;
             HorizontalSpeed = horizontalSpeed;
-            Position = initialPosition;
-            Direction = initialDirection;
 
             _isFrozen = false;
         }

@@ -11,6 +11,7 @@ namespace Project.Architecture
         
         public ICameraController CameraController { get; set; }
         public IPlayerInputService InputService { get; set; }
+        public IPlayer Player { get; set; }
 
         public Game(PlayerConfig playerConfig)
         {

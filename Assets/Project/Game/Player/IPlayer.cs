@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project.Game
 {
-    public interface IPlayer
+    public interface IPlayer : IActivatable
     {
         public IAffectable<float> JumpHeight { get; }
         public IAffectable<float> HorizontalSpeed { get; }
@@ -30,9 +30,10 @@ namespace Project.Game
 
         void InvertDirection();
         void HandleCollision(Collision2D other);
+
         /// <summary>
-        /// This method is called whenever a level is loaded and player is positioned on it.
+        /// This method is called whenever a level is loaded and player have to be positioned on it.
         /// </summary>
-        void Reset();
+        void Reset(Vector2 position, PlayerDirection direction);
     }
 }

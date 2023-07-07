@@ -7,13 +7,13 @@ namespace Project.Architecture
         public ISceneLoadingOperation LoadScene(string sceneName)
         {
             SceneManager.LoadScene(sceneName);
-            return null;
+            return new SyncSceneLoadingOperation(sceneName);
         }
 
         public ISceneLoadingOperation LoadScene(int sceneIndex)
         {
             SceneManager.LoadScene(sceneIndex);
-            return null;
+            return new SyncSceneLoadingOperation(sceneIndex);
         }
     }
 }

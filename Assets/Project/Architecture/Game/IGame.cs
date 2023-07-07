@@ -6,5 +6,6 @@ namespace Project.Architecture
     {
         ICameraController CameraController { get; set; }
         IPlayerInputService InputService { get; set; }
+        IPlayer Player { get; set; }
     }
 }

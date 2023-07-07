@@ -20,6 +20,8 @@ namespace Project.Architecture
         {
             var player = CreatePlayer();
             player.OnBounced += _effectsManager.UseEffects;
+
+            _game.Player = player;
             
             MoveNext();
         }
@@ -30,17 +32,13 @@ namespace Project.Architecture
 
         private IPlayer CreatePlayer()
         {
-            //todo: move to level init, get rid of spawnpoint (it's not present in this state yet)
-            var spawnPoint = Object.FindObjectOfType<PlayerSpawnPoint>();
-
             var playerObj = Object.Instantiate(_playerConfig.PlayerPrefab);
             Object.DontDestroyOnLoad(playerObj);
 
             var inputService = playerObj.GetComponent<IPlayerInputService>();
             var collisionDetector = playerObj.GetComponent<ICollisionDetector>();
             var playerLocomotor = new RigidbodyPlayerLocomotor(playerObj.GetComponent<Rigidbody2D>(),
-                CreateAffectable(_playerConfig.JumpHeight), CreateAffectable(_playerConfig.HorizontalSpeed),
-                spawnPoint.Position, spawnPoint.PlayerDirection);
+                CreateAffectable(_playerConfig.JumpHeight), CreateAffectable(_playerConfig.HorizontalSpeed));
             var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
                 _playerConfig.PlayerCanJumpColor);
 
@@ -48,7 +46,8 @@ namespace Project.Architecture
             inputService.OnJumpInput += player.JumpIfPossible;
             player.OnCanJumpChanged += colors.UpdateColors;
             collisionDetector.OnCollided += player.HandleCollision;
-            player.Reset();
+            
+            player.Deactivate();
 
             return player;
         }

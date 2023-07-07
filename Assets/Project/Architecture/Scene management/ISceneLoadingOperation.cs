@@ -4,7 +4,7 @@ namespace Project.Architecture
 {
     public interface ISceneLoadingOperation
     {
-        event Action OnLoadingComplete;
+        event Action OnLoadingCompleted;
         bool IsDone { get; }
     }
 }

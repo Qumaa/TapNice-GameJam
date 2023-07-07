@@ -32,6 +32,7 @@ namespace Project.Game
         public Player(IPlayerLocomotor playerLocomotor)
         {
             _playerLocomotor = playerLocomotor;
+            this.Reset();
         }
 
         public void Jump()
@@ -66,11 +67,25 @@ namespace Project.Game
             handler.HandleCollision(info);
         }
 
-        public void Reset()
+        public void Reset(Vector2 position, PlayerDirection direction)
         {
+            _playerLocomotor.Position = position;
+            _playerLocomotor.Direction = direction;
+            
             _initialJumpDone = false;
             _playerLocomotor.SetFrozen(true);
             _canJump = true;
+        }
+
+        public void Deactivate()
+        {
+            // todo:
+            Debug.Log("deactivate player");
+        }
+
+        public void Activate()
+        {
+            Debug.Log("activate player");
         }
 
         private void InitialJump()

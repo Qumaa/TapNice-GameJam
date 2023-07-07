@@ -18,12 +18,13 @@ namespace Project.Architecture
         public override void Enter()
         {
             InitCollisionHandlers();
+            ResetPlayer();
         }
 
         public override void Exit()
         {
         }
-        
+
         private void InitCollisionHandlers()
         {
             var handlerContainers =
@@ -36,7 +37,18 @@ namespace Project.Architecture
             foreach (var handlerContainer in handlerContainers)
                 handlerContainer.SetHandler(GetCollisionHandler(handlerContainer.HandlerType));
         }
-        
+
+        private void ResetPlayer()
+        {
+            var player = _game.Player;
+            
+            player.Activate();
+            
+            var spawnPoint = Object.FindObjectOfType<PlayerSpawnPoint>();
+            
+            player.Reset(spawnPoint.Position, spawnPoint.PlayerDirection);
+        }
+
         private ICollisionHandler GetCollisionHandler(CollisionHandlerType type) =>
             _handlersTable[(int) type] ??= CreateHandler(type);
 
