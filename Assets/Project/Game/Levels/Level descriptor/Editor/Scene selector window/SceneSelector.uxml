@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Project/Game/Levels/Level%20descriptor/Editor/Scene%20selector%20window/SceneSelector.uss?fileID=7433441132597879392&amp;guid=9bf69972f984a5040bf72ba438b31465&amp;type=3#SceneSelector" />
+    <ui:VisualElement class="root">
+        <ui:VisualElement name="list-group" class="list-group">
+            <ui:VisualElement name="scene-list-header" class="top-header">
+                <ui:Label text="Scenes" display-tooltip-when-elided="true" />
+            </ui:VisualElement>
+            <ui:ListView focusable="true" header-title="Scenes available" reorderable="false" name="list-view" style="margin-left: 11px; margin-right: 11px; margin-top: 11px; margin-bottom: 11px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="info-group" class="info-group">
+            <ui:VisualElement name="info-header" class="top-header">
+                <ui:Label text="Selected scene info" display-tooltip-when-elided="true" />
+            </ui:VisualElement>
+            <ui:VisualElement name="info" class="info-menu">
+                <InfoLabelElement label-text="Name" info-text="-" name="info-name" style="white-space: normal;" />
+                <InfoLabelElement name="info-path" label-text="Asset Path" info-text="-" />
+            </ui:VisualElement>
+            <ui:VisualElement name="confirmation" class="confirmation-box" style="justify-content: flex-end;">
+                <ui:Button text="Comfirm" display-tooltip-when-elided="true" name="confirmation-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

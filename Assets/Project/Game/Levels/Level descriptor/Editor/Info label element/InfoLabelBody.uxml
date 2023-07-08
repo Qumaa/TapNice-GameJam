@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Arch/Scene%20Descriptor/Scene%20selector%20ui/InfoLabelStyles.uss?fileID=7433441132597879392&amp;guid=07c7e47231f8a444d9346be6a3ac63ed&amp;type=3#InfoLabelStyles" />
+    <ui:Label text="label" display-tooltip-when-elided="true" name="label" class="label" />
+    <ui:Label text="info" name="info" class="info" />
+</ui:UXML>
