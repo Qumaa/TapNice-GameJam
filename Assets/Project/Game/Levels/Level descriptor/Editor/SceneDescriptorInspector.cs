@@ -34,6 +34,8 @@ internal class SceneDescriptorInspector : Editor
 
         if (GUILayout.Button(_SELECT_A_SCENE)) 
             EditorWindow.CreateWindow<SceneSelectorWindow>();
+
+        serializedObject.ApplyModifiedProperties();
     }
 
     private void DrawScriptProperty()

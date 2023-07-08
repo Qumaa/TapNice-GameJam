@@ -7,11 +7,14 @@ namespace Project.Architecture
     {
         private readonly ISceneLoader _sceneLoader;
         private IMainMenu _mainMenu;
+        private readonly ILevelDescriptor[] _levels;
 
-        public MenuState(IGame game, IGameStateMachine stateMachine, ISceneLoader sceneLoader) :
+        public MenuState(IGame game, IGameStateMachine stateMachine, ISceneLoader sceneLoader,
+            ILevelDescriptor[] gameLevels) :
             base(game, stateMachine)
         {
             _sceneLoader = sceneLoader;
+            _levels = gameLevels;
         }
 
         public override void Enter()
@@ -22,12 +25,13 @@ namespace Project.Architecture
         private void InitMenu()
         {
             _mainMenu = GameObject.FindGameObjectWithTag(Tags.MAIN_MENU).GetComponent<IMainMenu>();
+            ((TemporalMainMenu)_mainMenu!).SetButtonText(_levels[0].LevelName);
 
             _mainMenu.OnLevelPlayPressed += LoadLevel;
         }
 
         private void LoadLevel(int level) =>
-            _stateMachine.SetState<LoadLevelState, int>(level + 2);
+            _stateMachine.SetState<LoadLevelState, int>(_levels[level].SceneIndex);
 
         public override void Exit()
         {

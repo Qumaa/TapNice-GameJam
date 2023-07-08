@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Project.Game
 {
     [CreateAssetMenu(menuName = SOData.MenuPath.LEVEL_DESCRIPTOR, fileName = SOData.FileName.LEVEL_DESCRIPTOR)]
-    public class LevelDescriptor : ScriptableObject
+    public class LevelDescriptor : ScriptableObject, ILevelDescriptor
     {
         // !!! DO NOT !!! change this, or change the respective constant in SceneDescriptorInspector afterwards
         [SerializeField] private SceneData _targetScene;

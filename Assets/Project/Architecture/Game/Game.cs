@@ -8,39 +8,40 @@ namespace Project.Architecture
         private readonly IGameStateMachine _stateMachine;
         private readonly List<IUpdatable> _updatables;
         private readonly List<IFixedUpdatable> _fixedUpdatables;
-        
+
         public ICameraController CameraController { get; set; }
         public IGameInputService InputService { get; set; }
         public IPlayer Player { get; set; }
 
-        public Game(PlayerConfig playerConfig)
+        public Game(PlayerConfig playerConfig, ILevelDescriptor[] levels)
         {
             _updatables = new List<IUpdatable>();
             _fixedUpdatables = new List<IFixedUpdatable>();
-            
+
             _stateMachine = new GameStateMachine();
-            InitializeStates(playerConfig);
+            InitializeStates(playerConfig, levels);
         }
 
         public void Start() =>
             _stateMachine.SetState<BootState>();
 
-        private void InitializeStates(PlayerConfig playerConfig)
+        private void InitializeStates(PlayerConfig playerConfig, ILevelDescriptor[] gameLevelsConfig)
         {
-            var director = new GameStateMachineDirector(this, playerConfig, new SyncSceneLoader(new SceneLoadingOperationHandler()), new EffectsManager());
-            
+            var director = new GameStateMachineDirector(this, playerConfig, gameLevelsConfig,
+                new SyncSceneLoader(new SceneLoadingOperationHandler()), new EffectsManager());
+
             director.Build(_stateMachine);
         }
 
         public void Update(float timeStep)
         {
-            foreach(var updatable in _updatables)
+            foreach (var updatable in _updatables)
                 updatable.Update(timeStep);
         }
 
         public void FixedUpdate(float fixedTimeStep)
         {
-            foreach(var fixedUpdatable in _fixedUpdatables)
+            foreach (var fixedUpdatable in _fixedUpdatables)
                 fixedUpdatable.FixedUpdate(fixedTimeStep);
         }
 

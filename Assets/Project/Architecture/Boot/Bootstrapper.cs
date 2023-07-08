@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Project.Game;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace Project.Architecture
     public class Bootstrapper : MonoBehaviour
     {
         [SerializeField] private PlayerConfig _playerConfig;
+        [SerializeField] private GameLevelsConfig _levelsConfig;
         
         private IGame _game;
 
@@ -17,7 +19,9 @@ namespace Project.Architecture
 
         private void Start()
         {
-            _game = new Game(_playerConfig);
+            var levels = _levelsConfig.Levels.Select(x => (ILevelDescriptor) x).ToArray();
+            
+            _game = new Game(_playerConfig, levels);
             _game.InputService = GetComponent<IGameInputService>();
             _game.Start();
         }

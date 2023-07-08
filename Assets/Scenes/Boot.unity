@@ -131,6 +131,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -1048825313622868098, guid: 76545b4400eb12643b81f6234ec39010, type: 3}
+      propertyPath: _levelsConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: e24774a2e6f6ed4429fe6d60239650d2, type: 2}
+    - target: {fileID: -1048825313622868098, guid: 76545b4400eb12643b81f6234ec39010, type: 3}
       propertyPath: _playerConfig
       value: 
       objectReference: {fileID: 11400000, guid: 6a59d946d5fbfbd4dbad9a116758868c, type: 2}
