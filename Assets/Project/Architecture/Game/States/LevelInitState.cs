@@ -1,65 +1,32 @@
-﻿using System;
-using Project.Game;
+﻿using Project.Game;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Project.Architecture
 {
     public class LevelInitState : GameState
     {
-        private readonly ICollisionHandler[] _handlersTable;
+        private readonly ILevel _level;
         
         public LevelInitState(IGame game, IGameStateMachine stateMachine) : base(game, stateMachine)
         {
-            var items = Enum.GetNames(typeof(CollisionHandlerType)).Length;
-            _handlersTable = new ICollisionHandler[items];
+            _level = new Level(new Observable<Vector2>(Physics2D.gravity), _game.Player);
         }
 
         public override void Enter()
         {
-            InitCollisionHandlers();
-            ResetPlayer();
+            _level.Start();
+            _level.OnFinished += HandleLevelFinish;
         }
 
         public override void Exit()
         {
         }
 
-        private void InitCollisionHandlers()
+        private void HandleLevelFinish(float time)
         {
-            var handlerContainers =
-                Object.FindObjectsByType<SceneCollisionHandlerContainer>(FindObjectsInactive.Include,
-                    FindObjectsSortMode.None);
-
-            if (handlerContainers.Length == 0)
-                return;
-
-            foreach (var handlerContainer in handlerContainers)
-                handlerContainer.SetHandler(GetCollisionHandler(handlerContainer.HandlerType));
+            // _level.OnFinished -= HandleLevelFinish;
+            
+            Debug.Log("Level finished from state");
         }
-
-        private void ResetPlayer()
-        {
-            var player = _game.Player;
-            
-            player.Activate();
-            
-            var spawnPoint = Object.FindObjectOfType<PlayerSpawnPoint>();
-            
-            player.Reset(spawnPoint.Position, spawnPoint.PlayerDirection);
-        }
-
-        private ICollisionHandler GetCollisionHandler(CollisionHandlerType type) =>
-            _handlersTable[(int) type] ??= CreateHandler(type);
-
-        private static ICollisionHandler CreateHandler(CollisionHandlerType type) =>
-            type switch
-            {
-                CollisionHandlerType.Default => new LevelCollisionHandler(),
-                CollisionHandlerType.Finish => new FinishCollisionHandler(),
-                CollisionHandlerType.Trampoline => new TrampolineCollisionHandler(),
-                CollisionHandlerType.Discharger => new DischargerCollisionHandler(),
-                _ => throw new ArgumentOutOfRangeException()
-            };
     }
 }

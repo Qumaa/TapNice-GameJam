@@ -8,12 +8,15 @@ namespace Project.Architecture
     {
         private readonly PlayerConfig _playerConfig;
         private readonly IEffectsManager _effectsManager;
+        private readonly IGameStateMachineDirector _machineDirector;
 
-        public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig, IEffectsManager effectsManager) : base(game,
+        public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig,
+            IEffectsManager effectsManager, IGameStateMachineDirector machineDirector) : base(game,
             stateMachine)
         {
             _playerConfig = playerConfig;
             _effectsManager = effectsManager;
+            _machineDirector = machineDirector;
         }
 
         public override void Enter()
@@ -22,7 +25,9 @@ namespace Project.Architecture
             player.OnBounced += _effectsManager.UseEffects;
 
             _game.Player = player;
-            
+
+            _machineDirector.Build(_stateMachine);
+
             MoveNext();
         }
 
@@ -42,7 +47,7 @@ namespace Project.Architecture
                 _playerConfig.PlayerCanJumpColor);
 
             var player = new Player(playerLocomotor, colors, _game.InputService, collisionDetector);
-            
+
             player.Deactivate();
 
             return player;

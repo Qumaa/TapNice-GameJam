@@ -29,8 +29,5 @@ namespace Project
 
         public static implicit operator T(Observable<T> o) =>
             o.Value;
-
-        public static Observable<TType> Create<TType>(TType defaultValue) =>
-            new Observable<TType>(defaultValue);
     }
 }

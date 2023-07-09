@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Project.Game
+﻿namespace Project.Game
 {
     public abstract class PlayerCollisionHandler : ICollisionHandler
     {
@@ -17,6 +15,7 @@ namespace Project.Game
             }
 
             player.InvertDirection();
+            
         }
     }
 }

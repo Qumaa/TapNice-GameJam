@@ -27,10 +27,10 @@ namespace Project.Architecture
 
         private void InitializeStates(PlayerConfig playerConfig, ILevelDescriptor[] gameLevelsConfig)
         {
-            var director = new GameStateMachineDirector(this, playerConfig, gameLevelsConfig,
-                new SyncSceneLoader(new SceneLoadingOperationHandler()), new EffectsManager());
+            var director = new GameStateMachineDirector(this, gameLevelsConfig,
+                new SyncSceneLoader(new SceneLoadingOperationHandler()));
 
-            director.Build(_stateMachine);
+            _stateMachine.AddState(new BootState(this, _stateMachine, playerConfig, new EffectsManager(), director));
         }
 
         public void Update(float timeStep)

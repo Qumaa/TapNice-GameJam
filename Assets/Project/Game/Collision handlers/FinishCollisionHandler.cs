@@ -1,13 +1,17 @@
-﻿using UnityEngine;
-
-namespace Project.Game
+﻿namespace Project.Game
 {
     public class FinishCollisionHandler : PlayerCollisionHandler
     {
-        public override void HandleCollision(PlayerCollisionInfo collision)
+        private readonly ILevel _level;
+
+        public FinishCollisionHandler(ILevel level)
         {
-            DefaultHandling(collision);
-            Debug.Log("Finish");
+            _level = level;
+        }
+
+        public override void HandleCollision(PlayerCollisionInfo _)
+        {
+            _level.Finish();
         }
     }
 }
