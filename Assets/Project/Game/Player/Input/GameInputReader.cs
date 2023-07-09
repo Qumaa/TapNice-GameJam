@@ -28,7 +28,7 @@ namespace Project.Game
 
             if (ReferenceEquals(eventSystem, null))
                 return true;
-            
+
             var eventData = new PointerEventData(eventSystem);
 #if UNITY_EDITOR
             eventData.position = Input.mousePosition;
@@ -44,8 +44,9 @@ namespace Project.Game
         {
 #if UNITY_EDITOR
             return Input.GetMouseButtonDown(0);
-#endif
+#else
             return Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
+#endif
         }
     }
 }
