@@ -5,18 +5,23 @@ namespace Project.Architecture
 {
     public class Game : IGame
     {
+        private readonly ILevelDescriptor[] _levels;
         private readonly IGameStateMachine _stateMachine;
         private readonly List<IUpdatable> _updatables;
         private readonly List<IFixedUpdatable> _fixedUpdatables;
-
+        private readonly ISceneLoader _sceneLoader;
+        private int _loadedLevel;
+        
         public ICameraController CameraController { get; set; }
         public IGameInputService InputService { get; set; }
         public IPlayer Player { get; set; }
 
         public Game(PlayerConfig playerConfig, ILevelDescriptor[] levels)
         {
+            _levels = levels;
             _updatables = new List<IUpdatable>();
             _fixedUpdatables = new List<IFixedUpdatable>();
+            _sceneLoader = new SyncSceneLoader(new SceneLoadingOperationHandler());
 
             _stateMachine = new GameStateMachine();
             InitializeStates(playerConfig, levels);
@@ -25,10 +30,28 @@ namespace Project.Architecture
         public void Start() =>
             _stateMachine.SetState<BootState>();
 
+        public void LoadLevel(int index)
+        {
+            _loadedLevel = index;
+            _stateMachine.SetState<LoadLevelState, int>(_loadedLevel);
+        }
+
+        public bool LoadNextLevel()
+        {
+            if (++_loadedLevel >= _levels.Length)
+                return false;
+            
+            LoadLevel(_loadedLevel);
+            return true;
+
+        }
+
+        public void LoadMainMenu() =>
+            _stateMachine.SetState<MenuState>();
+
         private void InitializeStates(PlayerConfig playerConfig, ILevelDescriptor[] gameLevelsConfig)
         {
-            var director = new GameStateMachineDirector(this, gameLevelsConfig,
-                new SyncSceneLoader(new SceneLoadingOperationHandler()));
+            var director = new GameStateMachineDirector(this, gameLevelsConfig, _sceneLoader);
 
             _stateMachine.AddState(new BootState(this, _stateMachine, playerConfig, new EffectsManager(), director));
         }
