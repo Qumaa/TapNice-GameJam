@@ -6,8 +6,9 @@ namespace Project.Game
     public interface ILevel
     {
         IObservable<Vector2> Gravity { get; }
+        float TimeElapsed { get; }
         /// <summary>
-        /// Float argument is time elapsed since the <see cref="Start"/> method has been called.
+        /// Float argument is <see cref="TimeElapsed"/>.
         /// </summary>
         public event Action<float> OnFinished;
 

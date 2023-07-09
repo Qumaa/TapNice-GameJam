@@ -26,7 +26,7 @@ namespace Project.Architecture
         {
             // _level.OnFinished -= HandleLevelFinish;
             
-            Debug.Log("Level finished from state");
+            Debug.Log($"Level finished from state with time {time}");
         }
     }
 }

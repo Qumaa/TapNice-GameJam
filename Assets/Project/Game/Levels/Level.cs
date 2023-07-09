@@ -8,8 +8,10 @@ namespace Project.Game
     {
         private readonly ICollisionHandler[] _handlersTable;
         private readonly IPlayer _player;
+        private double _startTime;
         
         public IObservable<Vector2> Gravity { get; }
+        public float TimeElapsed => (float) (GetGameTime() - _startTime);
         public event Action<float> OnFinished;
 
         public Level(IObservable<Vector2> gravity, IPlayer player)
@@ -24,17 +26,23 @@ namespace Project.Game
         public void Start()
         {
             _player.Activate();
+            _player.OnJumped += StartTimeCounting;
             ResetPlayer();
             InitCollisionHandlers();
         }
 
         public void Finish()
         {
-            // todo: time counting
             ResetPlayer();
-            OnFinished?.Invoke(0);
+            OnFinished?.Invoke(TimeElapsed);
         }
-        
+
+        private void StartTimeCounting()
+        {
+            _player.OnJumped -= StartTimeCounting;
+            _startTime = GetGameTime();
+        }
+
         private void InitCollisionHandlers()
         {
             var handlerContainers =
@@ -54,7 +62,7 @@ namespace Project.Game
             
             _player.Reset(spawnPoint.Position, spawnPoint.PlayerDirection);
         }
-        
+
         private ICollisionHandler GetCollisionHandler(CollisionHandlerType type) =>
             _handlersTable[(int) type] ??= CreateCollisionHandler(type);
 
@@ -67,5 +75,8 @@ namespace Project.Game
                 CollisionHandlerType.Discharger => new DischargerCollisionHandler(),
                 _ => throw new ArgumentOutOfRangeException()
             };
+
+        private static double GetGameTime() =>
+            Time.timeSinceLevelLoadAsDouble;
     }
 }
