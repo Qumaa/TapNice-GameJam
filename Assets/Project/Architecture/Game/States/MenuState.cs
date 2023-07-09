@@ -19,6 +19,7 @@ namespace Project.Architecture
 
         public override void Enter()
         {
+            _game.Player.Deactivate();
             _sceneLoader.LoadSceneHandled(1, InitMenu);
         }
 

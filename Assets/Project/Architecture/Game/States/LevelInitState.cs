@@ -10,23 +10,20 @@ namespace Project.Architecture
         public LevelInitState(IGame game, IGameStateMachine stateMachine) : base(game, stateMachine)
         {
             _level = new Level(new Observable<Vector2>(Physics2D.gravity), _game.Player);
+            _game.LoadedLevel = _level;
         }
 
         public override void Enter()
         {
             _level.Start();
-            _level.OnFinished += HandleLevelFinish;
+            MoveNext();
         }
 
         public override void Exit()
         {
         }
 
-        private void HandleLevelFinish(float time)
-        {
-            // _level.OnFinished -= HandleLevelFinish;
-            
-            Debug.Log($"Level finished from state with time {time}");
-        }
+        private void MoveNext() =>
+            _stateMachine.SetState<GameLoopState>();
     }
 }

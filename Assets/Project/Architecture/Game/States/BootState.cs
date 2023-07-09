@@ -48,15 +48,13 @@ namespace Project.Architecture
 
             var player = new Player(playerLocomotor, colors, _game.InputService, collisionDetector);
 
-            player.Deactivate();
-
             return player;
         }
 
         private void MoveNext() =>
             _stateMachine.SetState<MenuState>();
 
-        private IAffectable<float> CreateAffectable(float baseValue) =>
-            new Affectable<float>(baseValue, _effectsManager);
+        private IAffectable<T> CreateAffectable<T>(T baseValue) =>
+            new Affectable<T>(baseValue, _effectsManager);
     }
 }

@@ -79,14 +79,14 @@ namespace Project.Game
 
         private void SetDirection(PlayerDirection direction)
         {
+            if (_direction == direction)
+                return;
+            
             _direction = direction;
             UpdateHorizontalVelocity();
         }
 
-        public void Deactivate() =>
+        public void Reset() =>
             Freeze();
-
-        public void Activate() =>
-            Unfreeze();
     }
 }

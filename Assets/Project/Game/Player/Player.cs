@@ -83,7 +83,6 @@ namespace Project.Game
 
         public void Activate()
         {
-            _locomotor.Activate();
             _colors.Activate();
             _inputService.OnScreenTouchInput += this.JumpIfPossible;
             _collisionDetector.OnCollided += HandleCollision;
@@ -91,9 +90,10 @@ namespace Project.Game
 
         public void Deactivate()
         {
-            _locomotor.Deactivate();
+            _locomotor.Reset();
             _colors.Deactivate();
             _inputService.OnScreenTouchInput -= this.JumpIfPossible;
+            _collisionDetector.Reset();
             _collisionDetector.OnCollided -= HandleCollision;
         }
 

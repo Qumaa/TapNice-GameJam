@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project.Game
 {
-    public interface ICollisionDetector
+    public interface ICollisionDetector : IResettable
     {
         public event Action<Collision2D> OnCollided;
     }

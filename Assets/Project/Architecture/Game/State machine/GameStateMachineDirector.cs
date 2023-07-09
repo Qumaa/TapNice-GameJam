@@ -16,11 +16,10 @@ namespace Project.Architecture
             _sceneLoader = sceneLoader;
         }
 
-        public void Build(IGameStateMachine machine)
-        {
+        public void Build(IGameStateMachine machine) =>
             machine.AddState(new MenuState(_game, machine, _sceneLoader, _levels))
                 .AddState(new LoadLevelState(_game, machine, _sceneLoader))
-                .AddState(new LevelInitState(_game, machine));
-        }
+                .AddState(new LevelInitState(_game, machine))
+                .AddState(new GameLoopState(_game, machine));
     }
 }

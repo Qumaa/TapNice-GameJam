@@ -2,7 +2,7 @@
 
 namespace Project.Game
 {
-    public interface IPlayerLocomotor : IActivatable
+    public interface IPlayerLocomotor : IResettable
     {
         public Vector2 Position { get; set; }
         public PlayerDirection Direction { get; set; }

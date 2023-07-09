@@ -15,6 +15,7 @@ namespace Project.Architecture
         public ICameraController CameraController { get; set; }
         public IGameInputService InputService { get; set; }
         public IPlayer Player { get; set; }
+        public ILevel LoadedLevel { get; set; }
 
         public Game(PlayerConfig playerConfig, ILevelDescriptor[] levels)
         {

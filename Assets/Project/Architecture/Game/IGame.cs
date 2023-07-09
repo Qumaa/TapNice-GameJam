@@ -8,6 +8,7 @@ namespace Project.Architecture
         ICameraController CameraController { get; set; }
         IGameInputService InputService { get; set; }
         IPlayer Player { get; set; }
+        ILevel LoadedLevel { get; set; }
         void Start();
 
         void LoadLevel(int index);

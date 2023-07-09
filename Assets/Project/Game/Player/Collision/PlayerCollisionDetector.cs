@@ -19,6 +19,9 @@ namespace Project.Game
         }
 
         private void OnCollisionExit2D() =>
+            Reset();
+
+        public void Reset() =>
             _hasCollided = false;
     }
 }
