@@ -15,9 +15,11 @@ namespace Project.Game
             _playButton.onClick.AddListener(() => OnLevelPlayPressed?.Invoke(0));
         }
 
-        public void SetButtonText(string text) =>
+        private void SetButtonText(string text) =>
             _buttonText.text = text;
 
         public event Action<int> OnLevelPlayPressed;
+        public void SetLevels(ILevelDescriptor[] levels) =>
+            SetButtonText(levels[0].LevelName);
     }
 }

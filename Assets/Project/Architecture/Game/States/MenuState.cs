@@ -25,7 +25,7 @@ namespace Project.Architecture
         private void InitMenu()
         {
             _mainMenu = GameObject.FindGameObjectWithTag(Tags.MAIN_MENU).GetComponent<IMainMenu>();
-            ((TemporalMainMenu)_mainMenu!).SetButtonText(_levels[0].LevelName);
+            _mainMenu.SetLevels(_levels);
 
             _mainMenu.OnLevelPlayPressed += LoadLevel;
         }
