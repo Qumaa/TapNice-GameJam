@@ -79,6 +79,8 @@ namespace Project.Game
             _locomotor.SetFrozen(true);
             _canJump = true;
             _jumpStrategy = InitialJump;
+            
+            _collisionDetector.Reset();
         }
 
         public void Activate()

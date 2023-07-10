@@ -32,15 +32,12 @@ namespace Project.Architecture
         }
 
         private void LoadLevel(int level) =>
-            _stateMachine.SetState<LoadLevelState, int>(_levels[level].SceneIndex);
+            _game.LoadLevel(level);
 
         public override void Exit()
         {
-            Clean();
-        }
-
-        private void Clean()
-        {
+            _game.Player.Activate();
+            
             _mainMenu.OnLevelPlayPressed -= LoadLevel;
             _mainMenu = null;
         }

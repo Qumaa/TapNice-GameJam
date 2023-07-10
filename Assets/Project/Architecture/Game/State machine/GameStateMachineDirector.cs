@@ -18,7 +18,7 @@ namespace Project.Architecture
 
         public void Build(IGameStateMachine machine) =>
             machine.AddState(new MenuState(_game, machine, _sceneLoader, _levels))
-                .AddState(new LoadLevelState(_game, machine, _sceneLoader))
+                .AddState(new LoadLevelState(_game, machine, _sceneLoader, _levels))
                 .AddState(new LevelInitState(_game, machine))
                 .AddState(new GameLoopState(_game, machine));
     }

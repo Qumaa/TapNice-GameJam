@@ -7,20 +7,20 @@ namespace Project.Game
     {
         private bool _hasCollided;
         public event Action<Collision2D> OnCollided;
-        
+
+        private void FixedUpdate() =>
+            Reset();
+
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (_hasCollided)
                 return;
 
             _hasCollided = true;
-            
+
             OnCollided?.Invoke(other);
         }
-
-        private void OnCollisionExit2D() =>
-            Reset();
-
+        
         public void Reset() =>
             _hasCollided = false;
     }

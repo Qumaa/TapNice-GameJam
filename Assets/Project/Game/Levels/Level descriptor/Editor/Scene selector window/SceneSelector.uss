@@ -15,7 +15,8 @@
 }
 
 .list-group {
-    min-width: 120px;
+    flex-grow: 1;
+    flex-shrink: 0;
 }
 
 .info-group {

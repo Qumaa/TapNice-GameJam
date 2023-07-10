@@ -25,7 +25,6 @@ namespace Project.Game
 
         public void Start()
         {
-            _player.Activate();
             _player.OnJumped += StartTimeCounting;
             ResetPlayer();
             InitCollisionHandlers();
