@@ -16,7 +16,7 @@
                 <InfoLabelElement name="info-path" label-text="Asset Path" info-text="-" />
             </ui:VisualElement>
             <ui:VisualElement name="confirmation" class="confirmation-box" style="justify-content: flex-end;">
-                <ui:Button text="Comfirm" display-tooltip-when-elided="true" name="confirmation-button" />
+                <ui:Button text="Confirm" display-tooltip-when-elided="true" name="confirmation-button" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

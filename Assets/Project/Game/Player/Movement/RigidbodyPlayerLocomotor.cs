@@ -83,7 +83,6 @@ namespace Project.Game
                 return;
             
             _direction = direction;
-            Debug.Log($"Set direction to {direction}");
             UpdateHorizontalVelocity();
         }
 

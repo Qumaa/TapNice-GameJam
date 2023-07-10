@@ -28,6 +28,8 @@ namespace Project.Game
         void Bounce();
 
         void InvertDirection();
+
+        void UpdateHorizontalVelocity();
         /// <summary>
         /// This method is called whenever a level is loaded and player have to be positioned on it.
         /// </summary>

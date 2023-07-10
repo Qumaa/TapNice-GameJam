@@ -7,15 +7,20 @@
         protected static void DefaultHandling(PlayerCollisionInfo collision)
         {
             var player = collision.Player;
-            
+
             if (collision.IsOnFloor)
             {
                 player.Bounce();
                 return;
             }
 
-            player.InvertDirection();
+            if (collision.IsOnWall)
+            {
+                player.InvertDirection();
+                return;
+            }
             
+            player.UpdateHorizontalVelocity();
         }
     }
 }

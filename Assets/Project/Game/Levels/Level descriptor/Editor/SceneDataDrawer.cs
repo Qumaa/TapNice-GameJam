@@ -31,6 +31,7 @@ internal class SceneDataDrawer : PropertyDrawer
     private bool Draw(SerializedProperty idProp, SerializedProperty nameProp, Rect nameRect, Rect idRect)
     {
         var options = EditorBuildSettings.scenes
+            .Where(x => x.enabled)
             .Select(x => AssetDatabase.LoadAssetAtPath<SceneAsset>(x.path).name)
             .ToArray();
         var selected = idProp.intValue;
@@ -44,6 +45,8 @@ internal class SceneDataDrawer : PropertyDrawer
             selected = 0;
             idLabel = "-";
         }
+        
+        // todo: notify when scene is missing
 
         EditorGUI.BeginChangeCheck();
         

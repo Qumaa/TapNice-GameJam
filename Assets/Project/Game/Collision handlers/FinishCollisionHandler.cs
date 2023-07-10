@@ -9,9 +9,10 @@
             _level = level;
         }
 
-        public override void HandleCollision(PlayerCollisionInfo _)
+        public override void HandleCollision(PlayerCollisionInfo collision)
         {
-            _level.Finish();
+            if (collision.IsOnFloor)
+                _level.Finish();
         }
     }
 }

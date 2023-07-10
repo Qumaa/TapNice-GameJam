@@ -61,6 +61,9 @@ namespace Project.Game
         public void InvertDirection() =>
             Direction = Direction == PlayerDirection.Right ? PlayerDirection.Left : PlayerDirection.Right;
 
+        public void UpdateHorizontalVelocity() =>
+            _locomotor.UpdateHorizontalVelocity();
+
         private void HandleCollision(Collision2D other)
         {
             var handler = other.gameObject.GetComponent<ICollisionHandler>();
