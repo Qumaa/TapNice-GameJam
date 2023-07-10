@@ -1,9 +1,10 @@
 ﻿using System;
+using Project.Game;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Project.Game
+namespace Project.UI
 {
     public class TemporalMainMenu : MonoBehaviour, IMainMenu
     {

@@ -1,6 +1,7 @@
 using System;
+using Project.Game;
 
-namespace Project.Game
+namespace Project.UI
 {
     public interface IMainMenu
     {
