@@ -12,7 +12,6 @@ namespace Project.Architecture
         private readonly ISceneLoader _sceneLoader;
         private int _loadedLevel;
         
-        public ICameraController CameraController { get; set; }
         public IGameInputService InputService { get; set; }
         public IPlayer Player { get; set; }
         public ILevel LoadedLevel { get; set; }
