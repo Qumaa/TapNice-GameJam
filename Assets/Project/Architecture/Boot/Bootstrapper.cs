@@ -8,6 +8,7 @@ namespace Project.Architecture
     {
         [SerializeField] private PlayerConfig _playerConfig;
         [SerializeField] private GameLevelsConfig _levelsConfig;
+        [SerializeField] private UIConfig _uiConfig;
         
         private IGame _game;
 
@@ -21,7 +22,7 @@ namespace Project.Architecture
             var levels = _levelsConfig.Levels.Select(x => (ILevelDescriptor) x).ToArray();
             var applicationQuitter = new ApplicationQuitter();
 
-            _game = new Game(_playerConfig, levels, applicationQuitter);
+            _game = new Game(_playerConfig, _uiConfig, levels, applicationQuitter);
             _game.InputService = GetComponent<IGameInputService>();
             _game.Start();
         }

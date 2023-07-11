@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Project.UI
 {
-    public class FunctionalMainMenu : MonoBehaviour, IMainMenu
+    public class FunctionalMainMenu : GameUI, IMainMenu
     {
         [SerializeField] private FunctionalMainMenuButton _buttonPrefab;
         [SerializeField] private Button _quitButton;
@@ -16,6 +16,12 @@ namespace Project.UI
         public event Action<int> OnLevelPlayPressed;
         public event Action OnQuitPressed;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            _quitButton.onClick.AddListener(EmitQuitEvent);
+        }
+
         public void SetLevels(ILevelDescriptor[] levels)
         {
             _buttons = new FunctionalMainMenuButton[levels.Length];
@@ -24,23 +30,14 @@ namespace Project.UI
                 CreateLevelButton(levels[i], i);
         }
 
-        private void OnEnable()
-        {
-            _quitButton.onClick.AddListener(EmitQuitEvent);
-        }
-
-        private void OnDisable()
+        protected override void OnDelete()
         {
             _quitButton.onClick.RemoveListener(EmitQuitEvent);
+            ReleaseButtons();
         }
 
-        private void OnDestroy()
+        private void ReleaseButtons()
         {
-#if UNITY_EDITOR
-            if (_buttons == null)
-                return;
-#endif
-
             foreach (var button in _buttons)
                 button.OnPressed -= EmitLevelEvent;
         }

@@ -1,4 +1,5 @@
 ﻿using Project.Game;
+using Project.UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -9,26 +10,30 @@ namespace Project.Architecture
         private readonly PlayerConfig _playerConfig;
         private readonly IEffectsManager _effectsManager;
         private readonly IGameStateMachineDirector _machineDirector;
+        private readonly GameObject _uiRenderePrefab;
 
         public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig,
-            IEffectsManager effectsManager, IGameStateMachineDirector machineDirector) : base(game,
+            IEffectsManager effectsManager, IGameStateMachineDirector machineDirector, GameObject uiRenderePrefab) : base(game,
             stateMachine)
         {
             _playerConfig = playerConfig;
             _effectsManager = effectsManager;
             _machineDirector = machineDirector;
+            _uiRenderePrefab = uiRenderePrefab;
         }
 
         public override void Enter()
         {
             var player = CreatePlayer();
             var level = CreateLevel(player);
+            var ui = CreateUI();
 
             player.OnBounced += _effectsManager.UseEffects;
             level.OnFinished += _effectsManager.ClearEffects;
 
             _game.Player = player;
-            _game.LoadedLevel = CreateLevel(player);
+            _game.LoadedLevel = level;
+            _game.UI = ui;
 
             _machineDirector.Build(_stateMachine);
             
@@ -57,6 +62,15 @@ namespace Project.Architecture
 
         private ILevel CreateLevel(IPlayer player) =>
             new Level(new Observable<Vector2>(Physics2D.gravity), player);
+
+        private IGameUIRenderer CreateUI()
+        {
+            var obj = Object.Instantiate(_uiRenderePrefab);
+            
+            Object.DontDestroyOnLoad(obj);
+            
+            return new GameUIRenderer(obj.GetComponent<Canvas>());
+        }
 
         private void MoveNext() =>
             _stateMachine.SetState<MenuState>();

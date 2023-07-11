@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Project.Game;
+using Project.UI;
 
 namespace Project.Architecture
 {
@@ -12,12 +13,14 @@ namespace Project.Architecture
         private readonly List<IFixedUpdatable> _fixedUpdatables;
         private readonly ISceneLoader _sceneLoader;
         private int _loadedLevel;
-        
+
         public IGameInputService InputService { get; set; }
         public IPlayer Player { get; set; }
         public ILevel LoadedLevel { get; set; }
+        public IGameUIRenderer UI { get; set; }
 
-        public Game(PlayerConfig playerConfig, ILevelDescriptor[] levels, IApplicationQuitter applicationQuitter)
+        public Game(PlayerConfig playerConfig, UIConfig uiConfig, ILevelDescriptor[] levels,
+            IApplicationQuitter applicationQuitter)
         {
             _levels = levels;
             _applicationQuitter = applicationQuitter;
@@ -26,7 +29,7 @@ namespace Project.Architecture
             _sceneLoader = new SyncSceneLoader(new SceneLoadingOperationHandler());
 
             _stateMachine = new GameStateMachine();
-            InitializeStates(playerConfig, levels);
+            InitializeStates(playerConfig, uiConfig, levels);
         }
 
         public void Start() =>
@@ -42,10 +45,9 @@ namespace Project.Architecture
         {
             if (++_loadedLevel >= _levels.Length)
                 return false;
-            
+
             LoadLevel(_loadedLevel);
             return true;
-
         }
 
         public void LoadMainMenu() =>
@@ -54,11 +56,14 @@ namespace Project.Architecture
         public void Quit() =>
             _applicationQuitter.Quit();
 
-        private void InitializeStates(PlayerConfig playerConfig, ILevelDescriptor[] gameLevelsConfig)
+        private void InitializeStates(PlayerConfig playerConfig, UIConfig uiConfig, ILevelDescriptor[] gameLevelsConfig)
         {
-            var director = new GameStateMachineDirector(this, gameLevelsConfig, _sceneLoader);
+            var director = new GameStateMachineDirector(this, gameLevelsConfig, _sceneLoader, uiConfig);
 
-            _stateMachine.AddState(new BootState(this, _stateMachine, playerConfig, new EffectsManager(), director));
+            var bootState = new BootState(this, _stateMachine, playerConfig, new EffectsManager(), director,
+                uiConfig.CanvasPrefab);
+
+            _stateMachine.AddState(bootState);
         }
 
         public void Update(float timeStep)

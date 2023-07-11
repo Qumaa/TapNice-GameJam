@@ -14,9 +14,7 @@ namespace Project.Game
         public GameObject PlayerPrefab => _playerPrefab;
         public float JumpHeight => _jumpHeight;
         public float HorizontalSpeed => _horizontalSpeed;
-
         public Color PlayerDefaultColor => _playerColor;
-
         public Color PlayerCanJumpColor => _canJumpPlayerColor;
     }
 }

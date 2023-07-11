@@ -3,7 +3,7 @@ using Project.Game;
 
 namespace Project.UI
 {
-    public interface IMainMenu
+    public interface IMainMenu : IGameUI
     {
         public event Action<int> OnLevelPlayPressed;
         public event Action OnQuitPressed;

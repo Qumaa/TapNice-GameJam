@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Project.UI
 {
-    public class TemporalMainMenu : MonoBehaviour, IMainMenu
+    public class TemporalMainMenu : MonoBehaviour//, IMainMenu
     {
         [SerializeField] private Button _playButton;
         [SerializeField] private TextMeshProUGUI _buttonText;
