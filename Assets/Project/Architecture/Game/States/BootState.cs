@@ -22,14 +22,16 @@ namespace Project.Architecture
         public override void Enter()
         {
             var player = CreatePlayer();
+            var level = CreateLevel(player);
+
             player.OnBounced += _effectsManager.UseEffects;
+            level.OnFinished += _effectsManager.ClearEffects;
 
             _game.Player = player;
+            _game.LoadedLevel = CreateLevel(player);
 
             _machineDirector.Build(_stateMachine);
-
-            _game.LoadedLevel.OnFinished += _ => _effectsManager.ClearEffects();
-
+            
             MoveNext();
         }
 
@@ -52,6 +54,9 @@ namespace Project.Architecture
 
             return player;
         }
+
+        private ILevel CreateLevel(IPlayer player) =>
+            new Level(new Observable<Vector2>(Physics2D.gravity), player);
 
         private void MoveNext() =>
             _stateMachine.SetState<MenuState>();

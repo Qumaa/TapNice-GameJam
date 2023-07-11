@@ -8,7 +8,7 @@
 
         public override void Enter()
         {
-            _game.LoadedLevel.OnFinished += HandleLevelFinish;
+            _game.LoadedLevel.OnFinishedWithTime += HandleLevelFinish;
         }
 
         private void HandleLevelFinish(float time)
@@ -18,7 +18,7 @@
 
         public override void Exit()
         {
-            _game.LoadedLevel.OnFinished -= HandleLevelFinish;
+            _game.LoadedLevel.OnFinishedWithTime -= HandleLevelFinish;
         }
 
         private void LoadNextLevelOrMainMenu()

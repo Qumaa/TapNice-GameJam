@@ -10,7 +10,9 @@ namespace Project.Game
         /// <summary>
         /// Float argument is <see cref="TimeElapsed"/>.
         /// </summary>
-        public event Action<float> OnFinished;
+        public event Action<float> OnFinishedWithTime;
+
+        event Action OnFinished;
 
         /// <summary>
         /// Call this method when a scene is loaded and level needs to be initialized.

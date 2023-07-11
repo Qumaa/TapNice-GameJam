@@ -12,7 +12,8 @@ namespace Project.Game
         
         public IObservable<Vector2> Gravity { get; }
         public float TimeElapsed => (float) (GetGameTime() - _startTime);
-        public event Action<float> OnFinished;
+        public event Action<float> OnFinishedWithTime;
+        public event Action OnFinished;
 
         public Level(IObservable<Vector2> gravity, IPlayer player)
         {
@@ -33,7 +34,8 @@ namespace Project.Game
         public void Finish()
         {
             ResetPlayer();
-            OnFinished?.Invoke(TimeElapsed);
+            OnFinished?.Invoke();
+            OnFinishedWithTime?.Invoke(TimeElapsed);
         }
 
         private void StartTimeCounting()
