@@ -5,6 +5,7 @@ namespace Project.Architecture
 {
     public class Game : IGame
     {
+        private readonly IApplicationQuitter _applicationQuitter;
         private readonly ILevelDescriptor[] _levels;
         private readonly IGameStateMachine _stateMachine;
         private readonly List<IUpdatable> _updatables;
@@ -16,9 +17,10 @@ namespace Project.Architecture
         public IPlayer Player { get; set; }
         public ILevel LoadedLevel { get; set; }
 
-        public Game(PlayerConfig playerConfig, ILevelDescriptor[] levels)
+        public Game(PlayerConfig playerConfig, ILevelDescriptor[] levels, IApplicationQuitter applicationQuitter)
         {
             _levels = levels;
+            _applicationQuitter = applicationQuitter;
             _updatables = new List<IUpdatable>();
             _fixedUpdatables = new List<IFixedUpdatable>();
             _sceneLoader = new SyncSceneLoader(new SceneLoadingOperationHandler());
@@ -48,6 +50,9 @@ namespace Project.Architecture
 
         public void LoadMainMenu() =>
             _stateMachine.SetState<MenuState>();
+
+        public void Quit() =>
+            _applicationQuitter.Quit();
 
         private void InitializeStates(PlayerConfig playerConfig, ILevelDescriptor[] gameLevelsConfig)
         {

@@ -19,8 +19,9 @@ namespace Project.Architecture
         private void Start()
         {
             var levels = _levelsConfig.Levels.Select(x => (ILevelDescriptor) x).ToArray();
-            
-            _game = new Game(_playerConfig, levels);
+            var applicationQuitter = new ApplicationQuitter();
+
+            _game = new Game(_playerConfig, levels, applicationQuitter);
             _game.InputService = GetComponent<IGameInputService>();
             _game.Start();
         }

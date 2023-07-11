@@ -558,6 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buttonPrefab: {fileID: -4827333692507960964, guid: 13fd321d4ac10ae4aad7b7752dc257f0, type: 3}
+  _quitButton: {fileID: 2798035211394673511}
   _buttonsParent: {fileID: 1939438492937122460}
 --- !u!1 &5704468001672740952
 GameObject:
@@ -762,6 +763,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
+--- !u!114 &2798035211394673511 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3013729201115581736, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
+  m_PrefabInstance: {fileID: 1082680916037445199}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6824211185860881204 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5886771392451284347, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}

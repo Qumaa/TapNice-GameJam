@@ -20,6 +20,8 @@ namespace Project.UI
             _buttonText.text = text;
 
         public event Action<int> OnLevelPlayPressed;
+        public event Action OnQuitPressed;
+
         public void SetLevels(ILevelDescriptor[] levels) =>
             SetButtonText(levels[0].LevelName);
     }

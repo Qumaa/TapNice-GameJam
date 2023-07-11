@@ -15,5 +15,6 @@ namespace Project.Architecture
         bool LoadNextLevel();
 
         void LoadMainMenu();
+        void Quit();
     }
 }

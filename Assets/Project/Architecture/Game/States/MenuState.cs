@@ -29,6 +29,7 @@ namespace Project.Architecture
             _mainMenu = GameObject.FindGameObjectWithTag(Tags.MAIN_MENU).GetComponent<IMainMenu>();
             _mainMenu.SetLevels(_levels);
 
+            _mainMenu.OnQuitPressed += _game.Quit;
             _mainMenu.OnLevelPlayPressed += LoadLevel;
         }
 
@@ -38,7 +39,8 @@ namespace Project.Architecture
         public override void Exit()
         {
             _game.Player.Activate();
-            
+
+            _mainMenu.OnQuitPressed -= _game.Quit;
             _mainMenu.OnLevelPlayPressed -= LoadLevel;
             _mainMenu = null;
         }
