@@ -13,16 +13,27 @@ namespace Project.Game
 
         public void UseEffects()
         {
+            foreach (var effect in AllEffects())
+                if (!effect.GetUseCounter().Use())
+                    ExpireEffect(effect);
+        }
+
+        public void ClearEffects()
+        {
+            foreach (var effect in AllEffects())
+                ExpireEffect(effect);
+        }
+
+        private void ExpireEffect(IEffect effect)
+        {
+            effect.Expire();
+            _effects.Remove(effect);
+        }
+
+        private IEnumerable<IEffect> AllEffects()
+        {
             for (var i = _effects.Count - 1; i >= 0; i--)
-            {
-                var effect = _effects[i];
-                
-                if (effect.GetUseCounter().Use())
-                    continue;
-                
-                effect.Expire();
-                _effects.Remove(effect);
-            }
+                yield return _effects[i];
         }
     }
 }

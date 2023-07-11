@@ -28,6 +28,8 @@ namespace Project.Architecture
 
             _machineDirector.Build(_stateMachine);
 
+            _game.LoadedLevel.OnFinished += _ => _effectsManager.ClearEffects();
+
             MoveNext();
         }
 

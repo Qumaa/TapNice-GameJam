@@ -4,5 +4,6 @@ namespace Project.Game
     {
         void AddEffect(IEffect effect);
         void UseEffects();
+        void ClearEffects();
     }
 }
