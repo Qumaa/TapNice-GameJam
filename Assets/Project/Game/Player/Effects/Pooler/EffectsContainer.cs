@@ -18,7 +18,9 @@ namespace Project.Game
         {
             if (!_pooler.TryPop(out var effect))
                 effect = _factory();
-
+            else
+                effect.Reuse();
+            
             effect.OnExpired += HandleExpired;
             return effect;
         }

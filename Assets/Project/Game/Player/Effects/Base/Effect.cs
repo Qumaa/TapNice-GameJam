@@ -22,12 +22,9 @@ namespace Project.Game
 
         public IEffectUseCounter GetUseCounter() =>
             _useCounter ??= CreateUseCounter();
-
-        public bool CanReuse() =>
-            !GetUseCounter().CanUse();
-
+        
         public void Reuse() =>
-            _useCounter.Reset();
+            GetUseCounter().Reset();
 
         protected abstract IEffectUseCounter CreateUseCounter();
     }

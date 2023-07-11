@@ -7,7 +7,6 @@ namespace Project.Game
         event Action<IEffect> OnExpired; 
         void Expire();
         IEffectUseCounter GetUseCounter();
-        bool CanReuse();
         void Reuse();
     }
 }
