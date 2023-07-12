@@ -21,6 +21,6 @@
         }
 
         private static ScalePlayerEffect EffectFactory() =>
-            new(1, 2);
+            new(0, 2);
     }
 }

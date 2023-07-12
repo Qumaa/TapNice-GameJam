@@ -12,7 +12,6 @@ namespace Project.Architecture
         private readonly List<IUpdatable> _updatables;
         private readonly List<IFixedUpdatable> _fixedUpdatables;
         private readonly ISceneLoader _sceneLoader;
-        private int _loadedLevel;
 
         public IGameInputService InputService { get; set; }
         public IPlayer Player { get; set; }
@@ -35,30 +34,12 @@ namespace Project.Architecture
         public void Start() =>
             _stateMachine.SetState<BootState>();
 
-        public void LoadLevel(int index)
-        {
-            _loadedLevel = index;
-            _stateMachine.SetState<LoadLevelState, int>(_loadedLevel);
-        }
-
-        public bool LoadNextLevel()
-        {
-            if (++_loadedLevel >= _levels.Length)
-                return false;
-
-            LoadLevel(_loadedLevel);
-            return true;
-        }
-
-        public void LoadMainMenu() =>
-            _stateMachine.SetState<MenuState>();
-
         public void Quit() =>
             _applicationQuitter.Quit();
 
-        private void InitializeStates(PlayerConfig playerConfig, UIConfig uiConfig, ILevelDescriptor[] gameLevelsConfig)
+        private void InitializeStates(PlayerConfig playerConfig, UIConfig uiConfig, ILevelDescriptor[] gameLevels)
         {
-            var director = new GameStateMachineDirector(this, gameLevelsConfig, _sceneLoader, uiConfig);
+            var director = new GameStateMachineDirector(this, gameLevels, _sceneLoader, uiConfig, new NextLevelResolver(gameLevels.Length));
 
             var bootState = new BootState(this, _stateMachine, playerConfig, new EffectsManager(), director,
                 uiConfig.CanvasPrefab);

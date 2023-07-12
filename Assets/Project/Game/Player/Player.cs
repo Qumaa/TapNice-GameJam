@@ -47,15 +47,15 @@ namespace Project.Game
 
         public void Jump()
         {
-            OnJumped?.Invoke();
             _jumpStrategy();
+            OnJumped?.Invoke();
         }
 
         public void Bounce()
         {
-            OnBounced?.Invoke();
             _locomotor.Jump();
             CanJump = true;
+            OnBounced?.Invoke();
         }
 
         public void InvertDirection() =>

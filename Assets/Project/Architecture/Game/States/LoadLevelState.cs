@@ -2,21 +2,26 @@
 
 namespace Project.Architecture
 {
-    public class LoadLevelState : ExitableGameState, IEnterableGameState<int>
+    public class LoadLevelState : GameState<int>
     {
         private readonly ISceneLoader _sceneLoader;
         private readonly ILevelDescriptor[] _levels;
+        private readonly INextLevelResolver _nextLevelResolver;
 
         public LoadLevelState(IGame game, IGameStateMachine stateMachine, ISceneLoader sceneLoader,
-            ILevelDescriptor[] levels) :
+            ILevelDescriptor[] levels, INextLevelResolver nextLevelResolver) :
             base(game, stateMachine)
         {
             _sceneLoader = sceneLoader;
             _levels = levels;
+            _nextLevelResolver = nextLevelResolver;
         }
 
-        public void Enter(int levelIndex) =>
+        public override void Enter(int levelIndex)
+        {
+            _nextLevelResolver.SetLevel(levelIndex);
             _sceneLoader.LoadSceneHandled(LevelIndexToScene(levelIndex), MoveNext);
+        }
 
         public override void Exit()
         {

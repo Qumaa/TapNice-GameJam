@@ -10,16 +10,16 @@ namespace Project.Architecture
         private readonly PlayerConfig _playerConfig;
         private readonly IEffectsManager _effectsManager;
         private readonly IGameStateMachineDirector _machineDirector;
-        private readonly GameObject _uiRenderePrefab;
+        private readonly GameObject _uiRendererPrefab;
 
         public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig,
-            IEffectsManager effectsManager, IGameStateMachineDirector machineDirector, GameObject uiRenderePrefab) : base(game,
+            IEffectsManager effectsManager, IGameStateMachineDirector machineDirector, GameObject uiRendererPrefab) : base(game,
             stateMachine)
         {
             _playerConfig = playerConfig;
             _effectsManager = effectsManager;
             _machineDirector = machineDirector;
-            _uiRenderePrefab = uiRenderePrefab;
+            _uiRendererPrefab = uiRendererPrefab;
         }
 
         public override void Enter()
@@ -65,7 +65,7 @@ namespace Project.Architecture
 
         private IGameUIRenderer CreateUI()
         {
-            var obj = Object.Instantiate(_uiRenderePrefab);
+            var obj = Object.Instantiate(_uiRendererPrefab);
             
             Object.DontDestroyOnLoad(obj);
             
