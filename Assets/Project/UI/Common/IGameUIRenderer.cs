@@ -2,7 +2,7 @@
 
 namespace Project.UI
 {
-    public interface IGameUIRenderer : IInstanceContainer<IGameUI>
+    public interface IGameUIRenderer : ISingleContainer<IGameUI>
     {
         void SetCamera(Camera camera);
     }
