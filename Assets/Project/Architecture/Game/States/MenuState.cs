@@ -25,7 +25,8 @@ namespace Project.Architecture
         public override void Enter()
         {
             _game.Player.Deactivate();
-            _sceneLoader.LoadSceneHandled(1, InitMenu);
+            UnloadGameUI();
+            _sceneLoader.LoadSceneHandled(1, LoadMainMenu);
         }
 
         public override void Exit()
@@ -33,11 +34,7 @@ namespace Project.Architecture
             _game.Player.Activate();
 
             UnloadMainMenu();
-        }
-
-        private void InitMenu()
-        {
-            LoadMainMenu();
+            LoadGameUI();
         }
 
         private void LoadLevel(int level) =>
@@ -64,12 +61,14 @@ namespace Project.Architecture
 
         private void LoadGameUI()
         {
-            // todo:
+            var gameUi = CreateMenu<IGameplayUI>(_gameUiPrefab);
+            _game.UI.Add(gameUi);
         }
 
         private void UnloadGameUI()
         {
-            // todo:
+            if (_game.UI.Contains<IGameplayUI>())
+                _game.UI.Remove<IGameplayUI>();
         }
 
         private static T CreateMenu<T>(GameObject prefab) =>

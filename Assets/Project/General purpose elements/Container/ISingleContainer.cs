@@ -5,6 +5,7 @@
         void Add<T>(T item) where T : TItem;
         T Get<T>() where T : TItem;
         void Remove<T>() where T : TItem;
+        bool Contains<T>() where T : TItem;
     }
 
     public static class SingleContainerExtensions

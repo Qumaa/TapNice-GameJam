@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2636491805574273267}
+  - component: {fileID: -3468923969382282185}
   m_Layer: 5
   m_Name: Gameplay UI
   m_TagString: Main menu container
@@ -38,6 +39,20 @@ RectTransform:
   m_AnchoredPosition: {x: 540, y: 960}
   m_SizeDelta: {x: 1080, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &-3468923969382282185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2636491805574273263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55de325fa26b487db4be8cb9a2001077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pauseButton: {fileID: 7536497059635277991}
+  _timeLabel: {fileID: 362930108318713116}
 --- !u!1 &4234421865435901716
 GameObject:
   m_ObjectHideFlags: 0
