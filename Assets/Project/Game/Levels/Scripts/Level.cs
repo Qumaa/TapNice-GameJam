@@ -9,9 +9,11 @@ namespace Project.Game
         private readonly ICollisionHandler[] _handlersTable;
         private readonly IPlayer _player;
         private double _startTime;
-        
+        private float _timeElapsedCached;
+        private Func<float> _elapsedTimeStrategy;
+
         public IObservable<Vector2> Gravity { get; }
-        public float TimeElapsed => (float) (GetGameTime() - _startTime);
+        public float TimeElapsed => _elapsedTimeStrategy();
         public event Action<float> OnFinishedWithTime;
         public event Action OnFinished;
 
@@ -26,14 +28,18 @@ namespace Project.Game
 
         public void Start()
         {
+            _timeElapsedCached = 0;
             _player.OnJumped += StartTimeCounting;
             ResetPlayer();
             InitCollisionHandlers();
+            _elapsedTimeStrategy = CachedTimeStrategy;
         }
 
         public void Finish()
         {
-            ResetPlayer();
+            _timeElapsedCached = TimeElapsed;
+            _elapsedTimeStrategy = CachedTimeStrategy;
+            
             OnFinished?.Invoke();
             OnFinishedWithTime?.Invoke(TimeElapsed);
         }
@@ -42,6 +48,7 @@ namespace Project.Game
         {
             _player.OnJumped -= StartTimeCounting;
             _startTime = GetGameTime();
+            _elapsedTimeStrategy = CalculateTimeStrategy;
         }
 
         private void InitCollisionHandlers()
@@ -79,5 +86,11 @@ namespace Project.Game
 
         private static double GetGameTime() =>
             Time.timeSinceLevelLoadAsDouble;
+
+        private float CachedTimeStrategy() =>
+            _timeElapsedCached;
+
+        private float CalculateTimeStrategy() =>
+            (float) (GetGameTime() - _startTime);
     }
 }
