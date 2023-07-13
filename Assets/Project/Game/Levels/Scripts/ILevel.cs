@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project.Game
 {
-    public interface ILevel
+    public interface ILevel : IResettable
     {
         IObservable<Vector2> Gravity { get; }
         float TimeElapsed { get; }

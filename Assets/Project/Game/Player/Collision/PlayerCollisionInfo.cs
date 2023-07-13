@@ -27,6 +27,7 @@ namespace Project.Game
             IsOnWall = !IsOnFloor && !IsInTheSameDirection(NormalizedNormal, -up);
         }
 
+        // todo: use difference between player's position and contact point instead
         private static Vector2 CalculateNormal(ContactPoint2D[] contacts) =>
             contacts.Length switch
             {

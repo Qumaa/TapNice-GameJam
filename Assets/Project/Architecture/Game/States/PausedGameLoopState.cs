@@ -17,6 +17,8 @@ namespace Project.Architecture
             _pauseUI.OnResumePressed += HandleResumePress;
             _pauseUI.OnRestartPressed += HandleRestartPress;
             _pauseUI.OnQuitLevelPressed += HandleQuitLevelPress;
+            
+            _game.Pause();
         }
 
         public override void Exit()
@@ -26,21 +28,17 @@ namespace Project.Architecture
             _pauseUI.OnResumePressed -= HandleResumePress;
             _pauseUI.OnRestartPressed -= HandleRestartPress;
             _pauseUI.OnQuitLevelPressed -= HandleQuitLevelPress;
+            
+            _game.Resume();
         }
 
-        private void HandleResumePress()
-        {
-            Debug.Log("resume pressed");
-        }
+        private void HandleResumePress() =>
+            _stateMachine.SetState<GameLoopState>();
 
-        private void HandleRestartPress()
-        {
-            Debug.Log("restart pressed");
-        }
+        private void HandleRestartPress() =>
+            _stateMachine.SetState<RestartLevelState>();
 
-        private void HandleQuitLevelPress()
-        {
-            Debug.Log("quit level pressed");
-        }
+        private void HandleQuitLevelPress() =>
+            _stateMachine.SetState<KillGameLoopState>();
     }
 }

@@ -28,11 +28,10 @@ namespace Project.Game
 
         public void Start()
         {
-            _timeElapsedCached = 0;
             _player.OnJumped += StartTimeCounting;
-            ResetPlayer();
             InitCollisionHandlers();
-            _elapsedTimeStrategy = CachedTimeStrategy;
+            
+            Reset();
         }
 
         public void Finish()
@@ -42,6 +41,13 @@ namespace Project.Game
             
             OnFinished?.Invoke();
             OnFinishedWithTime?.Invoke(TimeElapsed);
+        }
+
+        public void Reset()
+        {
+            _timeElapsedCached = 0;
+            ResetPlayer();
+            _elapsedTimeStrategy = CachedTimeStrategy;
         }
 
         private void StartTimeCounting()

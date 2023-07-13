@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Project.Game;
 using Project.UI;
+using UnityEngine;
 
 namespace Project.Architecture
 {
@@ -70,5 +71,11 @@ namespace Project.Architecture
 
         public void Remove(IFixedUpdatable item) =>
             _fixedUpdatables.Remove(item);
+
+        public void Pause() =>
+            Time.timeScale = 0;
+
+        public void Resume() =>
+            Time.timeScale = 1;
     }
 }

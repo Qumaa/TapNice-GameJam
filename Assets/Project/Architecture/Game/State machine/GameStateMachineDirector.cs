@@ -27,6 +27,7 @@ namespace Project.Architecture
                 .AddState(new GameLoopState(_game, machine, _nextLevelResolver))
                 .AddState(new InitGameLoopState(_game, machine, _uiConfig.GameUiPrefab, _uiConfig.PauseUiPrefab))
                 .AddState(new KillGameLoopState(_game, machine))
-                .AddState(new PausedGameLoopState(_game, machine));
+                .AddState(new PausedGameLoopState(_game, machine))
+                .AddState(new RestartLevelState(_game, machine));
     }
 }
