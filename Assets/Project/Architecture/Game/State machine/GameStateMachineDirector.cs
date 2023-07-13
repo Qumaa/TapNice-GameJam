@@ -2,7 +2,7 @@
 
 namespace Project.Architecture
 {
-    public readonly struct GameStateMachineDirector : IGameStateMachineDirector
+    public record GameStateMachineDirector : IGameStateMachineDirector
     {
         private readonly IGame _game;
         private readonly ILevelDescriptor[] _levels;

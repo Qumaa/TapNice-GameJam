@@ -1,19 +1,19 @@
 ﻿using Project.Game;
 using Project.UI;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Project.Architecture
 {
     public class BootState : GameState
     {
-        private readonly PlayerConfig _playerConfig;
         private readonly IEffectsManager _effectsManager;
-        private readonly IGameStateMachineDirector _machineDirector;
+        private readonly PlayerConfig _playerConfig;
         private readonly GameObject _uiRendererPrefab;
+        private IGameStateMachineDirector _machineDirector;
 
         public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig,
-            IEffectsManager effectsManager, IGameStateMachineDirector machineDirector, GameObject uiRendererPrefab) : base(game,
+            IEffectsManager effectsManager, IGameStateMachineDirector machineDirector,
+            GameObject uiRendererPrefab) : base(game,
             stateMachine)
         {
             _playerConfig = playerConfig;
@@ -36,13 +36,13 @@ namespace Project.Architecture
             _game.UI = ui;
 
             _machineDirector.Build(_stateMachine);
-            
+
+            _machineDirector = null;
+
             MoveNext();
         }
 
-        public override void Exit()
-        {
-        }
+        public override void Exit() { }
 
         private IPlayer CreatePlayer()
         {
@@ -66,9 +66,9 @@ namespace Project.Architecture
         private IGameUIRenderer CreateUI()
         {
             var obj = Object.Instantiate(_uiRendererPrefab);
-            
+
             Object.DontDestroyOnLoad(obj);
-            
+
             return new GameUIRenderer(obj.GetComponent<Canvas>());
         }
 
