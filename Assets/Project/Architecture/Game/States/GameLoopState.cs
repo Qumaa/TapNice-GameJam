@@ -1,6 +1,5 @@
 ﻿using Project.Game;
 using Project.UI;
-using UnityEngine;
 
 namespace Project.Architecture
 {
@@ -38,10 +37,8 @@ namespace Project.Architecture
             LoadNextLevelOrMainMenu();
         }
 
-        private void HandlePausePress()
-        {
-            Debug.Log("pause pressed");
-        }
+        private void HandlePausePress() =>
+            _stateMachine.SetState<PausedGameLoopState>();
 
         private void LoadNextLevelOrMainMenu()
         {

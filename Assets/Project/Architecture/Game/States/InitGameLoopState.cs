@@ -27,7 +27,7 @@ namespace Project.Architecture
         private void CreateUI()
         {
             _game.UI.Add(UIFactory<IGameplayUI>(_gameplayUiPrefab));
-            _game.UI.Add(UIFactory<IGameplayPauseUI>(_pauseUiPrefab));
+            _game.UI.Add(UIFactory<IGameplayPauseUI>(_pauseUiPrefab).HideFluent());
         }
 
         public override void Exit() { }

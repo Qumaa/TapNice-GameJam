@@ -35,8 +35,5 @@ namespace Project.UI
             _uis.Remove(typeof(T), out var ui);
             ui.Delete();
         }
-
-        public bool Contains<T>() where T : IGameUI =>
-            _uis.ContainsKey(typeof(T));
     }
 }

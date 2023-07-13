@@ -4,13 +4,13 @@ namespace Project.UI
 {
     public abstract class GameUI : MonoBehaviour, IGameUI
     {
-        private RectTransform _transform;
+        protected RectTransform _transform { get; private set; }
 
         protected virtual void Awake()
         {
             _transform = (RectTransform) transform;
         }
-        
+
         public void SetCanvas(Canvas canvas) =>
             _transform.SetParent(canvas.transform, false);
 
