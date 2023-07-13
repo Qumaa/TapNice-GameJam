@@ -8,9 +8,11 @@ namespace Project.Game
         [SerializeField] private GameObject _canvasPrefab;
         [SerializeField] private GameObject _menuUiPrefab;
         [SerializeField] private GameObject _gameUiPrefab;
+        [SerializeField] private GameObject _pauseUiPrefab;
 
         public GameObject CanvasPrefab => _canvasPrefab;
         public GameObject MenuUiPrefab => _menuUiPrefab;
         public GameObject GameUiPrefab => _gameUiPrefab;
+        public GameObject PauseUiPrefab => _pauseUiPrefab;
     }
 }

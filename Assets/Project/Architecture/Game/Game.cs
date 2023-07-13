@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Project.Game;
 using Project.UI;
+using UnityEngine;
 
 namespace Project.Architecture
 {
@@ -42,7 +43,7 @@ namespace Project.Architecture
             var director = new GameStateMachineDirector(this, gameLevels, _sceneLoader, uiConfig, new NextLevelResolver(gameLevels.Length));
 
             var bootState = new BootState(this, _stateMachine, playerConfig, new EffectsManager(), director,
-                uiConfig.CanvasPrefab);
+                uiConfig.CanvasPrefab, _sceneLoader);
 
             _stateMachine.AddState(bootState);
         }
@@ -70,5 +71,11 @@ namespace Project.Architecture
 
         public void Remove(IFixedUpdatable item) =>
             _fixedUpdatables.Remove(item);
+
+        public void Pause() =>
+            Time.timeScale = 0;
+
+        public void Resume() =>
+            Time.timeScale = 1;
     }
 }

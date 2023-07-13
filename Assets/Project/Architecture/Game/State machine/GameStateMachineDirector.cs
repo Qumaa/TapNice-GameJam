@@ -2,7 +2,7 @@
 
 namespace Project.Architecture
 {
-    public readonly struct GameStateMachineDirector : IGameStateMachineDirector
+    public record GameStateMachineDirector : IGameStateMachineDirector
     {
         private readonly IGame _game;
         private readonly ILevelDescriptor[] _levels;
@@ -25,7 +25,9 @@ namespace Project.Architecture
                 .AddState(new LoadLevelState(_game, machine, _sceneLoader, _levels, _nextLevelResolver))
                 .AddState(new LevelInitState(_game, machine))
                 .AddState(new GameLoopState(_game, machine, _nextLevelResolver))
-                .AddState(new InitGameLoopState(_game, machine, _uiConfig.GameUiPrefab))
-                .AddState(new KillGameLoopState(_game, machine));
+                .AddState(new InitGameLoopState(_game, machine, _uiConfig.GameUiPrefab, _uiConfig.PauseUiPrefab))
+                .AddState(new KillGameLoopState(_game, machine))
+                .AddState(new PausedGameLoopState(_game, machine))
+                .AddState(new RestartLevelState(_game, machine));
     }
 }

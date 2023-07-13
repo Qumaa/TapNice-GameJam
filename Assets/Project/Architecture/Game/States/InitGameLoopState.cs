@@ -5,11 +5,14 @@ namespace Project.Architecture
 {
     public class InitGameLoopState : GameState<int>
     {
-        private readonly GameObject _uiPrefab;
+        private readonly GameObject _gameplayUiPrefab;
+        private readonly GameObject _pauseUiPrefab;
 
-        public InitGameLoopState(IGame game, IGameStateMachine stateMachine, GameObject uiPrefab) : base(game, stateMachine)
+        public InitGameLoopState(IGame game, IGameStateMachine stateMachine, GameObject gameplayUiPrefab,
+            GameObject pauseUiPrefab) : base(game, stateMachine)
         {
-            _uiPrefab = uiPrefab;
+            _gameplayUiPrefab = gameplayUiPrefab;
+            _pauseUiPrefab = pauseUiPrefab;
         }
 
         public override void Enter(int arg)
@@ -23,10 +26,13 @@ namespace Project.Architecture
 
         private void CreateUI()
         {
-            var gameplayUI = Object.Instantiate(_uiPrefab).GetComponent<IGameplayUI>();
-            _game.UI.Add(gameplayUI);
+            _game.UI.Add(UIFactory<IGameplayUI>(_gameplayUiPrefab));
+            _game.UI.Add(UIFactory<IGameplayPauseUI>(_pauseUiPrefab).HideFluent());
         }
 
         public override void Exit() { }
+
+        private static T UIFactory<T>(GameObject prefab) where T : IGameUI =>
+            Object.Instantiate(prefab).GetComponent<T>();
     }
 }

@@ -15,3 +15,4 @@ MonoBehaviour:
   _canvasPrefab: {fileID: 9056799725589265888, guid: 5dcff909ddd4a014bb7e0f9d61aad231, type: 3}
   _menuUiPrefab: {fileID: 5704468001667705106, guid: 2b78d4a44a1b29d44847a8c1217c8ffa, type: 3}
   _gameUiPrefab: {fileID: 2636491805574273263, guid: 4d34c5c9d70d2434e9d8f0992e983972, type: 3}
+  _pauseUiPrefab: {fileID: 3915861522260277348, guid: ba44f4d0b7372a749a3f156636e9058a, type: 3}

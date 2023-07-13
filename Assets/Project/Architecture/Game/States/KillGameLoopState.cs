@@ -9,6 +9,7 @@ namespace Project.Architecture
         public override void Enter()
         {
             _game.UI.Remove<IGameplayUI>();
+            _game.UI.Remove<IGameplayPauseUI>();
             _stateMachine.SetState<MenuState>();
         }
 
