@@ -42,7 +42,7 @@ namespace Project.Architecture
             var director = new GameStateMachineDirector(this, gameLevels, _sceneLoader, uiConfig, new NextLevelResolver(gameLevels.Length));
 
             var bootState = new BootState(this, _stateMachine, playerConfig, new EffectsManager(), director,
-                uiConfig.CanvasPrefab);
+                uiConfig.CanvasPrefab, _sceneLoader);
 
             _stateMachine.AddState(bootState);
         }

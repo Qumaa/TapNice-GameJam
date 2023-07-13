@@ -8,18 +8,20 @@ namespace Project.Architecture
     {
         private readonly IEffectsManager _effectsManager;
         private readonly PlayerConfig _playerConfig;
-        private readonly GameObject _uiRendererPrefab;
         private IGameStateMachineDirector _machineDirector;
+        private readonly GameObject _uiRendererPrefab;
+        private readonly ISceneLoader _sceneLoader;
 
         public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig,
             IEffectsManager effectsManager, IGameStateMachineDirector machineDirector,
-            GameObject uiRendererPrefab) : base(game,
+            GameObject uiRendererPrefab, ISceneLoader sceneLoader) : base(game,
             stateMachine)
         {
             _playerConfig = playerConfig;
             _effectsManager = effectsManager;
             _machineDirector = machineDirector;
             _uiRendererPrefab = uiRendererPrefab;
+            _sceneLoader = sceneLoader;
         }
 
         public override void Enter()
@@ -30,13 +32,13 @@ namespace Project.Architecture
 
             player.OnBounced += _effectsManager.UseEffects;
             level.OnFinished += _effectsManager.ClearEffects;
+            _sceneLoader.OnNewSceneLoaded += () => ui.SetCamera(Camera.main);
 
             _game.Player = player;
             _game.LoadedLevel = level;
             _game.UI = ui;
 
             _machineDirector.Build(_stateMachine);
-
             _machineDirector = null;
 
             MoveNext();
@@ -69,7 +71,9 @@ namespace Project.Architecture
 
             Object.DontDestroyOnLoad(obj);
 
-            return new GameUIRenderer(obj.GetComponent<Canvas>());
+            var gameUIRenderer = new GameUIRenderer(obj.GetComponent<Canvas>());
+            
+            return gameUIRenderer;
         }
 
         private void MoveNext() =>
