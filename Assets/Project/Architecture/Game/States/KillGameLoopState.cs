@@ -2,9 +2,9 @@
 
 namespace Project.Architecture
 {
-    public class KillGameState : GameState
+    public class KillGameLoopState : GameState
     {
-        public KillGameState(IGame game, IGameStateMachine stateMachine) : base(game, stateMachine) { }
+        public KillGameLoopState(IGame game, IGameStateMachine stateMachine) : base(game, stateMachine) { }
 
         public override void Enter()
         {

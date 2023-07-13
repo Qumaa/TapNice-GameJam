@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Project.Architecture
 {
-    public class InitGameState : GameState<int>
+    public class InitGameLoopState : GameState<int>
     {
         private readonly GameObject _uiPrefab;
 
-        public InitGameState(IGame game, IGameStateMachine stateMachine, GameObject uiPrefab) : base(game, stateMachine)
+        public InitGameLoopState(IGame game, IGameStateMachine stateMachine, GameObject uiPrefab) : base(game, stateMachine)
         {
             _uiPrefab = uiPrefab;
         }

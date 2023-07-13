@@ -1,5 +1,6 @@
 ﻿using Project.Game;
 using Project.UI;
+using UnityEngine;
 
 namespace Project.Architecture
 {
@@ -18,19 +19,28 @@ namespace Project.Architecture
         public override void Enter()
         {
             _game.LoadedLevel.OnFinished += HandleLevelFinish;
-            _uiUpdater.Target = _game.UI.Get<IGameplayUI>();
+
+            var ui = _game.UI.Get<IGameplayUI>();
+            ui.OnPausePressed += HandlePausePress;
+            _uiUpdater.Target = ui;
             _game.Add(_uiUpdater);
         }
 
         public override void Exit()
         {
             _game.LoadedLevel.OnFinished -= HandleLevelFinish;
+            _game.UI.Get<IGameplayUI>().OnPausePressed -= HandlePausePress;
         }
 
         private void HandleLevelFinish()
         {
             _game.Remove(_uiUpdater);
             LoadNextLevelOrMainMenu();
+        }
+
+        private void HandlePausePress()
+        {
+            Debug.Log("pause pressed");
         }
 
         private void LoadNextLevelOrMainMenu()
@@ -41,7 +51,7 @@ namespace Project.Architecture
                 return;
             }
 
-            _stateMachine.SetState<KillGameState>();
+            _stateMachine.SetState<KillGameLoopState>();
         }
         
         private class UIUpdater : IUpdatable

@@ -34,7 +34,7 @@ namespace Project.Architecture
         }
 
         private void LoadLevel(int level) =>
-            _stateMachine.SetState<InitGameState, int>(level);
+            _stateMachine.SetState<InitGameLoopState, int>(level);
 
         private void LoadMainMenu()
         {
