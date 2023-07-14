@@ -57,7 +57,9 @@ namespace Project.Architecture
             var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
                 _playerConfig.PlayerCanJumpColor);
 
-            var player = new Player(playerLocomotor, colors, _game.InputService, collisionDetector);
+            IPlayerTrail trail = null; // todo:
+
+            var player = new Player(playerLocomotor, colors, _game.InputService, collisionDetector, trail);
 
             return player;
         }
