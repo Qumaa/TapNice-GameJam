@@ -16,10 +16,12 @@ namespace Project
             _active = new List<T>();
         }
 
+        public Container(IFactory<T> factory) : this(factory.CreateNew) { }
+
         public IEnumerable<T> Active => _active;
         public IEnumerable<T> Pooled => _pool;
         public IEnumerable<T> All => LoopThroughAll();
-        
+
         public event Action<T> OnItemCreated;
         public event Action<T> OnItemReleased;
         public event Action<T> OnItemPooled;

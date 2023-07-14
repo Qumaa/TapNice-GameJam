@@ -17,3 +17,5 @@ MonoBehaviour:
   _horizontalSpeed: 4
   _playerColor: {r: 1, g: 1, b: 1, a: 1}
   _canJumpPlayerColor: {r: 0.22352941, g: 0.6666667, b: 0.85882354, a: 1}
+  _trailPrefab: {fileID: 5835964277855697103, guid: c296cd6cb1ca647449757f91c8a6752b, type: 3}
+  _trailTime: 2

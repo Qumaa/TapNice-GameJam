@@ -8,9 +8,9 @@ namespace Project.Architecture
     {
         private readonly IEffectsManager _effectsManager;
         private readonly PlayerConfig _playerConfig;
-        private IGameStateMachineDirector _machineDirector;
-        private readonly GameObject _uiRendererPrefab;
         private readonly ISceneLoader _sceneLoader;
+        private readonly GameObject _uiRendererPrefab;
+        private IGameStateMachineDirector _machineDirector;
 
         public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig,
             IEffectsManager effectsManager, IGameStateMachineDirector machineDirector,
@@ -46,23 +46,8 @@ namespace Project.Architecture
 
         public override void Exit() { }
 
-        private IPlayer CreatePlayer()
-        {
-            var playerObj = Object.Instantiate(_playerConfig.PlayerPrefab);
-            Object.DontDestroyOnLoad(playerObj);
-            var container = playerObj.GetComponentInChildren<PlayerTrailTransformContainer>().TrailsTransform;
-
-            var trail = new PlayerTrail(new PlayerTrailRendererFactory(_playerConfig.TrailPrefab, container, _playerConfig.TrailTime));
-            var collisionDetector = playerObj.GetComponent<ICollisionDetector>();
-            var playerLocomotor = new RigidbodyPlayerLocomotor(playerObj.GetComponent<Rigidbody2D>(),
-                CreateAffectable(_playerConfig.JumpHeight), CreateAffectable(_playerConfig.HorizontalSpeed));
-            var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
-                _playerConfig.PlayerCanJumpColor, trail);
-
-            var player = new Player(playerLocomotor, colors, _game.InputService, collisionDetector, trail);
-
-            return player;
-        }
+        private IPlayer CreatePlayer() =>
+            new PlayerFactory(_playerConfig, _effectsManager, _game.InputService).CreateNew();
 
         private ILevel CreateLevel(IPlayer player) =>
             new Level(new Observable<Vector2>(Physics2D.gravity), player);
@@ -74,14 +59,11 @@ namespace Project.Architecture
             Object.DontDestroyOnLoad(obj);
 
             var gameUIRenderer = new GameUIRenderer(obj.GetComponent<Canvas>());
-            
+
             return gameUIRenderer;
         }
 
         private void MoveNext() =>
             _stateMachine.SetState<MenuState>();
-
-        private IAffectable<T> CreateAffectable<T>(T baseValue) =>
-            new Affectable<T>(baseValue, _effectsManager);
     }
 }

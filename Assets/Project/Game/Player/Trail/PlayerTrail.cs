@@ -7,9 +7,9 @@ namespace Project.Game
         private readonly IContainer<TrailRendererWrapper> _trailsContainer;
         private TrailRendererWrapper _currentTrail;
 
-        public PlayerTrail(IFactory<TrailRendererWrapper> factory)
+        public PlayerTrail(IContainer<TrailRendererWrapper> container)
         {
-            _trailsContainer = new Container<TrailRendererWrapper>(factory.CreateNew);
+            _trailsContainer = container;
             
             _trailsContainer.OnItemResolved += x => x.SetEmitting(true);
             _trailsContainer.OnItemPooled += x =>
