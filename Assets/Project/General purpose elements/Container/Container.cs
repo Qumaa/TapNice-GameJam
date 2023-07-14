@@ -19,9 +19,11 @@ namespace Project
         public IEnumerable<T> Active => _active;
         public IEnumerable<T> Pooled => _pool;
         public IEnumerable<T> All => LoopThroughAll();
+        
         public event Action<T> OnItemCreated;
         public event Action<T> OnItemReleased;
         public event Action<T> OnItemPooled;
+        public event Action<T> OnItemResolved;
 
         public virtual T Resolve()
         {
@@ -34,6 +36,7 @@ namespace Project
                 OnItemReleased?.Invoke(item);
 
             _active.Add(item);
+            OnItemResolved?.Invoke(item);
             return item;
         }
 

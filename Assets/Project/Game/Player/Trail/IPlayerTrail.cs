@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Project
+namespace Project.Game
 {
     public interface IPlayerTrail : IResettable, IActivatable
     {
         void SetColor(Color color);
-        void SetLifetime(float lifetime);
     }
 }

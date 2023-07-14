@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Project
+namespace Project.Game
 {
     public class PlayerTrailTransformContainer : MonoBehaviour
     {

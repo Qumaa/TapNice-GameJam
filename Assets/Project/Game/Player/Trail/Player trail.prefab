@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3554461304903240172}
   - component: {fileID: 1613686539587041476}
+  - component: {fileID: 1161278247314712083}
   m_Layer: 0
   m_Name: Player trail
   m_TagString: Untagged
@@ -74,7 +75,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -84,12 +85,21 @@ TrailRenderer:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: 0
-        outSlope: 0
+        inSlope: -1.0225742
+        outSlope: -1.0225742
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.21948995
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -1.0348622
+        outSlope: -1.0348622
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.23406202
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -131,3 +141,15 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &1161278247314712083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5835964277855697103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26b501404064f3b8b5ffaafd298a1b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

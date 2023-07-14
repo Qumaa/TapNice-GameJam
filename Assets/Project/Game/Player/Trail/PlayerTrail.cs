@@ -1,77 +1,49 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Project
+namespace Project.Game
 {
     public class PlayerTrail : IPlayerTrail
     {
-        private readonly IFactory<TrailRenderer> _factory;
-        private readonly IContainer<TrailRendererWrapper> _trails;
+        private readonly IContainer<TrailRendererWrapper> _trailsContainer;
         private TrailRendererWrapper _currentTrail;
 
-        public PlayerTrail(IFactory<TrailRenderer> factory)
+        public PlayerTrail(IFactory<TrailRendererWrapper> factory)
         {
-            _factory = factory;
-            _trails = new Container<TrailRendererWrapper>(CreateTrail);
-            _currentTrail = _trails.Resolve();
+            _trailsContainer = new Container<TrailRendererWrapper>(factory.CreateNew);
+            
+            _trailsContainer.OnItemResolved += x => x.SetEmitting(true);
+            _trailsContainer.OnItemPooled += x =>
+            {
+                x.ClearAndDisableEmitting();
+                x.SetActive(false);
+            };
+            _trailsContainer.OnItemReleased += x => x.SetActive(true);
+            _trailsContainer.OnItemCreated += x => x.OnStopped += HandleTrailStopped;
+
+            _currentTrail = _trailsContainer.Resolve();
         }
 
         public void Reset()
         {
-            foreach (var trail in _trails.All.Reverse())
-            {
-                trail.Reset();
-                _trails.Pool(trail);
-            }
-
-            _currentTrail = _trails.Resolve();
+            _trailsContainer.PoolActiveExcept(_currentTrail);
+            
+            _currentTrail.Clear();
         }
 
-        public void Activate()
-        {
+        public void Activate() =>
             _currentTrail.SetEmitting(true);
-        }
 
-        public void Deactivate()
-        {
-            _currentTrail.Reset();
-            _currentTrail.SetEmitting(false);
-        }
+        public void Deactivate() =>
+            _currentTrail.ClearAndDisableEmitting();
 
         public void SetColor(Color color)
         {
+            _currentTrail.SetEmitting(false);
+            _currentTrail = _trailsContainer.Resolve();
             _currentTrail.SetColor(color);
         }
 
-        public void SetLifetime(float lifetime)
-        {
-            foreach (var trail in _trails.All)
-                trail.SetLifetime(lifetime);
-        }
-
-        private TrailRendererWrapper CreateTrail() =>
-            new(_factory.CreateNew());
-
-        private class TrailRendererWrapper
-        {
-            private readonly TrailRenderer _trailRenderer;
-
-            public TrailRendererWrapper(TrailRenderer trailRenderer)
-            {
-                _trailRenderer = trailRenderer;
-            }
-
-            public void SetEmitting(bool emitting) =>
-                _trailRenderer.emitting = emitting;
-
-            public void Reset() =>
-                _trailRenderer.Clear();
-
-            public void SetColor(Color color) =>
-                _trailRenderer.startColor = _trailRenderer.endColor = color;
-
-            public void SetLifetime(float lifetime) =>
-                _trailRenderer.time = lifetime;
-        }
+        private void HandleTrailStopped(TrailRendererWrapper stoppedTrail) =>
+            _trailsContainer.Pool(stoppedTrail);
     }
 }

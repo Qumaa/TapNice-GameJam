@@ -50,15 +50,14 @@ namespace Project.Architecture
         {
             var playerObj = Object.Instantiate(_playerConfig.PlayerPrefab);
             Object.DontDestroyOnLoad(playerObj);
+            var container = playerObj.GetComponentInChildren<PlayerTrailTransformContainer>().TrailsTransform;
 
+            var trail = new PlayerTrail(new PlayerTrailRendererFactory(_playerConfig.TrailPrefab, container, _playerConfig.TrailTime));
             var collisionDetector = playerObj.GetComponent<ICollisionDetector>();
             var playerLocomotor = new RigidbodyPlayerLocomotor(playerObj.GetComponent<Rigidbody2D>(),
                 CreateAffectable(_playerConfig.JumpHeight), CreateAffectable(_playerConfig.HorizontalSpeed));
             var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
-                _playerConfig.PlayerCanJumpColor);
-
-            var container = playerObj.GetComponentInChildren<PlayerTrailTransformContainer>().TrailsTransform;
-            var trail = new PlayerTrail(new PlayerTrailRendererFactory(_playerConfig.TrailPrefab, container));
+                _playerConfig.PlayerCanJumpColor, trail);
 
             var player = new Player(playerLocomotor, colors, _game.InputService, collisionDetector, trail);
 
