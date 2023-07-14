@@ -31,10 +31,13 @@ namespace Project.Game
         }
 
         public void Activate() =>
-            _currentTrail.SetEmitting(true);
+            _currentTrail = _trailsContainer.Resolve();
 
-        public void Deactivate() =>
-            _currentTrail.ClearAndDisableEmitting();
+        public void Deactivate()
+        {
+            _trailsContainer.Pool(_currentTrail);
+            _currentTrail = null;
+        }
 
         public void SetColor(Color color)
         {
