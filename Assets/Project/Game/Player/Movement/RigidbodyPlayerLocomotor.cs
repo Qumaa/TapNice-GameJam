@@ -11,8 +11,8 @@ namespace Project.Game
 
         public Vector2 Position
         {
-            get => _rigidbody.position;
-            set => _rigidbody.position = value;
+            get => _rigidbody.transform.position;
+            set => _rigidbody.transform.position = _rigidbody.position = value;
         }
 
         public PlayerDirection Direction

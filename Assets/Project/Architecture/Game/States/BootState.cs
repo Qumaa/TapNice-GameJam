@@ -57,7 +57,8 @@ namespace Project.Architecture
             var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
                 _playerConfig.PlayerCanJumpColor);
 
-            IPlayerTrail trail = null; // todo:
+            var container = playerObj.GetComponentInChildren<PlayerTrailTransformContainer>().TrailsTransform;
+            var trail = new PlayerTrail(new PlayerTrailRendererFactory(_playerConfig.TrailPrefab, container));
 
             var player = new Player(playerLocomotor, colors, _game.InputService, collisionDetector, trail);
 
