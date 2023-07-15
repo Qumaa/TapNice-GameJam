@@ -1,0 +1,18 @@
+{
+    "name": "Architecture",
+    "rootNamespace": "Project.Architecture",
+    "references": [
+        "GUID:f593f1fdf669dc547be02428818aebc8",
+        "GUID:fa3795b9de0ba654ab250db131ecea64",
+        "GUID:7e936f3e3e3dca44b90a4065d41e3d29"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

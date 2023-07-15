@@ -1,0 +1,17 @@
+{
+    "name": "Game",
+    "rootNamespace": "Project.Game",
+    "references": [
+        "Mainassembly",
+        "Cinemachine"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
