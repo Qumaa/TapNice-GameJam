@@ -1,6 +1,6 @@
 ﻿namespace Project.Architecture
 {
-    public interface IUpdater : IInstanceContainer<IUpdatable>
+    public interface IUpdater : ITransientRegistry<IUpdatable>
     {
         
     }
