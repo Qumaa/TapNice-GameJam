@@ -35,7 +35,7 @@ namespace Project.Game
 
         public void Deactivate()
         {
-            _trailsContainer.Pool(_currentTrail);
+            _trailsContainer.PoolActive();
             _currentTrail = null;
         }
 

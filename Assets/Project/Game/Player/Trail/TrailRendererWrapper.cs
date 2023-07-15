@@ -10,12 +10,8 @@ namespace Project.Game
         private TrailRenderer _trailRenderer;
         private Coroutine _stopRoutine;
 
-        private void Awake()
-        {
+        private void Awake() =>
             _trailRenderer = GetComponent<TrailRenderer>();
-        }
-
-        public float LifeTime => _trailRenderer.time;
 
         public event Action<TrailRendererWrapper> OnStopped;
 
@@ -52,10 +48,8 @@ namespace Project.Game
                 StartStopRoutine();
         }
 
-        private void StartStopRoutine()
-        {
-            _stopRoutine = StartCoroutine(StopRoutine(LifeTime));
-        }
+        private void StartStopRoutine() =>
+            _stopRoutine = StartCoroutine(StopRoutine(_trailRenderer.time));
 
         private void KillStopRoutine()
         {
