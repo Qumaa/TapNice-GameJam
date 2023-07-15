@@ -1,8 +1,9 @@
-﻿using Project.Game;
+﻿using Project.Architecture.SceneManagement;
+using Project.Game.Levels;
 using Project.UI;
 using UnityEngine;
 
-namespace Project.Architecture
+namespace Project.Architecture.States
 {
     public class MenuState : GameState
     {

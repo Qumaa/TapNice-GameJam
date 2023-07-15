@@ -1,4 +1,7 @@
-﻿namespace Project.Game
+﻿using Project.Game.CollisionHandling;
+using Project.Game.Effects;
+
+namespace Project.Game
 {
     public class TrampolineCollisionHandler : PlayerCollisionHandler
     {

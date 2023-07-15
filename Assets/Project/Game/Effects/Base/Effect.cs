@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Game
+namespace Project.Game.Effects
 {
     public abstract class Effect<T> : IEffect<T>
     {

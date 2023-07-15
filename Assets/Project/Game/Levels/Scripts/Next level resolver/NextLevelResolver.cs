@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Architecture
+namespace Project.Game.Levels
 {
     public class NextLevelResolver : INextLevelResolver
     {

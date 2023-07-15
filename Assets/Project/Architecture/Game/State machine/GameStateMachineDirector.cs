@@ -1,6 +1,8 @@
-﻿using Project.Game;
+﻿using Project.Architecture.SceneManagement;
+using Project.Configs;
+using Project.Game.Levels;
 
-namespace Project.Architecture
+namespace Project.Architecture.States
 {
     public record GameStateMachineDirector : IGameStateMachineDirector
     {

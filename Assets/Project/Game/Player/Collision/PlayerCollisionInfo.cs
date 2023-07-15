@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Project.Game.Player;
 using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.CollisionHandling
 {
     public readonly struct PlayerCollisionInfo
     {

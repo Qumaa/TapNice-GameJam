@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Architecture
+namespace Project.Architecture.SceneManagement
 {
     public class SceneLoadingOperationHandler : ISceneLoadingOperationHandler
     {

@@ -1,7 +1,10 @@
-﻿using Project.Game;
+﻿using Project.Configs;
+using Project.Game.CollisionHandling;
+using Project.Game.Effects;
+using Project.Game.Player;
 using UnityEngine;
 
-namespace Project.Architecture
+namespace Project.Architecture.Factories
 {
     public readonly struct PlayerFactory : IFactory<IPlayer>
     {
@@ -32,7 +35,7 @@ namespace Project.Architecture
             var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
                 _playerConfig.PlayerCanJumpColor, trail);
 
-            var player = new Player(playerLocomotor, colors, _inputService, collisionDetector, trail);
+            var player = new PlayerScript(playerLocomotor, colors, _inputService, collisionDetector, trail);
 
             return player;
         }

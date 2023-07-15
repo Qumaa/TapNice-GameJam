@@ -1,6 +1,6 @@
 ﻿using Project.UI;
 
-namespace Project.Architecture
+namespace Project.Architecture.States
 {
     public class KillGameLoopState : GameState
     {

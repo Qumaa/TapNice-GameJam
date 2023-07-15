@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine.SceneManagement;
 
-namespace Project.Architecture
+namespace Project.Architecture.SceneManagement
 {
     public class SyncSceneLoader : ISceneLoader
     {

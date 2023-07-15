@@ -1,4 +1,4 @@
-﻿using Project.Game;
+﻿using Project.Game.Levels;
 using UnityEditor;
 using UnityEngine;
 

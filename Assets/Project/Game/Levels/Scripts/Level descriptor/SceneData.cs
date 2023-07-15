@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-[System.Serializable]
-public class SceneData
+namespace Project.Game.Levels
 {
-    [SerializeField] private string _name;
-    [SerializeField] private int _buildIndex;
+    [System.Serializable]
+    public class SceneData
+    {
+        [SerializeField] private string _name;
+        [SerializeField] private int _buildIndex;
 
-    public string Name => _name;
+        public string Name => _name;
 
-    public int BuildIndex => _buildIndex;
+        public int BuildIndex => _buildIndex;
+    }
 }

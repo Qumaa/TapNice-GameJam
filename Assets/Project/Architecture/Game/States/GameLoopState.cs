@@ -1,7 +1,7 @@
-﻿using Project.Game;
+﻿using Project.Game.Levels;
 using Project.UI;
 
-namespace Project.Architecture
+namespace Project.Architecture.States
 {
     public class GameLoopState : GameState
     {

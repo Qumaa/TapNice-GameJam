@@ -1,8 +1,10 @@
 using System;
+using Project.Game.CollisionHandling;
+using Project.Game.Player;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Project.Game
+namespace Project.Game.Levels
 {
     public class Level : ILevel
     {

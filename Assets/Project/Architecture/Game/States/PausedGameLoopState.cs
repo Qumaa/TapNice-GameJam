@@ -1,7 +1,6 @@
 ﻿using Project.UI;
-using UnityEngine;
 
-namespace Project.Architecture
+namespace Project.Architecture.States
 {
     public class PausedGameLoopState : GameState
     {

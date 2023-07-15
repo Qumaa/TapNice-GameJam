@@ -1,8 +1,11 @@
 using System.Linq;
+using Project.Configs;
 using Project.Game;
+using Project.Game.Levels;
+using Project.Game.Player;
 using UnityEngine;
 
-namespace Project.Architecture
+namespace Project.Architecture.Boot
 {
     public class Bootstrapper : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Project.Game
+namespace Project.Game.Effects
 {
     public class EffectsManager : IEffectsManager
     {

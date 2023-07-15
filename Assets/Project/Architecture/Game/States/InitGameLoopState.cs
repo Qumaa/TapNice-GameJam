@@ -1,7 +1,7 @@
 ﻿using Project.UI;
 using UnityEngine;
 
-namespace Project.Architecture
+namespace Project.Architecture.States
 {
     public class InitGameLoopState : GameState<int>
     {

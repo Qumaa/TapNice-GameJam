@@ -1,4 +1,4 @@
-﻿namespace Project.Game
+﻿namespace Project.Game.Effects
 {
     public abstract class UsablePlayerEffect<T> : Effect<T>
     {

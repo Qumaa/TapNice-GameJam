@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Project.Game.Effects;
+using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.Player
 {
     public class RigidbodyPlayerLocomotor : IPlayerLocomotor
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.Player
 {
     public class PlayerColors : IPlayerColors
     {

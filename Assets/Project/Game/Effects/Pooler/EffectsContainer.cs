@@ -1,6 +1,6 @@
 using System;
 
-namespace Project.Game
+namespace Project.Game.Effects
 {
     public class EffectsContainer<T> : Container<T> 
         where T : IEffect

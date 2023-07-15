@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Project.Game
+namespace Project.Game.Player
 {
     public class GameInputReader : MonoBehaviour, IGameInputService
     {

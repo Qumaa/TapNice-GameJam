@@ -1,4 +1,4 @@
-﻿namespace Project.Game
+﻿namespace Project.Game.Effects
 {
     public class ScalePlayerEffect : UsablePlayerEffect<float>
     {

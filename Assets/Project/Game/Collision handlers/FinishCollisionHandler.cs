@@ -1,4 +1,6 @@
-﻿namespace Project.Game
+﻿using Project.Game.Levels;
+
+namespace Project.Game.CollisionHandling
 {
     public class FinishCollisionHandler : PlayerCollisionHandler
     {

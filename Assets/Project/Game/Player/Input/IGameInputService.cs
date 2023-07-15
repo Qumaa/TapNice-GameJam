@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Game
+namespace Project.Game.Player
 {
     public interface IGameInputService
     {

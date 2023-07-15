@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Game
+namespace Project.Game.Effects
 {
     public interface IEffect
     {

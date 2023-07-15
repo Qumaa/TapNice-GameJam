@@ -1,8 +1,13 @@
-﻿using Project.Game;
+﻿using Project.Architecture.Factories;
+using Project.Architecture.SceneManagement;
+using Project.Configs;
+using Project.Game.Effects;
+using Project.Game.Levels;
+using Project.Game.Player;
 using Project.UI;
 using UnityEngine;
 
-namespace Project.Architecture
+namespace Project.Architecture.States
 {
     public class BootState : GameState
     {

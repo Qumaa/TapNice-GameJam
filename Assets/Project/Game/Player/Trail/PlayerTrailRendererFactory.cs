@@ -1,4 +1,4 @@
-﻿using Project.Game;
+﻿using Project.Game.Player;
 using UnityEngine;
 
 namespace Project

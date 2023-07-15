@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.Levels
 {
     [CreateAssetMenu(menuName = SOData.MenuPath.LEVEL_DESCRIPTOR, fileName = SOData.FileName.LEVEL_DESCRIPTOR)]
     public class LevelDescriptor : ScriptableObject, ILevelDescriptor

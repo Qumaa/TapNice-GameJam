@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.CollisionHandling
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerCollisionDetector : MonoBehaviour, ICollisionDetector

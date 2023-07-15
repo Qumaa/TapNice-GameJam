@@ -1,9 +1,11 @@
 using System;
+using Project.Game.CollisionHandling;
+using Project.Game.Effects;
 using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.Player
 {
-    public class Player : IPlayer
+    public class PlayerScript : IPlayer
     {
         private readonly IPlayerLocomotor _locomotor;
         private readonly IPlayerColors _colors;
@@ -32,7 +34,7 @@ namespace Project.Game
         public event Action OnJumped;
         public event Action OnBounced;
 
-        public Player(IPlayerLocomotor locomotor, IPlayerColors colors,
+        public PlayerScript(IPlayerLocomotor locomotor, IPlayerColors colors,
             IGameInputService inputService, ICollisionDetector collisionDetector, IPlayerTrail trail)
         {
             _locomotor = locomotor;

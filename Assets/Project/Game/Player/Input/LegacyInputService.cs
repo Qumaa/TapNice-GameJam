@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.Player
 {
     public class LegacyInputService : MonoBehaviour, IGameInputService
     {

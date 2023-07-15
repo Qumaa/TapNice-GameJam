@@ -1,7 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.Levels
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class LevelSegment : MonoBehaviour

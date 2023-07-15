@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Project.Architecture
+namespace Project.Architecture.Boot
 {
     public class EditorBootstrapper : MonoBehaviour
     {

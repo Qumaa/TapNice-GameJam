@@ -1,4 +1,5 @@
-﻿using Project.Game;
+﻿using Project.Game.Levels;
+using Project.Game.Player;
 using Project.UI;
 
 namespace Project.Architecture

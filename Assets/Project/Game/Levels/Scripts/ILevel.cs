@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.Levels
 {
     public interface ILevel : IResettable
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Project.Game;
+using Project.Game.Levels;
 using UnityEngine;
 using UnityEngine.UI;
 

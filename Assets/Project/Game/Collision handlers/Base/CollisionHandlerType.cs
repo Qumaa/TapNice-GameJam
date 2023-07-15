@@ -1,4 +1,4 @@
-﻿namespace Project.Game
+﻿namespace Project.Game.CollisionHandling
 {
     public enum CollisionHandlerType
     {

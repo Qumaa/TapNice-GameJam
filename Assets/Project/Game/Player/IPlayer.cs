@@ -1,7 +1,9 @@
 ﻿using System;
+using Project.Game.CollisionHandling;
+using Project.Game.Effects;
 using UnityEngine;
 
-namespace Project.Game
+namespace Project.Game.Player
 {
     public interface IPlayer : IActivatable
     {

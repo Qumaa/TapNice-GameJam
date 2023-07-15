@@ -1,4 +1,6 @@
-﻿namespace Project.Game
+﻿using Project.Game.CollisionHandling;
+
+namespace Project.Game
 {
     public class LevelCollisionHandler : PlayerCollisionHandler
     {
