@@ -9,10 +9,12 @@ namespace Project.Configs
         [SerializeField] private GameObject _menuUiPrefab;
         [SerializeField] private GameObject _gameUiPrefab;
         [SerializeField] private GameObject _pauseUiPrefab;
+        [SerializeField] private GameObject _winUiPrefab;
 
         public GameObject CanvasPrefab => _canvasPrefab;
         public GameObject MenuUiPrefab => _menuUiPrefab;
         public GameObject GameUiPrefab => _gameUiPrefab;
         public GameObject PauseUiPrefab => _pauseUiPrefab;
+        public GameObject WinUiPrefab => _winUiPrefab;
     }
 }

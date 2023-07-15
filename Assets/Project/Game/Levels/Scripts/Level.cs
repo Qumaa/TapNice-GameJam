@@ -30,7 +30,6 @@ namespace Project.Game.Levels
 
         public void Start()
         {
-            _player.OnJumped += StartTimeCounting;
             InitCollisionHandlers();
             
             Reset();
@@ -47,6 +46,7 @@ namespace Project.Game.Levels
 
         public void Reset()
         {
+            _player.OnJumped += StartTimeCounting;
             _timeElapsedCached = 0;
             ResetPlayer();
             _elapsedTimeStrategy = CachedTimeStrategy;

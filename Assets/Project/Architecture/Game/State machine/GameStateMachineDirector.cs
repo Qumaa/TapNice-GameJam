@@ -26,10 +26,12 @@ namespace Project.Architecture.States
             machine.AddState(new MenuState(_game, machine, _sceneLoader, _levels, _uiConfig.MenuUiPrefab))
                 .AddState(new LoadLevelState(_game, machine, _sceneLoader, _levels, _nextLevelResolver))
                 .AddState(new LevelInitState(_game, machine))
-                .AddState(new GameLoopState(_game, machine, _nextLevelResolver))
-                .AddState(new InitGameLoopState(_game, machine, _uiConfig.GameUiPrefab, _uiConfig.PauseUiPrefab))
+                .AddState(new GameLoopState(_game, machine))
+                .AddState(new InitGameLoopState(_game, machine, _uiConfig.GameUiPrefab, _uiConfig.PauseUiPrefab,
+                    _uiConfig.WinUiPrefab))
                 .AddState(new KillGameLoopState(_game, machine))
                 .AddState(new PausedGameLoopState(_game, machine))
-                .AddState(new RestartLevelState(_game, machine));
+                .AddState(new RestartLevelState(_game, machine))
+                .AddState(new FinishLevelState(_game, machine, _nextLevelResolver));
     }
 }

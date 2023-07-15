@@ -10,6 +10,7 @@ namespace Project.Architecture.States
         {
             _game.UI.Remove<IGameplayUI>();
             _game.UI.Remove<IGameplayPauseUI>();
+            _game.UI.Remove<IGameplayWinUI>();
             _stateMachine.SetState<MenuState>();
         }
 

@@ -12,7 +12,7 @@ namespace Project.Game.Levels
             _maxLevels = maxLevels;
         }
 
-        public bool HaveNextLevel(out int levelIndex)
+        public bool HasNextLevel(out int levelIndex)
         {
             var nextLevel = _currentLevel + 1;
             var hasNextLevel = nextLevel < _maxLevels;

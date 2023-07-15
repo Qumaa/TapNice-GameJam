@@ -5,13 +5,11 @@ namespace Project.Architecture.States
 {
     public class GameLoopState : GameState
     {
-        private readonly INextLevelResolver _levelResolver;
         private readonly UIUpdater _uiUpdater;
 
-        public GameLoopState(IGame game, IGameStateMachine stateMachine, INextLevelResolver levelResolver) :
+        public GameLoopState(IGame game, IGameStateMachine stateMachine) :
             base(game, stateMachine)
         {
-            _levelResolver = levelResolver;
             _uiUpdater = new UIUpdater(_game.LoadedLevel);
         }
 
@@ -27,30 +25,17 @@ namespace Project.Architecture.States
 
         public override void Exit()
         {
+            _game.Remove(_uiUpdater);
             _game.LoadedLevel.OnFinished -= HandleLevelFinish;
             _game.UI.Get<IGameplayUI>().OnPausePressed -= HandlePausePress;
         }
 
-        private void HandleLevelFinish()
-        {
-            _game.Remove(_uiUpdater);
-            LoadNextLevelOrMainMenu();
-        }
+        private void HandleLevelFinish() =>
+            _stateMachine.SetState<FinishLevelState>();
 
         private void HandlePausePress() =>
             _stateMachine.SetState<PausedGameLoopState>();
 
-        private void LoadNextLevelOrMainMenu()
-        {
-            if (_levelResolver.SwitchToNextLevel(out var level))
-            {
-                _stateMachine.SetState<LoadLevelState, int>(level);
-                return;
-            }
-
-            _stateMachine.SetState<KillGameLoopState>();
-        }
-        
         private class UIUpdater : IUpdatable
         {
             private readonly ILevel _source;
