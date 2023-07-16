@@ -17,7 +17,7 @@ namespace Project.Architecture.States
         {
             _game.LoadedLevel.OnFinished += HandleLevelFinish;
 
-            var ui = _game.UI.Get<IGameplayUI>();
+            var ui = _game.UI.Get<IGameplayUI>().ShowFluent();
             ui.OnPausePressed += HandlePausePress;
             _uiUpdater.Target = ui;
             _game.Add(_uiUpdater);
@@ -27,7 +27,9 @@ namespace Project.Architecture.States
         {
             _game.Remove(_uiUpdater);
             _game.LoadedLevel.OnFinished -= HandleLevelFinish;
-            _game.UI.Get<IGameplayUI>().OnPausePressed -= HandlePausePress;
+            
+            var ui = _game.UI.Get<IGameplayUI>().HideFluent();
+            ui.OnPausePressed -= HandlePausePress;
         }
 
         private void HandleLevelFinish() =>

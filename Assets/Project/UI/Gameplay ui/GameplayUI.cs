@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 namespace Project.UI
 {
-    public class GameplayUI : GameUI, IGameplayUI
+    public class GameplayUI : ShowableGameUI, IGameplayUI
     {
         [SerializeField] private Button _pauseButton;
         [SerializeField] private TextMeshProUGUI _timeLabel;
-        
+
         public event Action OnPausePressed;
 
         protected override void Awake()
@@ -21,14 +21,10 @@ namespace Project.UI
         protected override void OnDelete() =>
             _pauseButton.onClick.RemoveListener(EmitPauseEvent);
 
-        public void DisplayTime(float time)
-        {
+        public void DisplayTime(float time) =>
             _timeLabel.text = FormatTime(time);
-        }
 
-        public void SetHighestTime(float highestTime)
-        {
-        }
+        public void SetHighestTime(float highestTime) { }
 
         private void EmitPauseEvent() =>
             OnPausePressed?.Invoke();

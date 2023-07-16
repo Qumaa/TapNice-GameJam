@@ -3,7 +3,6 @@ using Project.UI;
 
 namespace Project.Architecture.States
 {
-    // todo: hide gameplay ui
     // todo: display elapsed time
     public class FinishLevelState : GameState
     {
