@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba93072a96f46b4823cca94f3cc1673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resumeButton: {fileID: 2271228129484169949}
+  _nextLevelButton: {fileID: 2271228129484169949}
   _restartButton: {fileID: 2271228130355009482}
   _quitLevelButton: {fileID: 2271228128316547580}
 --- !u!1 &3915861522986145230

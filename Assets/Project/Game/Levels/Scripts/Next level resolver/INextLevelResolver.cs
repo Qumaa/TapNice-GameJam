@@ -8,12 +8,15 @@
 
     public static class NextLevelResolverExtensions
     {
-        public static bool SwitchToNextLevel(this INextLevelResolver resolver, out int levelIndex)
+        public static bool TrySwitchToNextLevel(this INextLevelResolver resolver, out int levelIndex)
         {
             var hasNextLevel = resolver.HasNextLevel(out levelIndex);
             resolver.SetLevel(levelIndex);
 
             return hasNextLevel;
         }
+
+        public static bool HasNextLevel(this INextLevelResolver resolver) =>
+            resolver.HasNextLevel(out _);
     }
 }

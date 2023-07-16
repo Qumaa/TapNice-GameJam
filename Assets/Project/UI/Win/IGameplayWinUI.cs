@@ -7,5 +7,6 @@ namespace Project.UI
         event Action OnNextLevelPressed;
         event Action OnRestartPressed;
         event Action OnQuitLevelPressed;
+        public void SetNextLevelButtonAvailability(bool availability);
     }
 }

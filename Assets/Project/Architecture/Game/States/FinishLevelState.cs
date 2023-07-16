@@ -5,7 +5,6 @@ namespace Project.Architecture.States
 {
     // todo: hide gameplay ui
     // todo: display elapsed time
-    // todo: next level/main menu button variance (different text or whatever)
     public class FinishLevelState : GameState
     {
         private readonly INextLevelResolver _levelResolver;
@@ -20,6 +19,7 @@ namespace Project.Architecture.States
         public override void Enter()
         {
             _winUI = _game.UI.Get<IGameplayWinUI>();
+            _winUI.SetNextLevelButtonAvailability(_levelResolver.HasNextLevel());
             _winUI.Show();
 
             _winUI.OnNextLevelPressed += HandleNextLevelPress;
@@ -50,7 +50,7 @@ namespace Project.Architecture.States
 
         private bool TryLoadNextLevel()
         {
-            if (!_levelResolver.SwitchToNextLevel(out var level))
+            if (!_levelResolver.TrySwitchToNextLevel(out var level))
                 return false;
             
             _stateMachine.SetState<LoadLevelState, int>(level);
