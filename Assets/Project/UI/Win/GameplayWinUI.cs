@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,8 @@ namespace Project.UI
         [SerializeField] private Button _nextLevelButton;
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _quitLevelButton;
-        
+        [SerializeField] private TextMeshProUGUI _scoreText;
+
         public event Action OnNextLevelPressed;
         public event Action OnRestartPressed;
         public event Action OnQuitLevelPressed;
@@ -17,10 +19,16 @@ namespace Project.UI
         public void SetNextLevelButtonAvailability(bool availability)
         {
             if (availability)
-                DisableNextLevelButton();
-            else
                 EnableNextLevelButton();
+            else
+                DisableNextLevelButton();
         }
+
+        // todo: better formatting handling
+        public void SetElapsedTime(float time) =>
+            _scoreText.text = time.ToString("F2") + "s";
+
+        public void SetHighestTime(float highestTime) { }
 
         protected override void Awake()
         {

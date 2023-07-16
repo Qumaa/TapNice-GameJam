@@ -18,7 +18,9 @@ namespace Project.Architecture.States
         public override void Enter()
         {
             _winUI = _game.UI.Get<IGameplayWinUI>();
+            
             _winUI.SetNextLevelButtonAvailability(_levelResolver.HasNextLevel());
+            _winUI.SetElapsedTime(_game.LoadedLevel.TimeElapsed);
             _winUI.Show();
 
             _winUI.OnNextLevelPressed += HandleNextLevelPress;
