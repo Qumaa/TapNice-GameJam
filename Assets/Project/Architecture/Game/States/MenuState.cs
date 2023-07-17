@@ -27,6 +27,7 @@ namespace Project.Architecture.States
             _sceneLoader.LoadSceneHandled(1, LoadMainMenu);
         }
 
+        // todo: move player activation. It causes player to appear when it's not needed
         public override void Exit()
         {
             _game.Player.Activate();

@@ -28,7 +28,7 @@ namespace Project.Architecture.States
 
         private void CreateUI()
         {
-            _game.UI.Add(UIFactory<IGameplayUI>(_gameplayUiPrefab));
+            _game.UI.Add(HiddenUIFactory<IGameplayUI>(_gameplayUiPrefab));
             _game.UI.Add(HiddenUIFactory<IGameplayPauseUI>(_pauseUiPrefab));
             _game.UI.Add(HiddenUIFactory<IGameplayWinUI>(_winUiPrefab));
         }

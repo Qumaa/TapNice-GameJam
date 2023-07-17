@@ -1,4 +1,5 @@
-﻿using Project.Architecture.Factories;
+﻿using DG.Tweening;
+using Project.Architecture.Factories;
 using Project.Architecture.SceneManagement;
 using Project.Configs;
 using Project.Game.Effects;
@@ -45,6 +46,8 @@ namespace Project.Architecture.States
 
             _machineDirector.Build(_stateMachine);
             _machineDirector = null;
+
+            DOTween.Init();
 
             MoveNext();
         }

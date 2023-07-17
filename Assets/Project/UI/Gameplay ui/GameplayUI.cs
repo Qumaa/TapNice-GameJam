@@ -40,12 +40,28 @@ namespace Project.UI
 
         public override void Hide()
         {
-            DisableInteractivity();
-            _animator.PlayHidingAnimation();
+            base.Hide();
+            SetFade(0);
         }
 
-        public override void Show() =>
-            _animator.PlayShowingAnimationHandled(EnableInteractivity);
+        public override void Show()
+        {
+            base.Show();
+            SetFade(1);
+        }
+
+        public void ShowAnimated()
+        {
+            base.Show();
+            EnableInteractivity();
+            _animator.PlayShowingAnimation();
+        }
+
+        public void HideAnimated()
+        {
+            DisableInteractivity();
+            _animator.PlayHidingAnimationHandled(base.Hide);
+        }
 
         private void EmitPauseEvent() =>
             OnPausePressed?.Invoke();
@@ -55,14 +71,27 @@ namespace Project.UI
 
         private void EnableInteractivity() =>
             _pauseButton.enabled = true;
-        
+
         private void SetFade(float fade)
         {
             _fade = fade;
-            
+
+            SetButtonFade(_fade);
+            SetScoreFade(_fade);
+        }
+
+        private void SetButtonFade(float fade)
+        {
             var color = _pauseButton.image.color;
             color.a = fade;
             _pauseButton.image.color = color;
+        }
+
+        private void SetScoreFade(float fade)
+        {
+            var color = _timeLabel.color;
+            color.a = fade;
+            _timeLabel.color = color;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Project.Game.Levels;
 using Project.UI;
+using Project.UI.Animation;
 
 namespace Project.Architecture.States
 {
@@ -17,7 +18,7 @@ namespace Project.Architecture.States
         {
             _game.LoadedLevel.OnFinished += HandleLevelFinish;
 
-            var ui = _game.UI.Get<IGameplayUI>().ShowFluent();
+            var ui = _game.UI.Get<IGameplayUI>().ShowAnimatedFluent();
             ui.OnPausePressed += HandlePausePress;
             _uiUpdater.Target = ui;
             _game.Add(_uiUpdater);
@@ -28,7 +29,7 @@ namespace Project.Architecture.States
             _game.Remove(_uiUpdater);
             _game.LoadedLevel.OnFinished -= HandleLevelFinish;
             
-            var ui = _game.UI.Get<IGameplayUI>().HideFluent();
+            var ui = _game.UI.Get<IGameplayUI>().HideAnimatedFluent();
             ui.OnPausePressed -= HandlePausePress;
         }
 

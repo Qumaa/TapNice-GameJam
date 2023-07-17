@@ -1,8 +1,9 @@
 ﻿using System;
+using Project.UI.Animation;
 
 namespace Project.UI
 {
-    public interface IGameplayUI : IShowableGameUI
+    public interface IGameplayUI : IShowableGameUI, IAnimatedShowableUI
     {
         event Action OnPausePressed;
         
