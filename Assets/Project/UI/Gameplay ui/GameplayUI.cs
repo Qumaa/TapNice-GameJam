@@ -8,11 +8,18 @@ using UnityEngine.UI;
 namespace Project.UI
 {
     [RequireComponent(typeof(IShowableUIAnimator))]
-    public class GameplayUI : ShowableGameUI, IGameplayUI
+    public class GameplayUI : ShowableGameUI, IGameplayUI, IFadeableUI
     {
         [SerializeField] private Button _pauseButton;
         [SerializeField] private TextMeshProUGUI _timeLabel;
         private IShowableUIAnimator _animator;
+        private float _fade;
+
+        public float Fade
+        {
+            get => _fade;
+            set => SetFade(value);
+        }
 
         public event Action OnPausePressed;
 
@@ -31,17 +38,31 @@ namespace Project.UI
 
         public void SetHighestTime(float highestTime) { }
 
+        public override void Hide()
+        {
+            DisableInteractivity();
+            _animator.PlayHidingAnimation();
+        }
+
+        public override void Show() =>
+            _animator.PlayShowingAnimationHandled(EnableInteractivity);
+
         private void EmitPauseEvent() =>
             OnPausePressed?.Invoke();
 
-        public override void Hide()
-        {
-            
-        }
+        private void DisableInteractivity() =>
+            _pauseButton.enabled = false;
 
-        public override void Show()
+        private void EnableInteractivity() =>
+            _pauseButton.enabled = true;
+        
+        private void SetFade(float fade)
         {
+            _fade = fade;
             
+            var color = _pauseButton.image.color;
+            color.a = fade;
+            _pauseButton.image.color = color;
         }
     }
 }

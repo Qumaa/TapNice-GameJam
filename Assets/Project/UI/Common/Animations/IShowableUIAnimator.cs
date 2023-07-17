@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace Project.UI.Animation
 {
@@ -14,7 +13,7 @@ namespace Project.UI.Animation
     {
         public static void PlayShowingAnimationHandled(this IShowableUIAnimator animator, Action onEnded) =>
             HandleAnimation(animator, animator.PlayShowingAnimation(), onEnded);
-        
+
         public static void PlayHidingAnimationHandled(this IShowableUIAnimator animator, Action onEnded) =>
             HandleAnimation(animator, animator.PlayHidingAnimation(), onEnded);
 

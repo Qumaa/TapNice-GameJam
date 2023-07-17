@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2636491805574273267}
   - component: {fileID: -3468923969382282185}
+  - component: {fileID: 8154076169730206477}
   m_Layer: 5
   m_Name: Gameplay UI
   m_TagString: Main menu container
@@ -53,6 +54,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pauseButton: {fileID: 7536497059635277991}
   _timeLabel: {fileID: 362930108318713116}
+--- !u!114 &8154076169730206477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2636491805574273263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ed0f23da6bf4ea1a816276290c6e161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDuration: 1
+  _hideDuration: 1
 --- !u!1 &4234421865435901716
 GameObject:
   m_ObjectHideFlags: 0
