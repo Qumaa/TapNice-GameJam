@@ -36,6 +36,8 @@ namespace Project.Architecture.Factories
                 _playerConfig.PlayerCanJumpColor, trail);
 
             var player = new PlayerScript(playerLocomotor, colors, _inputService, collisionDetector, trail);
+            
+            player.Deactivate();
 
             return player;
         }

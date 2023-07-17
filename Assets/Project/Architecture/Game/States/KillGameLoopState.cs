@@ -8,6 +8,8 @@ namespace Project.Architecture.States
 
         public override void Enter()
         {
+            _game.Player.Deactivate();
+
             _game.UI.Remove<IGameplayUI>();
             _game.UI.Remove<IGameplayPauseUI>();
             _game.UI.Remove<IGameplayWinUI>();

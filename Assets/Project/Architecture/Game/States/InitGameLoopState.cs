@@ -1,5 +1,7 @@
-﻿using Project.UI;
+﻿using System;
+using Project.UI;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Project.Architecture.States
 {
@@ -19,12 +21,17 @@ namespace Project.Architecture.States
 
         public override void Enter(int arg)
         {
-            CreateUI();
             LoadLevel(arg);
         }
 
+        private void Init()
+        {
+            _game.Player.Activate();
+            CreateUI();
+        }
+
         private void LoadLevel(int level) =>
-            _stateMachine.SetState<LoadLevelState, int>(level);
+            _stateMachine.SetState<LoadLevelState, RichLoadLevelArgument>(new RichLoadLevelArgument(level, Init));
 
         private void CreateUI()
         {
