@@ -24,7 +24,7 @@ namespace Project.Architecture.SceneManagement
             _currentOperation = new SyncSceneLoadingOperation(sceneIndex);
 
             _currentOperation.OnLoadingCompleted += HandleLoadingCompleted;
-            
+
             return _currentOperation;
         }
 
@@ -37,15 +37,5 @@ namespace Project.Architecture.SceneManagement
 
         public ISceneLoadingOperationHandler GetHandler() =>
             _handler;
-    }
-
-    public static class SceneLoaderExtensions
-    {
-        // todo: this breaks when there the previous handling is not finished but this method is called. It's not a big concern but keep this in mind
-        public static void LoadSceneHandled(this ISceneLoader loader, string sceneName, Action onCompleted) =>
-            loader.GetHandler().HandleLoading(loader.LoadScene(sceneName), onCompleted);
-        
-        public static void LoadSceneHandled(this ISceneLoader loader, int sceneIndex, Action onCompleted) =>
-            loader.GetHandler().HandleLoading(loader.LoadScene(sceneIndex), onCompleted);
     }
 }

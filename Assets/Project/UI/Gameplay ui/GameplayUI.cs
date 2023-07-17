@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.UI.Animation;
 using Project.UI.Utils;
 using TMPro;
 using UnityEngine;
@@ -6,10 +7,12 @@ using UnityEngine.UI;
 
 namespace Project.UI
 {
+    [RequireComponent(typeof(IShowableUIAnimator))]
     public class GameplayUI : ShowableGameUI, IGameplayUI
     {
         [SerializeField] private Button _pauseButton;
         [SerializeField] private TextMeshProUGUI _timeLabel;
+        private IShowableUIAnimator _animator;
 
         public event Action OnPausePressed;
 
@@ -17,6 +20,7 @@ namespace Project.UI
         {
             base.Awake();
             _pauseButton.onClick.AddListener(EmitPauseEvent);
+            _animator = GetComponent<IShowableUIAnimator>();
         }
 
         protected override void OnDelete() =>
@@ -29,5 +33,15 @@ namespace Project.UI
 
         private void EmitPauseEvent() =>
             OnPausePressed?.Invoke();
+
+        public override void Hide()
+        {
+            
+        }
+
+        public override void Show()
+        {
+            
+        }
     }
 }
