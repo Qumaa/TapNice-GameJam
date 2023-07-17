@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.UI.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,14 +23,11 @@ namespace Project.UI
             _pauseButton.onClick.RemoveListener(EmitPauseEvent);
 
         public void DisplayTime(float time) =>
-            _timeLabel.text = FormatTime(time);
+            _timeLabel.text = UIUtils.FormatTime(time);
 
         public void SetHighestTime(float highestTime) { }
 
         private void EmitPauseEvent() =>
             OnPausePressed?.Invoke();
-
-        private static string FormatTime(float time) =>
-            time.ToString("F2");
     }
 }

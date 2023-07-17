@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.UI.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,9 +25,8 @@ namespace Project.UI
                 DisableNextLevelButton();
         }
 
-        // todo: better formatting handling
         public void SetElapsedTime(float time) =>
-            _scoreText.text = time.ToString("F2") + "s";
+            _scoreText.text = UIUtils.FormatTime(time);
 
         public void SetHighestTime(float highestTime) { }
 
