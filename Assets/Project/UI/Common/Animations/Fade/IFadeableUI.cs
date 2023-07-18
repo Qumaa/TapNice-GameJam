@@ -2,6 +2,7 @@
 {
     public interface IFadeableUI
     {
-        float Fade { get; set; }
+        float GetFade();
+        void SetFade(float fade);
     }
 }

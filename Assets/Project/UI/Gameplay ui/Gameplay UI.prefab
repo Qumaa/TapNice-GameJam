@@ -68,6 +68,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _showDuration: 1
   _hideDuration: 1
+  _pauseButton: {fileID: 7536497059635277991}
+  _timeLabel: {fileID: 362930108318713116}
 --- !u!1 &4234421865435901716
 GameObject:
   m_ObjectHideFlags: 0

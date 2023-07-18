@@ -8,18 +8,11 @@ using UnityEngine.UI;
 namespace Project.UI
 {
     [RequireComponent(typeof(IShowableUIAnimator))]
-    public class GameplayUI : ShowableGameUI, IGameplayUI, IFadeableUI
+    public class GameplayUI : ShowableGameUI, IGameplayUI
     {
         [SerializeField] private Button _pauseButton;
         [SerializeField] private TextMeshProUGUI _timeLabel;
         private IShowableUIAnimator _animator;
-        private GameplayUIFader _fader;
-
-        public float Fade
-        {
-            get => _fader.Fade;
-            set => _fader.Fade = value;
-        }
 
         public event Action OnPausePressed;
 
@@ -28,7 +21,6 @@ namespace Project.UI
             base.Awake();
             _pauseButton.onClick.AddListener(EmitPauseEvent);
             _animator = GetComponent<IShowableUIAnimator>();
-            _fader = new GameplayUIFader(_pauseButton, _timeLabel);
         }
 
         protected override void OnDelete() =>

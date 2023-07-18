@@ -3,7 +3,6 @@ using Project.UI;
 
 namespace Project.Architecture.States
 {
-    // todo: display elapsed time
     public class FinishLevelState : GameState
     {
         private readonly INextLevelResolver _levelResolver;

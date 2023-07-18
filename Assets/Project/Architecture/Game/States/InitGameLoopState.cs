@@ -1,4 +1,5 @@
 ﻿using Project.UI;
+using Project.UI.Animation;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -36,7 +37,16 @@ namespace Project.Architecture.States
         {
             _game.UI.Add(HiddenUIFactory<IGameplayUI>(_gameplayUiPrefab));
             _game.UI.Add(HiddenUIFactory<IGameplayPauseUI>(_pauseUiPrefab));
-            _game.UI.Add(HiddenUIFactory<IGameplayWinUI>(_winUiPrefab));
+            _game.UI.Add(CreateWinUI());
+        }
+
+        private IGameplayWinUI CreateWinUI()
+        {
+            var obj = Object.Instantiate(_winUiPrefab);
+
+            _game.LoadedLevel.OnFinishedWithTime += obj.GetComponent<WinUIAnimator>().SetElapsedTime;
+            
+            return obj.GetComponent<IGameplayWinUI>().HideFluent();
         }
 
         public override void Exit() { }

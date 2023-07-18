@@ -4,16 +4,10 @@
     {
         private float _fade;
 
-        public float Fade
-        {
-            get => _fade;
-            set
-            {
-                _fade = value;
-                SetFade(_fade);
-            }
-        }
+        public float GetFade() =>
+            _fade;
 
-        protected abstract void SetFade(float fade);
+        public virtual void SetFade(float fade) =>
+            _fade = fade;
     }
 }

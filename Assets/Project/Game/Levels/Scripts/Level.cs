@@ -40,8 +40,8 @@ namespace Project.Game.Levels
             _timeElapsedCached = TimeElapsed;
             _elapsedTimeStrategy = CachedTimeStrategy;
             
-            OnFinished?.Invoke();
             OnFinishedWithTime?.Invoke(TimeElapsed);
+            OnFinished?.Invoke();
         }
 
         public void Reset()

@@ -380,6 +380,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _showDuration: 1
   _hideDuration: 1
+  _background: {fileID: 3915861521588080841}
+  _scoreText: {fileID: 2977462413307272745}
+  _scoreLabel: {fileID: 1140627225626227832}
+  _nextLevelButton: {fileID: 2271228129484169949}
+  _restartButton: {fileID: 2271228130355009482}
+  _quitButton: {fileID: 2271228128316547580}
 --- !u!1 &3915861522986145230
 GameObject:
   m_ObjectHideFlags: 0

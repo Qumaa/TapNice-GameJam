@@ -15,8 +15,10 @@ namespace Project.UI
             _timeLabel = timeLabel;
         }
 
-        protected override void SetFade(float fade)
+        public override void SetFade(float fade)
         {
+            base.SetFade(fade);
+            
             SetButtonFade(fade);
             SetScoreFade(fade);
         }

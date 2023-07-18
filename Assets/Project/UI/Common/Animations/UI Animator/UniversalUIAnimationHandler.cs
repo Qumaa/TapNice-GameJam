@@ -10,6 +10,10 @@ namespace Project.UI.Animation
         public void HandleAnimation(IUIAnimation animation, Action onEnded)
         {
             TerminateCachedAnimation();
+            
+            if (animation is null)
+                return;
+            
             CacheAnimationAndCallback(animation, onEnded);
             StartCachedAnimation();
         }
