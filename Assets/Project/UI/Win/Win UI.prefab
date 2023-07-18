@@ -319,6 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3915861522260277349}
   - component: {fileID: -7302303411980630871}
+  - component: {fileID: -365906729380193602}
   m_Layer: 5
   m_Name: Win UI
   m_TagString: Untagged
@@ -365,6 +366,20 @@ MonoBehaviour:
   _restartButton: {fileID: 2271228130355009482}
   _quitLevelButton: {fileID: 2271228128316547580}
   _scoreText: {fileID: 2977462413307272745}
+--- !u!114 &-365906729380193602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3915861522260277348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5da9506cf3c41149a285c9e9e55aa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDuration: 1
+  _hideDuration: 1
 --- !u!1 &3915861522986145230
 GameObject:
   m_ObjectHideFlags: 0

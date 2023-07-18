@@ -2,9 +2,9 @@
 
 namespace Project.UI.Animation
 {
-    public class GameplayUIHideAnimation : DoTweenFadeUIAnimation
+    public class WinUIHideAnimation : DoTweenFadeUIAnimation
     {
-        public GameplayUIHideAnimation(IFadeableUI ui, float duration) : base(ui, duration) { }
+        public WinUIHideAnimation(IFadeableUI ui, float duration) : base(ui, duration) { }
         protected override void FillSequence(float animationDuration, Sequence seq)
         {
             var fadeTween = GetLinearHideTween(animationDuration);

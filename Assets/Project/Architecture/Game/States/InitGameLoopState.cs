@@ -1,5 +1,4 @@
-﻿using System;
-using Project.UI;
+﻿using Project.UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

@@ -1,8 +1,9 @@
 ﻿using System;
+using Project.UI.Animation;
 
 namespace Project.UI
 {
-    public interface IGameplayWinUI : IShowableGameUI
+    public interface IGameplayWinUI : IShowableGameUI, IAnimatedShowableUI
     {
         event Action OnNextLevelPressed;
         event Action OnRestartPressed;

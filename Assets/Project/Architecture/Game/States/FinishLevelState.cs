@@ -21,7 +21,7 @@ namespace Project.Architecture.States
             
             _winUI.SetNextLevelButtonAvailability(_levelResolver.HasNextLevel());
             _winUI.SetElapsedTime(_game.LoadedLevel.TimeElapsed);
-            _winUI.Show();
+            _winUI.ShowAnimated();
 
             _winUI.OnNextLevelPressed += HandleNextLevelPress;
             _winUI.OnRestartPressed += HandleRestartPress;
