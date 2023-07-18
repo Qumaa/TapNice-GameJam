@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0010375977}
+  m_AnchoredPosition: {x: 0, y: -0.0009765625}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1047581259477136637
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 53.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -593,7 +593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5886771392451284347, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 84.32692
       objectReference: {fileID: 0}
     - target: {fileID: 5886771392451284347, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -643,7 +643,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9019031089385204541, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
 --- !u!114 &2798035211394673511 stripped
 MonoBehaviour:

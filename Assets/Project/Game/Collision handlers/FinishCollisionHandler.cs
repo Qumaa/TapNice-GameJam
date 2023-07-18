@@ -15,6 +15,8 @@ namespace Project.Game.CollisionHandling
         {
             if (collision.IsOnFloor)
                 _level.Finish();
+            else
+                DefaultHandling(collision);
         }
     }
 }

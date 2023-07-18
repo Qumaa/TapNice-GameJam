@@ -6,7 +6,7 @@ namespace Project.UI.Animation
     {
         private Action _currentCallback;
         private IUIAnimation _currentAnimation;
-        
+
         public void HandleAnimation(IUIAnimation animation, Action onEnded)
         {
             TerminateCachedAnimation();
@@ -20,7 +20,7 @@ namespace Project.UI.Animation
                 return;
             
             _currentAnimation.Stop();
-            _currentAnimation.OnEnded -= _currentCallback;
+            _currentAnimation.OnEnded -= InvokeCallback;
         }
 
         private void CacheAnimationAndCallback(IUIAnimation animation, Action onEnded)
@@ -31,8 +31,11 @@ namespace Project.UI.Animation
 
         private void StartCachedAnimation()
         {
-            _currentAnimation.OnEnded += _currentCallback;
+            _currentAnimation.OnEnded += InvokeCallback;
             _currentAnimation.Play();
         }
+
+        private void InvokeCallback() =>
+            _currentCallback?.Invoke();
     }
 }
