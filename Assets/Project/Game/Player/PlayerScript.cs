@@ -1,6 +1,7 @@
 using System;
 using Project.Game.CollisionHandling;
 using Project.Game.Effects;
+using Project.Game.VFX;
 using UnityEngine;
 
 namespace Project.Game.Player
@@ -12,6 +13,7 @@ namespace Project.Game.Player
         private readonly IGameInputService _inputService;
         private readonly ICollisionDetector _collisionDetector;
         private readonly IPlayerTrail _trail;
+        private readonly IPlayerRippleVFX _rippleVFX;
         private bool _canJump;
         private Action _jumpStrategy;
 
@@ -36,15 +38,16 @@ namespace Project.Game.Player
         public event Action OnBounced;
 
         public PlayerScript(IPlayerLocomotor locomotor, IPlayerColors colors,
-            IGameInputService inputService, ICollisionDetector collisionDetector, IPlayerTrail trail)
+            IGameInputService inputService, ICollisionDetector collisionDetector, IPlayerTrail trail, IPlayerRippleVFX rippleVFX)
         {
             _locomotor = locomotor;
             _colors = colors;
             _inputService = inputService;
             _collisionDetector = collisionDetector;
             _trail = trail;
+            _rippleVFX = rippleVFX;
 
-            _inputService.OnScreenTouchInput += this.JumpIfPossible;
+            _inputService.OnScreenTouchInput += HandleJumpInput;
             _collisionDetector.OnCollided += HandleCollision;
 
             _jumpStrategy = InitialJump;
@@ -70,6 +73,7 @@ namespace Project.Game.Player
             _locomotor.UpdateHorizontalVelocity();
 
         // todo: that f*cking bug when colliding with 2 colliders at once
+
         private void HandleCollision(Collision2D other)
         {
             var handler = other.gameObject.GetComponent<ICollisionHandler>();
@@ -78,6 +82,7 @@ namespace Project.Game.Player
 
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);
+            PlayRippleEffect();
         }
 
         public void Reset(Vector2 position, PlayerDirection direction)
@@ -91,13 +96,14 @@ namespace Project.Game.Player
             
             _collisionDetector.Reset();
             _trail.Reset();
+            _rippleVFX.Reset();
         }
 
         public void Activate()
         {
             _colors.Activate();
             _trail.Activate();
-            _inputService.OnScreenTouchInput += this.JumpIfPossible;
+            _inputService.OnScreenTouchInput += HandleJumpInput;
             _collisionDetector.OnCollided += HandleCollision;
         }
 
@@ -106,9 +112,10 @@ namespace Project.Game.Player
             _locomotor.Reset();
             _colors.Deactivate();
             _trail.Deactivate();
-            _inputService.OnScreenTouchInput -= this.JumpIfPossible;
+            _inputService.OnScreenTouchInput -= HandleJumpInput;
             _collisionDetector.Reset();
             _collisionDetector.OnCollided -= HandleCollision;
+            _rippleVFX.Reset();
         }
 
         private void InitialJump()
@@ -129,5 +136,14 @@ namespace Project.Game.Player
             _canJump = status;
             _colors.UpdateColors(_canJump);
         }
+
+        private void HandleJumpInput()
+        {
+            if (this.JumpIfPossible())
+                PlayRippleEffect();
+        }
+
+        private void PlayRippleEffect() =>
+            _rippleVFX.PlayRipple(_locomotor.Position, Color.AffectedValue);
     }
 }
