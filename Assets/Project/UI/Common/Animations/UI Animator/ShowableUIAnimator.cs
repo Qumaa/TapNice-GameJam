@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Project.UI.Animation
 {
@@ -30,5 +31,11 @@ namespace Project.UI.Animation
 
         public IUIAnimationHandler GetAnimationHandler() =>
             _handler;
+
+        private void OnDestroy()
+        {
+            _showAnimation.Delete();
+            _showAnimation.Delete();
+        }
     }
 }

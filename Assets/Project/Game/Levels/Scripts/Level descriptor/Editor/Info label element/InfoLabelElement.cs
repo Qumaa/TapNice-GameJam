@@ -1,11 +1,9 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine.UIElements;
 
 public class InfoLabelElement : VisualElement
 {
-    private const string _INFOLABEL_ELEMENT_BODY_DOCUMENT_PATH =
-        "Assets/Project/Game/Levels/Level descriptor/Editor/Info label element/InfoLabelBody.uxml";
-
     private const string _INFO_LABEL_STYLE_CLASS = "info-label";
     private const string _NAME_ELEMENT = "label";
     private const string _INFO_ELEMENT = "info";
@@ -44,7 +42,7 @@ public class InfoLabelElement : VisualElement
 
     public InfoLabelElement()
     {
-        var document = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(_INFOLABEL_ELEMENT_BODY_DOCUMENT_PATH);
+        var document = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(SelectorAssetPaths._INFOLABEL_ELEMENT);
         var infoLabel = document.CloneTree();
         
         Add(infoLabel);

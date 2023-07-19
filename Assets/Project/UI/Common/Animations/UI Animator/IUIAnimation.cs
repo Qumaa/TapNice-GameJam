@@ -7,5 +7,6 @@ namespace Project.UI.Animation
         event Action OnEnded;
         void Play();
         void Stop();
+        void Delete();
     }
 }

@@ -15,6 +15,9 @@ namespace Project.UI.Animation
         public override void Stop() =>
             _sequence.Pause();
 
+        public override void Delete() =>
+            _sequence.Kill();
+
         protected void CreateSequence()
         {
             _sequence = DOTween.Sequence();

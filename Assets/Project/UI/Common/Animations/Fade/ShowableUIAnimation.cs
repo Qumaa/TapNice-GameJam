@@ -9,6 +9,7 @@ namespace Project.UI.Animation
         public abstract void Play();
 
         public abstract void Stop();
+        public abstract void Delete();
 
         protected void InvokeEnded() =>
             OnEnded?.Invoke();

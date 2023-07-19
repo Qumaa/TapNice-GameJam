@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine.UIElements;
@@ -7,9 +8,6 @@ using UnityEngine.UIElements;
 
 public class SceneSelectorWindow : EditorWindow
 {
-    private const string _SCENE_SELECTOR_WINDOW_DOCUMENT_PATH = 
-        "Assets/Project/Game/Levels/Level descriptor/Editor/Scene selector window/SceneSelector.uxml";
-
     private const string _LIST_VIEW_NAME = "list-view";
     private const string _NAME_LABEL_NAME = "info-name";
     private const string _PATH_LABEL_NAME = "info-path";
@@ -25,7 +23,7 @@ public class SceneSelectorWindow : EditorWindow
     public void CreateGUI()
     {
         var document =
-            AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(_SCENE_SELECTOR_WINDOW_DOCUMENT_PATH);
+            AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(SelectorAssetPaths._SELECTOR_WINDOW);
 
         document.CloneTree(rootVisualElement);
 

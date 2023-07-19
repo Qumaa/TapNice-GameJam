@@ -5,20 +5,15 @@ using UnityEngine;
 
 namespace Project.Game.CollisionHandling
 {
-    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerCollisionDetector : MonoBehaviour, ICollisionDetector
     {
-        private Rigidbody2D _rigidbody;
         private readonly List<ContactPoint2D> _points = new(4);
 
         public event Action<Collision2D> OnCollided;
-
-        private void Awake() =>
-            _rigidbody = GetComponent<Rigidbody2D>();
-
+        
         private void OnCollisionEnter2D(Collision2D other)
         {
-            AddPoints(other);
+            TryAddPoints(other);
             OnCollided?.Invoke(other);
         }
 
@@ -30,25 +25,25 @@ namespace Project.Game.CollisionHandling
 
         private bool TryAddPoints(Collision2D other)
         {
-            var has = true;
+            var alreadyHasGivenPoints = true;
 
             foreach (var point in other.contacts)
-                if (IsCloseEnoughToAnyCachedPoints(point))
-                    has = false;
+                if (IsCloseEnoughToAnyCachedPoints(point, CalculateContactPointsDistance(other)))
+                    alreadyHasGivenPoints = false;
                 else
                     _points.Add(point);
 
-            return has;
+            return alreadyHasGivenPoints;
         }
 
         private void AddPoints(Collision2D other) =>
             _points.AddRange(other.contacts);
 
-        private bool IsCloseEnoughToAnyCachedPoints(ContactPoint2D point) =>
-            _points.Any(cached => Vector2.Distance(cached.point, point.point) < CalculateContactPointsDistance());
+        private bool IsCloseEnoughToAnyCachedPoints(ContactPoint2D point, float minDistance) =>
+            _points.Any(cached => Vector2.Distance(cached.point, point.point) < minDistance);
 
-        private float CalculateContactPointsDistance() =>
-            (_rigidbody.velocity * Time.fixedDeltaTime).magnitude;
+        private static float CalculateContactPointsDistance(Collision2D collision2D) =>
+            collision2D.otherRigidbody.velocity.magnitude * Time.fixedDeltaTime;
 
         private void OnCollisionExit2D() =>
             Reset();

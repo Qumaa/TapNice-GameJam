@@ -13,18 +13,14 @@ namespace Project.Game.CollisionHandling
         public readonly bool IsOnWall;
         public readonly Vector2 RawNormal;
         public readonly Vector2 NormalizedNormal;
-        public readonly Vector2 PlayerPosition;
         public readonly IPlayer Player;
-        public readonly ICollisionHandler CollisionHandler;
 
-        public PlayerCollisionInfo(Collision2D collision, Vector2 up, ICollisionHandler collisionHandler,
+        public PlayerCollisionInfo(Collision2D collision, Vector2 up,
             IPlayer player, Vector2 playerPosition)
         {
-            CollisionHandler = collisionHandler;
             Player = player;
-            PlayerPosition = playerPosition;
-
-            RawNormal = CalculateNormal(collision.contacts, PlayerPosition);
+                    
+            RawNormal = CalculateNormal(collision.contacts, playerPosition);
             NormalizedNormal = RawNormal.normalized;
 
             IsOnFloor = IsInTheSameDirection(NormalizedNormal, up);
