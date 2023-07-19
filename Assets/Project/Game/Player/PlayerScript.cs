@@ -38,7 +38,8 @@ namespace Project.Game.Player
         public event Action OnBounced;
 
         public PlayerScript(IPlayerLocomotor locomotor, IPlayerColors colors,
-            IGameInputService inputService, ICollisionDetector collisionDetector, IPlayerTrail trail, IPlayerRippleVFX rippleVFX)
+            IGameInputService inputService, ICollisionDetector collisionDetector, IPlayerTrail trail,
+            IPlayerRippleVFX rippleVFX)
         {
             _locomotor = locomotor;
             _colors = colors;
@@ -74,26 +75,28 @@ namespace Project.Game.Player
 
         // todo: that f*cking bug when colliding with 2 colliders at once
 
-        private void HandleCollision(Collision2D other)
+        private void HandleCollision(CustomCollision2D other)
         {
-            var handler = other.gameObject.GetComponent<ICollisionHandler>();
+            var handler = other.OtherObject.GetComponent<ICollisionHandler>();
 
-            var info = new PlayerCollisionInfo(other, Vector2.up, this, _locomotor.Position);
+            var info = new PlayerCollisionInfo(other.Contact, Vector2.up, this);
 
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);
-            PlayRippleEffect();
+
+            if (!info.IsOnCeiling)
+                PlayRippleEffect();
         }
 
         public void Reset(Vector2 position, PlayerDirection direction)
         {
             _locomotor.Position = position;
             _locomotor.Direction = direction;
-            
+
             _locomotor.SetFrozen(true);
             _canJump = true;
             _jumpStrategy = InitialJump;
-            
+
             _collisionDetector.Reset();
             _trail.Reset();
             _rippleVFX.Reset();
@@ -132,7 +135,7 @@ namespace Project.Game.Player
         {
             if (_canJump == status)
                 return;
-            
+
             _canJump = status;
             _colors.UpdateColors(_canJump);
         }

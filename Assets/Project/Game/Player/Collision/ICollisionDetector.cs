@@ -5,6 +5,6 @@ namespace Project.Game.CollisionHandling
 {
     public interface ICollisionDetector : IResettable
     {
-        public event Action<Collision2D> OnCollided;
+        public event Action<CustomCollision2D> OnCollided;
     }
 }
