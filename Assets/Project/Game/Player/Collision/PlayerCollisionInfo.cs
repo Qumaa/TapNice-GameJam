@@ -13,31 +13,39 @@ namespace Project.Game.CollisionHandling
         public readonly bool IsOnWall;
         public readonly Vector2 RawNormal;
         public readonly Vector2 NormalizedNormal;
+        public readonly Vector2 PlayerPosition;
         public readonly IPlayer Player;
         public readonly ICollisionHandler CollisionHandler;
 
-        public PlayerCollisionInfo(Collision2D collision, Vector2 up, ICollisionHandler collisionHandler, IPlayer player)
+        public PlayerCollisionInfo(Collision2D collision, Vector2 up, ICollisionHandler collisionHandler,
+            IPlayer player, Vector2 playerPosition)
         {
             CollisionHandler = collisionHandler;
             Player = player;
+            PlayerPosition = playerPosition;
 
-            RawNormal = CalculateNormal(collision.contacts);
+            RawNormal = CalculateNormal(collision.contacts, PlayerPosition);
             NormalizedNormal = RawNormal.normalized;
 
             IsOnFloor = IsInTheSameDirection(NormalizedNormal, up);
             IsOnWall = !IsOnFloor && !IsInTheSameDirection(NormalizedNormal, -up);
         }
 
-        // todo: use difference between player's position and contact point instead
-        private static Vector2 CalculateNormal(ContactPoint2D[] contacts) =>
+        private static Vector2 CalculateNormal(ContactPoint2D[] contacts, Vector2 playerPos) =>
             contacts.Length switch
             {
                 0 => throw new ArgumentException(),
-                1 => contacts[0].normal,
-                _ => contacts.Aggregate(contacts[0].normal, (accumulated, next) => (accumulated + next.normal) / 2f)
+                1 => ApproximateNormal(contacts[0], playerPos),
+                _ => contacts.Aggregate(
+                    ApproximateNormal(contacts[0], playerPos),
+                    (accumulated, next) => (accumulated + ApproximateNormal(next, playerPos)) / 2f
+                )
             };
 
         private static bool IsInTheSameDirection(Vector2 direction1, Vector2 direction2) =>
-            1 - Vector2.Dot(direction1, direction2) < _directionError;
+            (1 - Vector2.Dot(direction1, direction2)) < _directionError;
+
+        private static Vector2 ApproximateNormal(ContactPoint2D point, Vector2 playerPos) =>
+            (playerPos - point.point).normalized;
     }
 }

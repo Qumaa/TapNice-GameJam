@@ -7,10 +7,14 @@ namespace Project.Game.Levels
     {
         IObservable<Vector2> Gravity { get; }
         float TimeElapsed { get; }
+
+        event Action OnStarted;
+        event Action OnRestarted;
+
         /// <summary>
         /// Float argument is <see cref="TimeElapsed"/>.
         /// </summary>
-        public event Action<float> OnFinishedWithTime;
+        event Action<float> OnFinishedWithTime;
 
         event Action OnFinished;
 
@@ -19,6 +23,8 @@ namespace Project.Game.Levels
         /// </summary>
         void Start();
 
+        void Restart();
         void Finish();
+        void StopCountingTime();
     }
 }

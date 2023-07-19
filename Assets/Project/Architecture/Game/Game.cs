@@ -46,10 +46,15 @@ namespace Project.Architecture
 
         private void InitializeStates(PlayerConfig playerConfig, UIConfig uiConfig, ILevelDescriptor[] gameLevels)
         {
-            var director = new GameStateMachineDirector(this, gameLevels, _sceneLoader, uiConfig, new NextLevelResolver(gameLevels.Length));
-
-            var bootState = new BootState(this, _stateMachine, playerConfig, new EffectsManager(), director,
-                uiConfig.CanvasPrefab, _sceneLoader);
+            var bootState = new BootState(
+                this,
+                _stateMachine,
+                playerConfig,
+                new EffectsManager(),
+                uiConfig,
+                _sceneLoader,
+                gameLevels
+            );
 
             _stateMachine.AddState(bootState);
         }

@@ -2,18 +2,14 @@
 {
     public class PermanentEffectUseCounter : IEffectUseCounter
     {
-        private bool _usable = true;
-        
         public bool CanUse() =>
-            _usable;
+            true;
 
         public bool Use() =>
-            _usable;
+            true;
 
-        public void Reset() =>
-            _usable = true;
+        public void Reset() { }
 
-        public void MarkAsUnusable() =>
-            _usable = false;
+        public void MarkAsUnusable() { }
     }
 }

@@ -6,7 +6,7 @@
 
         public override void Enter()
         {
-            _game.LoadedLevel.Reset();
+            _game.LoadedLevel.Restart();
             _stateMachine.SetState<GameLoopState>();
         }
 

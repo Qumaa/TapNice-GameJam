@@ -17,6 +17,7 @@ namespace Project.Game.Player
 
         public IAffectable<float> JumpHeight => _locomotor.JumpHeight;
         public IAffectable<float> HorizontalSpeed => _locomotor.HorizontalSpeed;
+        public IAffectable<Color> Color => _colors.Color;
 
         public bool CanJump
         {
@@ -72,7 +73,7 @@ namespace Project.Game.Player
         {
             var handler = other.gameObject.GetComponent<ICollisionHandler>();
 
-            var info = new PlayerCollisionInfo(other, Vector2.up, handler, this);
+            var info = new PlayerCollisionInfo(other, Vector2.up, handler, this, _locomotor.Position);
 
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);

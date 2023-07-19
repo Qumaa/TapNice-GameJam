@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Project.Game.Effects
 {
     public class Affectable<T> : IAffectable<T>
     {
-        private readonly List<IEffect<T>> _effects;
+        private readonly LinkedList<IEffect<T>> _effects;
         private readonly IEffectsManager _effectsManager;
         private T _rawValue;
 
@@ -16,17 +17,18 @@ namespace Project.Game.Effects
         }
 
         public T AffectedValue { get; private set; }
+        public event Action<T> OnAffectedValueChanged;
 
         public Affectable(T rawValue, IEffectsManager effectsManager)
         {
             AffectedValue = _rawValue = rawValue;
             _effectsManager = effectsManager;
-            _effects = new List<IEffect<T>>();
+            _effects = new LinkedList<IEffect<T>>();
         }
 
         public void AddEffect(IEffect<T> effect)
         {
-            _effects.Add(effect);
+            _effects.AddLast(effect);
             _effectsManager.AddEffect(effect);
             effect.SetSource(this);
             CacheAffectedValue();
@@ -44,8 +46,11 @@ namespace Project.Game.Effects
             CacheAffectedValue();
         }
 
-        private void CacheAffectedValue() =>
+        private void CacheAffectedValue()
+        {
             AffectedValue = CalculateAffectedValue();
+            OnAffectedValueChanged?.Invoke(AffectedValue);
+        }
 
         private T CalculateAffectedValue() =>
             _effects.Aggregate(RawValue, (accumulated, effect) => effect.ApplyTo(accumulated));

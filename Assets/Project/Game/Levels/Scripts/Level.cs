@@ -1,5 +1,4 @@
 using System;
-using Project.Game.CollisionHandling;
 using Project.Game.Player;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -8,7 +7,6 @@ namespace Project.Game.Levels
 {
     public class Level : ILevel
     {
-        private readonly ICollisionHandler[] _handlersTable;
         private readonly IPlayer _player;
         private double _startTime;
         private float _timeElapsedCached;
@@ -16,6 +14,8 @@ namespace Project.Game.Levels
 
         public IObservable<Vector2> Gravity { get; }
         public float TimeElapsed => _elapsedTimeStrategy();
+        public event Action OnStarted;
+        public event Action OnRestarted;
         public event Action<float> OnFinishedWithTime;
         public event Action OnFinished;
 
@@ -23,25 +23,34 @@ namespace Project.Game.Levels
         {
             Gravity = gravity;
             _player = player;
-            
-            var items = Enum.GetNames(typeof(CollisionHandlerType)).Length;
-            _handlersTable = new ICollisionHandler[items];
         }
 
         public void Start()
         {
-            InitCollisionHandlers();
-            
             Reset();
+            
+            OnStarted?.Invoke();
+        }
+
+        public void Restart()
+        {
+            Reset();
+            OnRestarted?.Invoke();
+            OnStarted?.Invoke();
         }
 
         public void Finish()
         {
-            _timeElapsedCached = TimeElapsed;
-            _elapsedTimeStrategy = CachedTimeStrategy;
+            StopCountingTime();
             
             OnFinishedWithTime?.Invoke(TimeElapsed);
             OnFinished?.Invoke();
+        }
+
+        public void StopCountingTime()
+        {
+            _timeElapsedCached = TimeElapsed;
+            _elapsedTimeStrategy = CachedTimeStrategy;
         }
 
         public void Reset()
@@ -59,38 +68,12 @@ namespace Project.Game.Levels
             _elapsedTimeStrategy = CalculateTimeStrategy;
         }
 
-        private void InitCollisionHandlers()
-        {
-            var handlerContainers =
-                Object.FindObjectsByType<SceneCollisionHandlerContainer>(FindObjectsInactive.Include,
-                    FindObjectsSortMode.None);
-
-            if (handlerContainers.Length == 0)
-                return;
-
-            foreach (var handlerContainer in handlerContainers)
-                handlerContainer.SetHandler(GetCollisionHandler(handlerContainer.HandlerType));
-        }
-
         private void ResetPlayer()
         {
             var spawnPoint = Object.FindObjectOfType<PlayerSpawnPoint>();
             
             _player.Reset(spawnPoint.Position, spawnPoint.PlayerDirection);
         }
-
-        private ICollisionHandler GetCollisionHandler(CollisionHandlerType type) =>
-            _handlersTable[(int) type] ??= CreateCollisionHandler(type);
-
-        private ICollisionHandler CreateCollisionHandler(CollisionHandlerType type) =>
-            type switch
-            {
-                CollisionHandlerType.Default => new LevelCollisionHandler(),
-                CollisionHandlerType.Finish => new FinishCollisionHandler(this),
-                CollisionHandlerType.Trampoline => new TrampolineCollisionHandler(),
-                CollisionHandlerType.Discharger => new DischargerCollisionHandler(),
-                _ => throw new ArgumentOutOfRangeException()
-            };
 
         private static double GetGameTime() =>
             Time.timeSinceLevelLoadAsDouble;

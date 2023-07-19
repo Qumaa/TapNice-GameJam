@@ -5,8 +5,6 @@ namespace Project.Game
 {
     public class TrampolineCollisionHandler : PlayerCollisionHandler
     {
-        private readonly IContainer<ScalePlayerEffect> _container = new EffectsContainer<ScalePlayerEffect>(EffectFactory);
-
         public override void HandleCollision(PlayerCollisionInfo collision)
         {
             if (collision.IsOnFloor)
@@ -19,8 +17,7 @@ namespace Project.Game
         {
             var player = collision.Player;
 
-            var effect = _container.Resolve();
-            player.JumpHeight.AddEffect(effect);
+            player.JumpHeight.AddEffect(EffectFactory());
         }
 
         private static ScalePlayerEffect EffectFactory() =>

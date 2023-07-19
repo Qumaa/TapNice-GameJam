@@ -32,11 +32,11 @@ namespace Project.Architecture.Factories
             var playerLocomotor = new RigidbodyPlayerLocomotor(playerObj.GetComponent<Rigidbody2D>(),
                 new Affectable<float>(_playerConfig.JumpHeight, _effectsManager),
                 new Affectable<float>(_playerConfig.HorizontalSpeed, _effectsManager));
-            var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerDefaultColor,
-                _playerConfig.PlayerCanJumpColor, trail);
+            var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerCanJumpColor, 
+                trail, new Affectable<Color>(_playerConfig.PlayerDefaultColor, _effectsManager));
 
             var player = new PlayerScript(playerLocomotor, colors, _inputService, collisionDetector, trail);
-            
+
             player.Deactivate();
 
             return player;

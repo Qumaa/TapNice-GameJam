@@ -8,11 +8,13 @@ namespace Project.Configs
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private float _jumpHeight;
         [SerializeField] private float _horizontalSpeed;
-        [SerializeField] private Color _playerColor;
-        [SerializeField] private Color _canJumpPlayerColor;
         [Header("Trail")]
         [SerializeField] private GameObject _trailPrefab;
         [SerializeField] private float _trailTime;
+        [Header("Colors")]
+        [SerializeField] private Color _playerColor;
+        [SerializeField] private Color _canJumpPlayerColor;
+        [SerializeField] private Color _finishColor;
 
         public GameObject PlayerPrefab => _playerPrefab;
         public float JumpHeight => _jumpHeight;
@@ -21,5 +23,7 @@ namespace Project.Configs
         public Color PlayerCanJumpColor => _canJumpPlayerColor;
         public GameObject TrailPrefab => _trailPrefab;
         public float TrailTime => _trailTime;
+
+        public Color FinishColor => _finishColor;
     }
 }

@@ -1,31 +1,32 @@
-﻿using UnityEngine;
+﻿using Project.Game.Effects;
+using UnityEngine;
 
 namespace Project.Game.Player
 {
     public class PlayerColors : IPlayerColors
     {
-        private readonly Color _playerCanJumpColor;
-        private readonly Color _playerDefaultColor;
         private readonly SpriteRenderer _renderer;
         private readonly IPlayerTrail _trail;
+        private readonly PlayerColorPermanentEffect _canJumpColorEffect;
 
-        public PlayerColors(SpriteRenderer renderer, Color playerDefaultColor, Color playerCanJumpColor, IPlayerTrail trail)
+        public IAffectable<Color> Color { get; }
+
+        public PlayerColors(SpriteRenderer renderer, Color playerCanJumpColor,
+            IPlayerTrail trail, IAffectable<Color> color)
         {
             _renderer = renderer;
-            _playerDefaultColor = playerDefaultColor;
-            _playerCanJumpColor = playerCanJumpColor;
             _trail = trail;
+            Color = color;
+            Color.OnAffectedValueChanged += SetColor;
+            _canJumpColorEffect = new PlayerColorPermanentEffect(playerCanJumpColor);
         }
 
         public void UpdateColors(bool canJump)
         {
-            var color = canJump ? _playerCanJumpColor : _playerDefaultColor;
-
-            if (_renderer.color == color)
-                return;
-            
-            _renderer.color = color;
-            _trail.SetColor(color);
+            if (canJump)
+                Color.AddEffect(_canJumpColorEffect);
+            else
+                Color.RemoveEffect(_canJumpColorEffect);
         }
 
         public void Deactivate() =>
@@ -33,5 +34,11 @@ namespace Project.Game.Player
 
         public void Activate() =>
             _renderer.enabled = true;
+
+        private void SetColor(Color color)
+        {
+            _renderer.color = color;
+            _trail.SetColor(color);
+        }
     }
 }

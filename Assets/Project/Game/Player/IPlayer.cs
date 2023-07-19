@@ -9,6 +9,7 @@ namespace Project.Game.Player
     {
         public IAffectable<float> JumpHeight { get; }
         public IAffectable<float> HorizontalSpeed { get; }
+        public IAffectable<Color> Color { get; }
         public bool CanJump { get; set; }
         public PlayerDirection Direction { get; set; }
 
