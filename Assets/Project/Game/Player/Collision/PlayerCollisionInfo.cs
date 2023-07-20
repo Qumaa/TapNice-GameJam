@@ -15,13 +15,14 @@ namespace Project.Game.CollisionHandling
         public readonly Vector2 Normal;
         public readonly IPlayer Player;
 
-        public PlayerCollisionInfo(ContactPoint2D contact, Vector2 up,
+        public PlayerCollisionInfo(ContactPoint2D contact,
             IPlayer player)
         {
             Player = player;
 
             Normal = contact.normal;
 
+            var up = Vector2.up;
             IsOnFloor = IsInTheSameDirection(Normal, up);
             IsOnCeiling = IsInTheSameDirection(Normal, -up);
             IsOnWall = !IsOnFloor && !IsOnCeiling;

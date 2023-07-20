@@ -72,14 +72,12 @@ namespace Project.Game.Player
 
         public void UpdateHorizontalVelocity() =>
             _locomotor.UpdateHorizontalVelocity();
-
-        // todo: that f*cking bug when colliding with 2 colliders at once
-
+        
         private void HandleCollision(CustomCollision2D other)
         {
             var handler = other.OtherObject.GetComponent<ICollisionHandler>();
 
-            var info = new PlayerCollisionInfo(other.Contact, Vector2.up, this);
+            var info = new PlayerCollisionInfo(other.Contact, this);
 
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);

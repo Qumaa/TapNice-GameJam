@@ -60,7 +60,7 @@ namespace Project.Architecture.States
             new PlayerFactory(_playerConfig, _effectsManager, _game.InputService).CreateNew();
 
         private ILevel CreateLevel(IPlayer player) =>
-            new Level(new Observable<Vector2>(Physics2D.gravity), player);
+            new Level(player);
 
         private IGameUIRenderer CreateUI()
         {
