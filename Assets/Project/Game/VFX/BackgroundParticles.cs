@@ -1,21 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using Project.Configs;
+using UnityEngine;
 
 namespace Project.Game.VFX
 {
-    public class BackgroundParticles : IBackgroundParticles
+    public class BackgroundParticles : MonoBehaviour
     {
-        private readonly ParticleSystem _particleSystem;
-        private readonly float _density;
+        [SerializeField] private VFXConfig _vfxConfig;
+        [SerializeField] private ParticleSystem _particleSystem;
+        [SerializeField] private Transform _lowerBound;
+        [SerializeField] private Transform _upperBound;
+
         private ParticleSystem.Particle[] _particles;
         private Vector2 _size;
 
-        public BackgroundParticles(ParticleSystem particleSystem, float densityPerUnit)
-        {
-            _particleSystem = particleSystem;
-            _density = densityPerUnit;
-        }
+        private void Start() =>
+            Init(_lowerBound.position, _upperBound.position);
 
-        public void Update(float timeStep)
+        private void Update()
         {
             var activeParticles = GetActiveParticlesCount();
 
@@ -26,7 +28,7 @@ namespace Project.Game.VFX
             SetUpdatedParticles(activeParticles);
         }
 
-        public void Init(Vector2 areaFrom, Vector2 areaTo)
+        private void Init(Vector2 areaFrom, Vector2 areaTo)
         {
             SetCenterPosition((areaFrom + areaTo) / 2f);
 
@@ -36,15 +38,6 @@ namespace Project.Game.VFX
             
             UpdateParticlesDensity();
         }
-
-        public void Reset() =>
-            _particleSystem.Clear();
-
-        public void Activate() =>
-            _particleSystem.Play();
-
-        public void Deactivate() =>
-            _particleSystem.Stop();
 
         private int GetActiveParticlesCount()
         {
@@ -86,7 +79,7 @@ namespace Project.Game.VFX
 
             var area = _size.x * _size.y;
 
-            var emissionRate = _density * area / lifetimeAvg;
+            var emissionRate = _vfxConfig.DensityPerUnit * area / lifetimeAvg;
 
             var emissionModule = _particleSystem.emission;
             emissionModule.rateOverTime = new ParticleSystem.MinMaxCurve(emissionRate);

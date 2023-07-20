@@ -25,7 +25,7 @@ namespace Project.Architecture
         public ILevel LoadedLevel { get; set; }
         public IGameUIRenderer UI { get; set; }
 
-        public Game(PlayerConfig playerConfig, UIConfig uiConfig, VFXConfig vfxConfig, ILevelDescriptor[] levels,
+        public Game(PlayerConfig playerConfig, UIConfig uiConfig, ILevelDescriptor[] levels,
             IApplicationQuitter applicationQuitter)
         {
             _levels = levels;
@@ -35,7 +35,7 @@ namespace Project.Architecture
             _sceneLoader = new SyncSceneLoader(new SceneLoadingOperationHandler());
 
             _stateMachine = new GameStateMachine();
-            InitializeStates(playerConfig, uiConfig, levels, vfxConfig);
+            InitializeStates(playerConfig, uiConfig, levels);
         }
 
         public void Start() =>
@@ -44,8 +44,7 @@ namespace Project.Architecture
         public void Quit() =>
             _applicationQuitter.Quit();
 
-        private void InitializeStates(PlayerConfig playerConfig, UIConfig uiConfig, ILevelDescriptor[] gameLevels,
-            VFXConfig vfxConfig)
+        private void InitializeStates(PlayerConfig playerConfig, UIConfig uiConfig, ILevelDescriptor[] gameLevels)
         {
             var bootState = new BootState(
                 this,
@@ -54,8 +53,7 @@ namespace Project.Architecture
                 new EffectsManager(),
                 uiConfig,
                 _sceneLoader,
-                gameLevels,
-                vfxConfig
+                gameLevels
             );
 
             _stateMachine.AddState(bootState);
