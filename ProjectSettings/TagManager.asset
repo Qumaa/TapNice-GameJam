@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Main menu container
   - Collision handler container
+  - Level segment marker
   layers:
   - Default
   - TransparentFX
@@ -40,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Game VFX
+    uniqueID: 2331336343
+    locked: 0
   - name: Player VFX
     uniqueID: 4130459161
     locked: 0

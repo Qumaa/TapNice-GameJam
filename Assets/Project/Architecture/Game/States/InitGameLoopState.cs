@@ -1,4 +1,5 @@
-﻿using Project.UI;
+﻿using Project.Game.VFX;
+using Project.UI;
 using Project.UI.Animation;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -10,28 +11,51 @@ namespace Project.Architecture.States
         private readonly GameObject _gameplayUiPrefab;
         private readonly GameObject _pauseUiPrefab;
         private readonly GameObject _winUiPrefab;
+        private readonly IBackgroundParticles _backgroundParticles;
 
         public InitGameLoopState(IGame game, IGameStateMachine stateMachine, GameObject gameplayUiPrefab,
-            GameObject pauseUiPrefab, GameObject winUiPrefab) : base(game, stateMachine)
+            GameObject pauseUiPrefab, GameObject winUiPrefab, IBackgroundParticles backgroundParticles) : base(game, stateMachine)
         {
             _gameplayUiPrefab = gameplayUiPrefab;
             _pauseUiPrefab = pauseUiPrefab;
             _winUiPrefab = winUiPrefab;
+            _backgroundParticles = backgroundParticles;
         }
 
-        public override void Enter(int arg)
-        {
+        public override void Enter(int arg) =>
             LoadLevel(arg);
-        }
+
+        private void LoadLevel(int level) =>
+            _stateMachine.SetState<LoadLevelState, RichLoadLevelArgument>(new RichLoadLevelArgument(level, Init));
 
         private void Init()
         {
             _game.Player.Activate();
+            _game.LoadedLevel.OnStarted += _backgroundParticles.Reset;
+            _backgroundParticles.Activate();
+
+            CalculateLevelBorders(out var lower, out var upper);
+            _backgroundParticles.Init(lower, upper);
+            _game.Add(_backgroundParticles);
             CreateUI();
         }
 
-        private void LoadLevel(int level) =>
-            _stateMachine.SetState<LoadLevelState, RichLoadLevelArgument>(new RichLoadLevelArgument(level, Init));
+        private static void CalculateLevelBorders(out Vector2 lower, out Vector2 upper)
+        {
+            var objects = GameObject.FindGameObjectsWithTag(Tags.SEGMENT_MARKER);
+            lower = upper = objects[0].transform.position;
+
+            for (var i = 1; i < objects.Length; i++)
+            {
+                var pos = objects[i].transform.position;
+
+                if (pos.x < lower.x || pos.y < lower.y)
+                    lower = pos;
+
+                if (pos.x > upper.x || pos.y > upper.y)
+                    upper = pos;
+            }
+        }
 
         private void CreateUI()
         {

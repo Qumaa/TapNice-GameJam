@@ -12,7 +12,8 @@ namespace Project.Architecture.Boot
         [SerializeField] private PlayerConfig _playerConfig;
         [SerializeField] private GameLevelsConfig _levelsConfig;
         [SerializeField] private UIConfig _uiConfig;
-        
+        [SerializeField] private VFXConfig _vfxConfig;
+
         private IGame _game;
 
         private void Awake()
@@ -25,7 +26,7 @@ namespace Project.Architecture.Boot
             var levels = _levelsConfig.Levels.Select(x => (ILevelDescriptor) x).ToArray();
             var applicationQuitter = new ApplicationQuitter();
 
-            _game = new Game(_playerConfig, _uiConfig, levels, applicationQuitter);
+            _game = new Game(_playerConfig, _uiConfig, _vfxConfig, levels, applicationQuitter);
             _game.InputService = GetComponent<IGameInputService>();
             _game.Start();
         }

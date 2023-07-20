@@ -48,6 +48,7 @@ MonoBehaviour:
   _playerConfig: {fileID: 11400000, guid: 6a59d946d5fbfbd4dbad9a116758868c, type: 2}
   _levelsConfig: {fileID: 11400000, guid: e24774a2e6f6ed4429fe6d60239650d2, type: 2}
   _uiConfig: {fileID: 11400000, guid: 6a989111c532f254eae817a427ec9469, type: 2}
+  _vfxConfig: {fileID: 11400000, guid: 67491574e1919a840900c4c7ac97a138, type: 2}
 --- !u!114 &-222136532669918108
 MonoBehaviour:
   m_ObjectHideFlags: 0

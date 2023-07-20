@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Project.Architecture.States
 {
+    [StructLayout(LayoutKind.Auto)]
     public readonly struct RichLoadLevelArgument
     {
         public readonly int LevelIndex;

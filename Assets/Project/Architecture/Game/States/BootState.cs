@@ -6,6 +6,7 @@ using Project.Game.CollisionHandling;
 using Project.Game.Effects;
 using Project.Game.Levels;
 using Project.Game.Player;
+using Project.Game.VFX;
 using Project.UI;
 using UnityEngine;
 
@@ -18,10 +19,11 @@ namespace Project.Architecture.States
         private readonly ISceneLoader _sceneLoader;
         private readonly ILevelDescriptor[] _levelDescriptors;
         private readonly UIConfig _uiConfig;
+        private readonly VFXConfig _vfxConfig;
 
         public BootState(IGame game, IGameStateMachine stateMachine, PlayerConfig playerConfig,
-            IEffectsManager effectsManager, UIConfig uiConfig, ISceneLoader sceneLoader, 
-            ILevelDescriptor[] levelDescriptors) : 
+            IEffectsManager effectsManager, UIConfig uiConfig, ISceneLoader sceneLoader,
+            ILevelDescriptor[] levelDescriptors, VFXConfig vfxConfig) :
             base(game, stateMachine)
         {
             _playerConfig = playerConfig;
@@ -29,6 +31,7 @@ namespace Project.Architecture.States
             _uiConfig = uiConfig;
             _sceneLoader = sceneLoader;
             _levelDescriptors = levelDescriptors;
+            _vfxConfig = vfxConfig;
         }
 
         public override void Enter()
@@ -48,7 +51,7 @@ namespace Project.Architecture.States
 
             director.Build(_stateMachine);
 
-            DOTween.Init();
+            DOTween.Init(true);
             Application.targetFrameRate = 60;
 
             MoveNext();
@@ -80,7 +83,8 @@ namespace Project.Architecture.States
                 _sceneLoader,
                 _uiConfig,
                 new NextLevelResolver(_levelDescriptors.Length),
-                new CollisionHandlerResolver(level, _playerConfig)
+                new CollisionHandlerResolver(level, _playerConfig),
+                new BackgroundParticlesFactory(_vfxConfig.ParticlesPrefab, _vfxConfig.DensityPerUnit).CreateNew()
             );
 
         private void MoveNext() =>
