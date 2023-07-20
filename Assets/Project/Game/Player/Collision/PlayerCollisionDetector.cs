@@ -12,18 +12,18 @@ namespace Project.Game.CollisionHandling
         public event Action<CustomCollision2D> OnCollided;
 
         private void OnCollisionEnter2D(Collision2D other) =>
-            TryAddPoints(other);
+            ScanContacts(other);
 
         private void OnCollisionStay2D(Collision2D other) =>
-            TryAddPoints(other);
+            ScanContacts(other);
 
-        private void TryAddPoints(Collision2D other)
+        private void ScanContacts(Collision2D other)
         {
-            var minDist = CalculateContactPointsDistance(other);
+            var closeDistance = MeasureTwoStepsMagnitude(other);
             
             foreach (var point in other.contacts)
             {
-                if (IsCloseEnoughToAnyCachedPoints(point, minDist))
+                if (GivenContactIsCloseToAnyCached(point, closeDistance))
                     continue;
                 
                 _points.Add(point);
@@ -31,11 +31,11 @@ namespace Project.Game.CollisionHandling
             }
         }
 
-        private bool IsCloseEnoughToAnyCachedPoints(ContactPoint2D point, float minDistance) =>
+        private bool GivenContactIsCloseToAnyCached(ContactPoint2D point, float minDistance) =>
             _points.Any(cached => Vector2.Distance(cached.point, point.point) < minDistance);
 
-        private static float CalculateContactPointsDistance(Collision2D collision2D) =>
-            collision2D.otherRigidbody.velocity.magnitude * Time.fixedDeltaTime * 2;
+        private static float MeasureTwoStepsMagnitude(Collision2D collision2D) =>
+            collision2D.relativeVelocity.magnitude * Time.fixedDeltaTime * 2;
 
         private void OnCollisionExit2D() =>
             Reset();
