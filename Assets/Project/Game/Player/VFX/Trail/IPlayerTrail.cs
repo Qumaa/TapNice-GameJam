@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Game.Player
+namespace Project.Game.Player.VFX
 {
     public interface IPlayerTrail : IResettable, IActivatable
     {

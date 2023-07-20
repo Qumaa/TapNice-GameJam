@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Project.Game.Player
+namespace Project.Game.Player.VFX
 {
     [RequireComponent(typeof(TrailRenderer))]
     public class TrailRendererWrapper : MonoBehaviour

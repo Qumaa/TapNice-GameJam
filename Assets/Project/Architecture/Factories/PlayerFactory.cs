@@ -2,6 +2,7 @@
 using Project.Game.CollisionHandling;
 using Project.Game.Effects;
 using Project.Game.Player;
+using Project.Game.Player.VFX;
 using UnityEngine;
 
 namespace Project.Architecture.Factories
@@ -34,8 +35,9 @@ namespace Project.Architecture.Factories
                 new Affectable<float>(_playerConfig.HorizontalSpeed, _effectsManager));
             var colors = new PlayerColors(playerObj.GetComponent<SpriteRenderer>(), _playerConfig.PlayerCanJumpColor, 
                 trail, new Affectable<Color>(_playerConfig.PlayerDefaultColor, _effectsManager));
+            var rippleVFX = new ParticlePlayerRippleVFX(playerObj.GetComponent<RippleContainer>().ParticleSystem);
 
-            var player = new PlayerScript(playerLocomotor, colors, _inputService, collisionDetector, trail);
+            var player = new PlayerScript(playerLocomotor, colors, _inputService, collisionDetector, trail, rippleVFX);
 
             player.Deactivate();
 
