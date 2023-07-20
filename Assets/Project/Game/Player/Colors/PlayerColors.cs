@@ -1,4 +1,5 @@
 ﻿using Project.Game.Effects;
+using Project.Game.Player.VFX;
 using UnityEngine;
 
 namespace Project.Game.Player

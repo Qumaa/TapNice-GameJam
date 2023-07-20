@@ -2,7 +2,7 @@
 using Project.Game.CollisionHandling;
 using Project.Game.Effects;
 using Project.Game.Player;
-using Project.Game.VFX;
+using Project.Game.Player.VFX;
 using UnityEngine;
 
 namespace Project.Architecture.Factories

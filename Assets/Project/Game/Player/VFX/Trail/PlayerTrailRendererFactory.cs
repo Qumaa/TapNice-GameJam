@@ -1,7 +1,7 @@
 ﻿using Project.Game.Player;
 using UnityEngine;
 
-namespace Project
+namespace Project.Game.Player.VFX
 {
     public record PlayerTrailRendererFactory : IFactory<TrailRendererWrapper>
     {

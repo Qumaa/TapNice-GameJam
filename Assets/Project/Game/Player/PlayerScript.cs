@@ -1,7 +1,7 @@
 using System;
 using Project.Game.CollisionHandling;
 using Project.Game.Effects;
-using Project.Game.VFX;
+using Project.Game.Player.VFX;
 using UnityEngine;
 
 namespace Project.Game.Player

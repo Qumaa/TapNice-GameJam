@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Game.VFX
+namespace Project.Game.Player.VFX
 {
     public class ParticlePlayerRippleVFX : IPlayerRippleVFX
     {

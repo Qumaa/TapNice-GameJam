@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Project.Game.Player;
+using UnityEngine;
 
-namespace Project.Game.Player
+namespace Project.Game.Player.VFX
 {
     public class PlayerTrail : IPlayerTrail
     {
