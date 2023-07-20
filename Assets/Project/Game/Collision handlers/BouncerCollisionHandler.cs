@@ -1,8 +1,8 @@
 ﻿namespace Project.Game.CollisionHandling
 {
-    public class BouncerCollisionHandler : ICollisionHandler
+    public class BouncerCollisionHandler : PlayerCollisionHandler
     {
-        public void HandleCollision(PlayerCollisionInfo collision)
+        public override void HandleCollision(PlayerCollisionInfo collision)
         {
             if (collision.IsOnWall)
                 collision.Player.InvertDirection();

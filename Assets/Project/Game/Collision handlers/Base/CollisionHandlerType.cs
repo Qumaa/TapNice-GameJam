@@ -6,6 +6,7 @@
         Finish,
         Trampoline,
         Discharger,
-        Bouncer
+        Bouncer,
+        Booster
     }
 }
