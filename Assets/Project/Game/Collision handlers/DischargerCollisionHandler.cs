@@ -1,4 +1,6 @@
-﻿namespace Project.Game.CollisionHandling
+﻿using Project.Game.Effects;
+
+namespace Project.Game.CollisionHandling
 {
     public class DischargerCollisionHandler : PlayerCollisionHandler
     {
@@ -6,6 +8,7 @@
         {
             DefaultHandling(collision);
             collision.Player.CanJump = false;
+            collision.Player.Color.AddEffect(new DischargedPlayerColorEffect());
         }
     }
 }

@@ -5,6 +5,7 @@
         Default,
         Finish,
         Trampoline,
-        Discharger
+        Discharger,
+        Bouncer
     }
 }

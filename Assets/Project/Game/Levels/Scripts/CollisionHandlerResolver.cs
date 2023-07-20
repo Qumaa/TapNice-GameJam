@@ -35,6 +35,7 @@ namespace Project.Game.CollisionHandling
                 CollisionHandlerType.Finish => new FinishCollisionHandler(_level, _playerConfig.FinishColor),
                 CollisionHandlerType.Trampoline => new TrampolineCollisionHandler(),
                 CollisionHandlerType.Discharger => new DischargerCollisionHandler(),
+                CollisionHandlerType.Bouncer => new BouncerCollisionHandler(),
                 _ => throw new ArgumentOutOfRangeException()
             };
     }

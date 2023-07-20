@@ -180,7 +180,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Discharger
+      name: Bouncer
       rect:
         serializedVersion: 2
         x: 8
@@ -200,6 +200,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Discharger
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 24
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b17ea38716f00249b0028e174d99584
+      internalID: 1048387473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -211,7 +232,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Discharger: 925205506
+      Bouncer: 925205506
+      Discharger: 1048387473
       Finish: 1016261848
       Tiles temp_10: 1099677373
       Tiles temp_11: -1090913103
