@@ -52,7 +52,7 @@ namespace Project.Game.CollisionHandling
 
         private void FinishLevel(PlayerCollisionInfo playerCollisionInfo)
         {
-            if (playerCollisionInfo.IsOnCeiling)
+            if (!playerCollisionInfo.IsOnFloor)
                 return;
             
             _player.OnCollided -= FinishLevel;
