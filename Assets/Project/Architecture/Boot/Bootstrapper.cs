@@ -12,7 +12,8 @@ namespace Project.Architecture.Boot
         [SerializeField] private PlayerConfig _playerConfig;
         [SerializeField] private GameLevelsConfig _levelsConfig;
         [SerializeField] private UIConfig _uiConfig;
-        
+        [SerializeField] private VFXConfig _vfxConfig;
+
         private IGame _game;
 
         private void Awake()

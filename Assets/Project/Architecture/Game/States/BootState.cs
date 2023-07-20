@@ -48,7 +48,7 @@ namespace Project.Architecture.States
 
             director.Build(_stateMachine);
 
-            DOTween.Init();
+            DOTween.Init(recycleAllByDefault: true);
             Application.targetFrameRate = 60;
 
             MoveNext();

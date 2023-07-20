@@ -27,6 +27,7 @@ namespace Project.Architecture.States
         private void Init()
         {
             _game.Player.Activate();
+
             CreateUI();
         }
 
