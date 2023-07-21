@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.Configs;
 using Project.Game.Levels;
+using Project.Game.Player;
 
 namespace Project.Game.CollisionHandling
 {
@@ -8,22 +9,24 @@ namespace Project.Game.CollisionHandling
     {
         private readonly ICollisionHandler[] _handlersTable;
         private readonly ILevel _level;
+        private readonly IGameInputService _inputService;
         private readonly PlayerConfig _playerConfig;
-        
-        public ICollisionHandler Resolve(CollisionHandlerType type) =>
-            GetCollisionHandler(type);
 
         private CollisionHandlerResolver()
         {
             var items = Enum.GetNames(typeof(CollisionHandlerType)).Length;
             _handlersTable = new ICollisionHandler[items];
         }
-        
-        public CollisionHandlerResolver(ILevel level, PlayerConfig playerConfig) : this()
+
+        public CollisionHandlerResolver(ILevel level, IGameInputService inputService, PlayerConfig playerConfig) : this()
         {
             _level = level;
+            _inputService = inputService;
             _playerConfig = playerConfig;
         }
+
+        public ICollisionHandler Resolve(CollisionHandlerType type) =>
+            GetCollisionHandler(type);
 
         private ICollisionHandler GetCollisionHandler(CollisionHandlerType type) =>
             _handlersTable[(int) type] ??= CreateCollisionHandler(type);
@@ -32,7 +35,7 @@ namespace Project.Game.CollisionHandling
             type switch
             {
                 CollisionHandlerType.Default => new LevelCollisionHandler(),
-                CollisionHandlerType.Finish => new FinishCollisionHandler(_level, _playerConfig.FinishColor),
+                CollisionHandlerType.Finish => new FinishCollisionHandler(_level, _inputService, _playerConfig.FinishColor),
                 CollisionHandlerType.Trampoline => new TrampolineCollisionHandler(),
                 CollisionHandlerType.Discharger => new DischargerCollisionHandler(),
                 CollisionHandlerType.Bouncer => new BouncerCollisionHandler(),

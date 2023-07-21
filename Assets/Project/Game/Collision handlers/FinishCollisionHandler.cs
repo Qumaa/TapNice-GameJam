@@ -11,11 +11,13 @@ namespace Project.Game.CollisionHandling
         private bool _shouldFinish;
         private readonly FinishSpeedEffect _finishSpeedEffect;
         private readonly PlayerColorPermanentEffect _playerColorPermanentEffect;
+        private readonly IGameInputService _inputService;
         private IPlayer _player;
 
-        public FinishCollisionHandler(ILevel level, Color finishPlayerColor)
+        public FinishCollisionHandler(ILevel level, IGameInputService inputService, Color finishPlayerColor)
         {
             _level = level;
+            _inputService = inputService;
             _level.OnStarted += Reset;
             
             _finishSpeedEffect = new FinishSpeedEffect();
@@ -48,6 +50,7 @@ namespace Project.Game.CollisionHandling
             player.Color.AddEffect(_playerColorPermanentEffect);
             player.Jump();
             player.OnCollided += FinishLevel;
+            _inputService.OnScreenTouchInput -= player.JumpIfPossible;
             _player = player;
         }
 
@@ -57,6 +60,7 @@ namespace Project.Game.CollisionHandling
                 return;
             
             _player.OnCollided -= FinishLevel;
+            _inputService.OnScreenTouchInput += _player.JumpIfPossible;
             _level.Finish();
         }
 

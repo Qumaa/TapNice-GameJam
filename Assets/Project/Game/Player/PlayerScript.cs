@@ -10,7 +10,6 @@ namespace Project.Game.Player
     {
         private readonly IPlayerLocomotor _locomotor;
         private readonly IPlayerColors _colors;
-        private readonly IGameInputService _inputService;
         private readonly ICollisionDetector _collisionDetector;
         private readonly IPlayerTrail _trail;
         private readonly IPlayerRippleVFX _rippleVFX;
@@ -37,18 +36,15 @@ namespace Project.Game.Player
         public event Action OnJumped;
         public event Action OnBounced;
 
-        public PlayerScript(IPlayerLocomotor locomotor, IPlayerColors colors,
-            IGameInputService inputService, ICollisionDetector collisionDetector, IPlayerTrail trail,
+        public PlayerScript(IPlayerLocomotor locomotor, IPlayerColors colors, ICollisionDetector collisionDetector, IPlayerTrail trail,
             IPlayerRippleVFX rippleVFX)
         {
             _locomotor = locomotor;
             _colors = colors;
-            _inputService = inputService;
             _collisionDetector = collisionDetector;
             _trail = trail;
             _rippleVFX = rippleVFX;
 
-            _inputService.OnScreenTouchInput += HandleJumpInput;
             _collisionDetector.OnCollided += HandleCollision;
 
             _jumpStrategy = InitialJump;
@@ -102,7 +98,6 @@ namespace Project.Game.Player
         {
             _colors.Activate();
             _trail.Activate();
-            _inputService.OnScreenTouchInput += HandleJumpInput;
             _collisionDetector.OnCollided += HandleCollision;
         }
 
@@ -111,7 +106,6 @@ namespace Project.Game.Player
             _locomotor.Reset();
             _colors.Deactivate();
             _trail.Deactivate();
-            _inputService.OnScreenTouchInput -= HandleJumpInput;
             _collisionDetector.Reset();
             _collisionDetector.OnCollided -= HandleCollision;
             _rippleVFX.Reset();
@@ -138,8 +132,5 @@ namespace Project.Game.Player
             _canJump = status;
             _colors.UpdateColors(_canJump);
         }
-
-        private void HandleJumpInput() =>
-            this.JumpIfPossible();
     }
 }

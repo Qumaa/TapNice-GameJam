@@ -1,4 +1,5 @@
-﻿using Project.UI;
+﻿using Project.Game.Player;
+using Project.UI;
 using Project.UI.Animation;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -19,14 +20,13 @@ namespace Project.Architecture.States
             _winUiPrefab = winUiPrefab;
         }
 
-        public override void Enter(int arg)
-        {
+        public override void Enter(int arg) =>
             LoadLevel(arg);
-        }
 
         private void Init()
         {
             _game.Player.Activate();
+            _game.InputService.OnScreenTouchInput += _game.Player.JumpIfPossible;
 
             CreateUI();
         }
@@ -46,16 +46,18 @@ namespace Project.Architecture.States
             var obj = Object.Instantiate(_winUiPrefab);
 
             _game.LoadedLevel.OnFinishedWithTime += obj.GetComponent<WinUIAnimator>().SetElapsedTime;
-            
+
             return obj.GetComponent<IGameplayWinUI>().HideFluent();
         }
 
         public override void Exit() { }
 
-        private static T UIFactory<T>(GameObject prefab) where T : IGameUI =>
+        private static T UIFactory<T>(GameObject prefab)
+            where T : IGameUI =>
             Object.Instantiate(prefab).GetComponent<T>();
 
-        private static T HiddenUIFactory<T>(GameObject prefab) where T : IShowableGameUI =>
+        private static T HiddenUIFactory<T>(GameObject prefab)
+            where T : IShowableGameUI =>
             UIFactory<T>(prefab).HideFluent();
     }
 }
