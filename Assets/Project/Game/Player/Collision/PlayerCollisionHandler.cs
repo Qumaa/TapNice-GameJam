@@ -7,11 +7,17 @@
         protected static void DefaultHandling(PlayerCollisionInfo collision)
         {
             if (TryHandleFloor(collision))
+            {
+                PlayRippleEffect(collision);
                 return;
+            }
 
             if (TryHandleWall(collision))
+            {
+                PlayRippleEffect(collision);
                 return;
-            
+            }
+
             collision.Player.UpdateHorizontalVelocity();
         }
 
@@ -21,7 +27,6 @@
                 return false;
             
             collision.Player.InvertDirection();
-            PlayRippleEffect(collision);
             return true;
 
         }
@@ -32,7 +37,6 @@
                 return false;
             
             collision.Player.Bounce();
-            PlayRippleEffect(collision);
             return true;
         }
 

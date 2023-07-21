@@ -6,9 +6,9 @@ namespace Project.Game.CollisionHandling
     {
         public override void HandleCollision(PlayerCollisionInfo collision)
         {
+            collision.Player.Color.AddEffect(new DischargerColorEffect());
             DefaultHandling(collision);
             collision.Player.CanJump = false;
-            collision.Player.Color.AddEffect(new DischargerColorEffect());
         }
     }
 }

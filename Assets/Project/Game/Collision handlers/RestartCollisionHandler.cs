@@ -11,7 +11,10 @@ namespace Project.Game.CollisionHandling
             _level = level;
         }
 
-        public override void HandleCollision(PlayerCollisionInfo collision) =>
+        public override void HandleCollision(PlayerCollisionInfo collision)
+        {
             _level.Restart();
+            PlayRippleEffect(collision);
+        }
     }
 }
