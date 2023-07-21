@@ -1,4 +1,5 @@
-﻿using Project.Game.Player;
+﻿using Project.Game.Levels;
+using Project.Game.Player;
 using Project.UI;
 using Project.UI.Animation;
 using UnityEngine;
@@ -11,13 +12,15 @@ namespace Project.Architecture.States
         private readonly GameObject _gameplayUiPrefab;
         private readonly GameObject _pauseUiPrefab;
         private readonly GameObject _winUiPrefab;
+        private readonly ILevelBestTimeService _savingSystem;
 
         public InitGameLoopState(IGame game, IGameStateMachine stateMachine, GameObject gameplayUiPrefab,
-            GameObject pauseUiPrefab, GameObject winUiPrefab) : base(game, stateMachine)
+            GameObject pauseUiPrefab, GameObject winUiPrefab, ILevelBestTimeService savingSystem) : base(game, stateMachine)
         {
             _gameplayUiPrefab = gameplayUiPrefab;
             _pauseUiPrefab = pauseUiPrefab;
             _winUiPrefab = winUiPrefab;
+            _savingSystem = savingSystem;
         }
 
         public override void Enter(int arg) =>
@@ -27,6 +30,8 @@ namespace Project.Architecture.States
         {
             _game.Player.Activate();
             _game.InputService.OnScreenTouchInput += _game.Player.JumpIfPossible;
+            
+            _savingSystem.LoadSavedData();
 
             CreateUI();
         }

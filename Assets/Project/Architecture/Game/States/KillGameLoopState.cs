@@ -1,14 +1,17 @@
-﻿using Project.Game.Player;
+﻿using Project.Game.Levels;
+using Project.Game.Player;
 using Project.UI;
 
 namespace Project.Architecture.States
 {
     public class KillGameLoopState : GameState
     {
+        private readonly ILevelBestTimeService _savingSystem;
 
-        public KillGameLoopState(IGame game, IGameStateMachine stateMachine)
-            : base(game, stateMachine)
+        public KillGameLoopState(IGame game, IGameStateMachine stateMachine, ILevelBestTimeService savingSystem) :
+            base(game, stateMachine)
         {
+            _savingSystem = savingSystem;
         }
 
         public override void Enter()
@@ -19,6 +22,8 @@ namespace Project.Architecture.States
             _game.UI.Remove<IGameplayUI>();
             _game.UI.Remove<IGameplayPauseUI>();
             _game.UI.Remove<IGameplayWinUI>();
+            
+            _savingSystem.SaveLoadedData();
 
             _stateMachine.SetState<MenuState>();
         }

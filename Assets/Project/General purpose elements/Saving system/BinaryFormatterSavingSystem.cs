@@ -7,8 +7,7 @@ namespace Project
     {
         private readonly BinaryFormatter _formatter;
 
-        protected BinaryFormatterSavingSystem(string savePath) :
-            base(savePath)
+        protected BinaryFormatterSavingSystem()
         {
             _formatter = new BinaryFormatter();
         }
@@ -24,7 +23,7 @@ namespace Project
 
         protected override T LoadInstanceFromDisk(string filePath)
         {
-            using FileStream fileStream = File.Open(filePath, FileMode.Open);
+            using var fileStream = File.Open(filePath, FileMode.Open);
             return (T) _formatter.Deserialize(fileStream);
         }
     }

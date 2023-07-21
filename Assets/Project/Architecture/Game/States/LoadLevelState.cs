@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.Architecture.SceneManagement;
 using Project.Game.Levels;
+using UnityEngine;
 
 namespace Project.Architecture.States
 {
@@ -39,6 +40,7 @@ namespace Project.Architecture.States
         {
             _nextLevelResolver.SetLevel(levelIndex);
             _sceneLoader.LoadSceneHandled(LevelIndexToScene(levelIndex), callback);
+            _game.LoadedLevel.Name = _levels[levelIndex].LevelName;
         }
     }
 }

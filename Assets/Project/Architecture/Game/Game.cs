@@ -3,6 +3,7 @@ using Project.Architecture.SceneManagement;
 using Project.Architecture.States;
 using Project.Configs;
 using Project.Game;
+using Project.Game.ApplicationServices;
 using Project.Game.Effects;
 using Project.Game.Levels;
 using Project.Game.Player;

@@ -18,6 +18,7 @@ namespace Project.Architecture.States
         {
             InitCollisionHandlers();
             _game.LoadedLevel.Start();
+            
             MoveNext();
         }
 
