@@ -38,6 +38,7 @@ namespace Project.Game.CollisionHandling
         {
             _level.StopCountingTime();
             ApplyFinishEffect(collision.Player);
+            PlayRippleEffect(collision);
             _shouldFinish = true;
         }
 

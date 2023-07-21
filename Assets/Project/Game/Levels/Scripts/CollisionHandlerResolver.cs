@@ -37,6 +37,7 @@ namespace Project.Game.CollisionHandling
                 CollisionHandlerType.Discharger => new DischargerCollisionHandler(),
                 CollisionHandlerType.Bouncer => new BouncerCollisionHandler(),
                 CollisionHandlerType.Booster => new BoosterCollisionHandler(),
+                CollisionHandlerType.Restart => new RestartCollisionHandler(_level),
                 _ => throw new ArgumentOutOfRangeException()
             };
     }

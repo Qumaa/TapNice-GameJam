@@ -57,6 +57,7 @@ namespace Project.Game.Player
         public void Jump()
         {
             _jumpStrategy();
+            PlayRippleEffect();
             OnJumped?.Invoke();
         }
 
@@ -81,9 +82,6 @@ namespace Project.Game.Player
 
             OnCollided?.Invoke(info);
             handler.HandleCollision(info);
-
-            if (!info.IsOnCeiling)
-                PlayRippleEffect();
         }
 
         public void Reset(Vector2 position, PlayerDirection direction)
@@ -126,6 +124,9 @@ namespace Project.Game.Player
             _jumpStrategy = NormalJump;
         }
 
+        public void PlayRippleEffect() =>
+            _rippleVFX.PlayRipple(_locomotor.Position, Color.AffectedValue);
+
         private void NormalJump() =>
             _locomotor.Jump();
 
@@ -138,13 +139,7 @@ namespace Project.Game.Player
             _colors.UpdateColors(_canJump);
         }
 
-        private void HandleJumpInput()
-        {
-            if (this.JumpIfPossible())
-                PlayRippleEffect();
-        }
-
-        private void PlayRippleEffect() =>
-            _rippleVFX.PlayRipple(_locomotor.Position, Color.AffectedValue);
+        private void HandleJumpInput() =>
+            this.JumpIfPossible();
     }
 }

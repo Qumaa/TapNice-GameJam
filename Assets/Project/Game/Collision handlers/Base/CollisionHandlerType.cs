@@ -7,6 +7,7 @@
         Trampoline,
         Discharger,
         Bouncer,
-        Booster
+        Booster,
+        Restart
     }
 }

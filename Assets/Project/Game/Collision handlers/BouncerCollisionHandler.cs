@@ -4,10 +4,10 @@
     {
         public override void HandleCollision(PlayerCollisionInfo collision)
         {
-            if (collision.IsOnWall)
-                collision.Player.InvertDirection();
+            TryHandleWall(collision);
             
             collision.Player.Bounce();
+            PlayRippleEffect(collision);
         }
     }
 }

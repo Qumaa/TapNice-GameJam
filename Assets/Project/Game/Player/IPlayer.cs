@@ -37,6 +37,8 @@ namespace Project.Game.Player
         /// This method is called whenever a level is loaded and player have to be positioned on it.
         /// </summary>
         void Reset(Vector2 position, PlayerDirection direction);
+
+        void PlayRippleEffect();
     }
 
     public static class PlayerExtensions
