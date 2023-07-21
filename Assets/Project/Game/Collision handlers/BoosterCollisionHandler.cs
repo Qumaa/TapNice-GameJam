@@ -2,13 +2,14 @@
 
 namespace Project.Game.CollisionHandling
 {
-    public class DischargerCollisionHandler : PlayerCollisionHandler
+    public class BoosterCollisionHandler : PlayerCollisionHandler
     {
         public override void HandleCollision(PlayerCollisionInfo collision)
         {
-            collision.Player.Color.AddEffect(new DischargerColorEffect());
+            if (collision.IsOnFloor)
+                collision.Player.HorizontalSpeed.AddEffect(new ScalePlayerEffect(0, 2));
+
             DefaultHandling(collision);
-            collision.Player.CanJump = false;
         }
     }
 }

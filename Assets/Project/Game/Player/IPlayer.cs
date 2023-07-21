@@ -37,6 +37,8 @@ namespace Project.Game.Player
         /// This method is called whenever a level is loaded and player have to be positioned on it.
         /// </summary>
         void Reset(Vector2 position, PlayerDirection direction);
+
+        void PlayRippleEffect();
     }
 
     public static class PlayerExtensions
@@ -44,14 +46,13 @@ namespace Project.Game.Player
         /// <summary>
         /// If player's flag <see cref="IPlayer.CanJump"/> is true, calls <see cref="IPlayer.Jump"/> and sets the flag to false.
         /// </summary>
-        public static bool JumpIfPossible(this IPlayer player)
+        public static void JumpIfPossible(this IPlayer player)
         {
             if (!player.CanJump)
-                return false;
+                return;
 
             player.Jump();
             player.CanJump = false;
-            return true;
         }
 
         /// <summary>

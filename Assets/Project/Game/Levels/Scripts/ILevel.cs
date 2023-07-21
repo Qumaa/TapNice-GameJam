@@ -5,7 +5,6 @@ namespace Project.Game.Levels
 {
     public interface ILevel : IResettable
     {
-        IObservable<Vector2> Gravity { get; }
         float TimeElapsed { get; }
 
         event Action OnStarted;

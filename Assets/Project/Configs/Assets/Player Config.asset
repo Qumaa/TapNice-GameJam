@@ -19,4 +19,4 @@ MonoBehaviour:
   _trailTime: 2
   _playerColor: {r: 1, g: 1, b: 1, a: 1}
   _canJumpPlayerColor: {r: 0.22352941, g: 0.6666667, b: 0.85882354, a: 1}
-  _finishColor: {r: 0.22086148, g: 0.8867924, b: 0.23967767, a: 1}
+  _finishColor: {r: 0.18326804, g: 0.735849, b: 0.19952044, a: 1}

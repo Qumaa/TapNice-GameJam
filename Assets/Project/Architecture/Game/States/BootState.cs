@@ -57,10 +57,10 @@ namespace Project.Architecture.States
         public override void Exit() { }
 
         private IPlayer CreatePlayer() =>
-            new PlayerFactory(_playerConfig, _effectsManager, _game.InputService).CreateNew();
+            new PlayerFactory(_playerConfig, _effectsManager).CreateNew();
 
         private ILevel CreateLevel(IPlayer player) =>
-            new Level(new Observable<Vector2>(Physics2D.gravity), player);
+            new Level(player);
 
         private IGameUIRenderer CreateUI()
         {
@@ -80,7 +80,7 @@ namespace Project.Architecture.States
                 _sceneLoader,
                 _uiConfig,
                 new NextLevelResolver(_levelDescriptors.Length),
-                new CollisionHandlerResolver(level, _playerConfig)
+                new CollisionHandlerResolver(level, _game.InputService, _playerConfig)
             );
 
         private void MoveNext() =>

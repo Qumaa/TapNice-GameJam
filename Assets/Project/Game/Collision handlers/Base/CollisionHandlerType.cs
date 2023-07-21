@@ -5,6 +5,9 @@
         Default,
         Finish,
         Trampoline,
-        Discharger
+        Discharger,
+        Bouncer,
+        Booster,
+        Restart
     }
 }

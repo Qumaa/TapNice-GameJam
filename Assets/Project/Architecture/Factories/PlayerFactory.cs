@@ -11,13 +11,11 @@ namespace Project.Architecture.Factories
     {
         private readonly PlayerConfig _playerConfig;
         private readonly IEffectsManager _effectsManager;
-        private readonly IGameInputService _inputService;
 
-        public PlayerFactory(PlayerConfig playerConfig, IEffectsManager effectsManager, IGameInputService inputService)
+        public PlayerFactory(PlayerConfig playerConfig, IEffectsManager effectsManager)
         {
             _playerConfig = playerConfig;
             _effectsManager = effectsManager;
-            _inputService = inputService;
         }
 
         public IPlayer CreateNew()
@@ -37,7 +35,7 @@ namespace Project.Architecture.Factories
                 trail, new Affectable<Color>(_playerConfig.PlayerDefaultColor, _effectsManager));
             var rippleVFX = new ParticlePlayerRippleVFX(playerObj.GetComponent<RippleContainer>().ParticleSystem);
 
-            var player = new PlayerScript(playerLocomotor, colors, _inputService, collisionDetector, trail, rippleVFX);
+            var player = new PlayerScript(playerLocomotor, colors, collisionDetector, trail, rippleVFX);
 
             player.Deactivate();
 

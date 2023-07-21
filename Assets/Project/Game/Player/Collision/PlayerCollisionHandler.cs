@@ -6,21 +6,41 @@
 
         protected static void DefaultHandling(PlayerCollisionInfo collision)
         {
-            var player = collision.Player;
-
-            if (collision.IsOnFloor)
+            if (TryHandleFloor(collision))
             {
-                player.Bounce();
+                PlayRippleEffect(collision);
                 return;
             }
 
-            if (collision.IsOnWall)
+            if (TryHandleWall(collision))
             {
-                player.InvertDirection();
+                PlayRippleEffect(collision);
                 return;
             }
-            
-            player.UpdateHorizontalVelocity();
+
+            collision.Player.UpdateHorizontalVelocity();
         }
+
+        protected static bool TryHandleWall(PlayerCollisionInfo collision)
+        {
+            if (!collision.IsOnWall)
+                return false;
+            
+            collision.Player.InvertDirection();
+            return true;
+
+        }
+
+        protected static bool TryHandleFloor(PlayerCollisionInfo collision)
+        {
+            if (!collision.IsOnFloor)
+                return false;
+            
+            collision.Player.Bounce();
+            return true;
+        }
+
+        protected static void PlayRippleEffect(PlayerCollisionInfo collision) =>
+            collision.Player.PlayRippleEffect();
     }
 }

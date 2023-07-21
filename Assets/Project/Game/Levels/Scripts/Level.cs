@@ -12,16 +12,14 @@ namespace Project.Game.Levels
         private float _timeElapsedCached;
         private Func<float> _elapsedTimeStrategy;
 
-        public IObservable<Vector2> Gravity { get; }
         public float TimeElapsed => _elapsedTimeStrategy();
         public event Action OnStarted;
         public event Action OnRestarted;
         public event Action<float> OnFinishedWithTime;
         public event Action OnFinished;
 
-        public Level(IObservable<Vector2> gravity, IPlayer player)
+        public Level(IPlayer player)
         {
-            Gravity = gravity;
             _player = player;
         }
 
