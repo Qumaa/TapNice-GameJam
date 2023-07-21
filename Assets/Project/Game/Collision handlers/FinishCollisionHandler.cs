@@ -51,6 +51,7 @@ namespace Project.Game.CollisionHandling
             player.Jump();
             player.OnCollided += FinishLevel;
             _inputService.OnScreenTouchInput -= player.JumpIfPossible;
+            _level.OnRestarted += RevertFinishEffect;
             _player = player;
         }
 
@@ -58,10 +59,16 @@ namespace Project.Game.CollisionHandling
         {
             if (!playerCollisionInfo.IsOnFloor)
                 return;
-            
+
+            _level.OnFinished -= RevertFinishEffect;
+            RevertFinishEffect();
+            _level.Finish();
+        }
+
+        private void RevertFinishEffect()
+        {
             _player.OnCollided -= FinishLevel;
             _inputService.OnScreenTouchInput += _player.JumpIfPossible;
-            _level.Finish();
         }
 
         private void Reset() =>
