@@ -11,14 +11,16 @@ namespace Project.Architecture.States
         private IMainMenu _mainMenu;
         private readonly ILevelDescriptor[] _levels;
         private readonly GameObject _menuPrefab;
+        private readonly ILevelUnlocker _levelUnlocker;
 
         public MenuState(IGame game, IGameStateMachine stateMachine, ISceneLoader sceneLoader,
-            ILevelDescriptor[] gameLevels, GameObject menuPrefab) :
+            ILevelDescriptor[] gameLevels, GameObject menuPrefab, ILevelUnlocker levelUnlocker) :
             base(game, stateMachine)
         {
             _sceneLoader = sceneLoader;
             _levels = gameLevels;
             _menuPrefab = menuPrefab;
+            _levelUnlocker = levelUnlocker;
         }
 
         public override void Enter() =>
@@ -33,7 +35,7 @@ namespace Project.Architecture.States
         private void LoadMainMenu()
         {
             _mainMenu = Object.Instantiate(_menuPrefab).GetComponent<IMainMenu>();
-            _mainMenu.SetLevels(_levels);
+            _mainMenu.SetLevels(_levels, _levelUnlocker);
 
             _mainMenu.OnQuitPressed += _game.Quit;
             _mainMenu.OnLevelPlayPressed += LoadLevel;

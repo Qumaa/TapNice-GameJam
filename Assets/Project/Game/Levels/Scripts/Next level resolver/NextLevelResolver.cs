@@ -4,12 +4,14 @@ namespace Project.Game.Levels
 {
     public class NextLevelResolver : INextLevelResolver
     {
+        private readonly ILevelUnlocker _levelUnlocker;
         private readonly int _maxLevels;
         private int _currentLevel;
 
-        public NextLevelResolver(int maxLevels)
+        public NextLevelResolver(int maxLevels, ILevelUnlocker levelUnlocker)
         {
             _maxLevels = maxLevels;
+            _levelUnlocker = levelUnlocker;
         }
 
         public bool HasNextLevel(out int levelIndex)

@@ -28,6 +28,9 @@ namespace Project.UI
             _levelIndex = index;
         }
 
+        public void SetEnabled(bool enabled) =>
+            _button.interactable = enabled;
+
         private static string GetLevelName(int index, string name) =>
             $"{index + 1}. {name}";
 

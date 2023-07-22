@@ -11,27 +11,38 @@ namespace Project.Architecture.States
         private readonly ILevelDescriptor[] _levels;
         private readonly ISceneLoader _sceneLoader;
         private readonly UIConfig _uiConfig;
+        private readonly ILevelUnlocker _levelUnlocker;
         private readonly INextLevelResolver _nextLevelResolver;
         private readonly ICollisionHandlerResolver _handlerResolver;
         private readonly ILevelBestTimeService _savingSystem;
 
         public GameStateMachineDirector(IGame game, ILevelDescriptor[] levels,
-            ISceneLoader sceneLoader, UIConfig uiConfig, INextLevelResolver nextLevelResolver,
+            ISceneLoader sceneLoader, UIConfig uiConfig, ILevelUnlocker levelUnlocker,
             ICollisionHandlerResolver handlerResolver, ILevelBestTimeService savingSystem)
         {
             _game = game;
             _levels = levels;
             _sceneLoader = sceneLoader;
             _uiConfig = uiConfig;
-            _nextLevelResolver = nextLevelResolver;
+            _levelUnlocker = levelUnlocker;
             _handlerResolver = handlerResolver;
             _savingSystem = savingSystem;
+
+            _nextLevelResolver = new NextLevelResolver(_levels.Length, _levelUnlocker);
         }
 
         public void Build(IGameStateMachine machine) =>
-            machine.AddState(new MenuState(_game, machine, _sceneLoader, _levels, _uiConfig.MenuUiPrefab))
-                .AddState(new LoadLevelState(_game, machine, _sceneLoader, _levels, _nextLevelResolver
-                ))
+            machine.AddState(
+                    new MenuState(
+                        _game,
+                        machine,
+                        _sceneLoader,
+                        _levels,
+                        _uiConfig.MenuUiPrefab,
+                        _levelUnlocker
+                    )
+                )
+                .AddState(new LoadLevelState(_game, machine, _sceneLoader, _levels, _nextLevelResolver))
                 .AddState(new LevelInitState(_game, machine, _handlerResolver))
                 .AddState(new GameLoopState(_game, machine))
                 .AddState(

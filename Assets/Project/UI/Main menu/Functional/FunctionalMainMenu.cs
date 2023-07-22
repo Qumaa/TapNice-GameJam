@@ -22,12 +22,12 @@ namespace Project.UI
             _quitButton.onClick.AddListener(EmitQuitEvent);
         }
 
-        public void SetLevels(ILevelDescriptor[] levels)
+        public void SetLevels(ILevelDescriptor[] levels, ILevelUnlocker levelUnlocker)
         {
             _buttons = new FunctionalMainMenuButton[levels.Length];
 
             for (var i = 0; i < levels.Length; i++)
-                CreateLevelButton(levels[i], i);
+                CreateLevelButton(levels[i], i, levels[i].UnlockedByDefault || levelUnlocker.IsLevelUnlocked(i));
         }
 
         protected override void OnDelete()
@@ -42,11 +42,12 @@ namespace Project.UI
                 button.OnPressed -= EmitLevelEvent;
         }
 
-        private void CreateLevelButton(ILevelDescriptor level, int index)
+        private void CreateLevelButton(ILevelDescriptor level, int index, bool enabled)
         {
             var button = CreateButtonObject();
             button.SetLevel(level.LevelName, index);
             button.OnPressed += EmitLevelEvent;
+            button.SetEnabled(enabled);
 
             _buttons[index] = button;
         }

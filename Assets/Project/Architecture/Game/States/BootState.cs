@@ -61,7 +61,7 @@ namespace Project.Architecture.States
         private IPlayer CreatePlayer() =>
             new PlayerFactory(_playerConfig, _effectsManager).CreateNew();
 
-        private ILevel CreateLevel(IPlayer player, LevelBestTimeSavingSystem savingSystem) =>
+        private ILevel CreateLevel(IPlayer player, ILevelBestTimeService savingSystem) =>
             new Level(player, savingSystem);
 
         private IGameUIRenderer CreateUI()
@@ -75,13 +75,13 @@ namespace Project.Architecture.States
             return gameUIRenderer;
         }
 
-        private IGameStateMachineDirector CreateMachineDirector(ILevel level, LevelBestTimeSavingSystem savingSystem) =>
+        private IGameStateMachineDirector CreateMachineDirector(ILevel level, ILevelBestTimeService savingSystem) =>
             new GameStateMachineDirector(
                 _game,
                 _levelDescriptors,
                 _sceneLoader,
                 _uiConfig,
-                new NextLevelResolver(_levelDescriptors.Length),
+                new LevelUnlocker(),
                 new CollisionHandlerResolver(level, _game.InputService, _playerConfig),
                 savingSystem
             );
