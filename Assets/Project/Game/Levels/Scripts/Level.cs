@@ -32,7 +32,7 @@ namespace Project.Game.Levels
             
             OnStarted?.Invoke();
 
-            Debug.Log($"Entered level {Name} | Best time : {_savingSystem.GetBestTime(Name).AsSeconds}");
+            LogBestTime();
         }
 
         public void Restart()
@@ -46,6 +46,7 @@ namespace Project.Game.Levels
         {
             StopCountingTime();
             UpdateBestTime();
+            LogBestTime();
             
             OnFinishedWithTime?.Invoke(TimeElapsed);
             OnFinished?.Invoke();
@@ -95,5 +96,8 @@ namespace Project.Game.Levels
             if (TimeElapsed < previous.AsSeconds || previous.IsEmpty)
                 _savingSystem.SetBestTime(Name, TimeElapsed);
         }
+
+        private void LogBestTime() =>
+            Debug.Log($"Level {Name} | Best time : {_savingSystem.GetBestTime(Name).AsSeconds}");
     }
 }

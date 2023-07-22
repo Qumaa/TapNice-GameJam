@@ -3,87 +3,69 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Project.Game.Levels
 {
     public class LevelBestTimeSavingSystem : ILevelBestTimeService
     {
-        private const string _FILES_RELATIVE_PATH = "Level Scores/";
+        private const string _FILE_RELATIVE_PATH = "Level Scores/";
+        private const string _FILE_NAME = "Scores";
 
-        private readonly UniversalSavingSystem<LevelBestTimeStaticData> _savingSystem;
-        private readonly Dictionary<string, LevelBestTimeStaticData> _bestScoresTable;
+        private readonly UniversalSavingSystem<LevelsBestTimeData> _savingSystem;
+        private LevelsBestTimeData _data;
 
         public LevelBestTimeSavingSystem()
         {
-            _savingSystem = new UniversalSavingSystem<LevelBestTimeStaticData>(LevelBestTimeStaticData.Empty);
-            _bestScoresTable = new Dictionary<string, LevelBestTimeStaticData>();
+            _savingSystem = new UniversalSavingSystem<LevelsBestTimeData>(LevelsBestTimeData.Empty);
         }
 
         public LevelBestTime GetBestTime(string levelName) =>
-            _bestScoresTable.TryGetValue(levelName, out var bestTime) ? bestTime : LevelBestTime.Empty();
+            _data.GetBestTime(levelName);
 
-        public void SetBestTime(string levelName, LevelBestTime time)
+        public void SetBestTime(string levelName, LevelBestTime time) =>
+            _data.SetBestTime(levelName, time.AsSeconds);
+
+        public void LoadSavedData() =>
+            _data ??= _savingSystem.LoadData(GetFilePath());
+
+        public void SaveLoadedData() =>
+            _savingSystem.SaveData(_data, GetFilePath());
+
+        private static string GetFilePath()
         {
-            if (_bestScoresTable.TryGetValue(levelName, out var savedTime))
-            {
-                savedTime.TimeInSeconds = time.AsSeconds;
-                return;
-            }
-
-            savedTime = new LevelBestTimeStaticData(levelName, time);
-            _bestScoresTable.Add(levelName, savedTime);
-        }
-
-        public void LoadSavedData()
-        {
-            var folderPath = GetFolderPath();
+            var path = Path.Combine(Application.persistentDataPath, _FILE_RELATIVE_PATH);
             
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
-
-            var filePaths = Directory.GetFiles(folderPath);
-
-
-            foreach (var filePath in filePaths)
-            {
-                var fileName = Path.GetFileName(filePath);
-                var data = _savingSystem.LoadData(filePath);
-                data.LevelName = fileName;
-
-                _bestScoresTable.TryAdd(fileName, data);
-            }
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            
+            return path + _FILE_NAME;
         }
-
-        public void SaveLoadedData()
-        {
-            foreach (var levelData in _bestScoresTable)
-                _savingSystem.SaveData(levelData.Value, GetLevelDataPath(levelData.Key));
-        }
-
-        private static string GetFolderPath() =>
-            Path.Combine(Application.persistentDataPath, _FILES_RELATIVE_PATH);
-
-        private static string GetLevelDataPath(string levelName) =>
-            GetFolderPath() + levelName;
-
+        
         [Serializable]
-        private record LevelBestTimeStaticData
+        private record LevelsBestTimeData
         {
-            [NonSerialized] public string LevelName;
-            public float TimeInSeconds;
-
-            public LevelBestTimeStaticData(string levelName, float timeInSeconds)
+            private readonly Dictionary<string, float> _bestScoresTable = new();
+            
+            public void SetBestTime(string levelName, float time)
             {
-                TimeInSeconds = timeInSeconds;
-                LevelName = levelName;
+                if (!_bestScoresTable.TryAdd(levelName, time))
+                    _bestScoresTable[levelName] = time;
             }
+            
+            public float GetBestTime(string levelName) =>
+                _bestScoresTable.TryGetValue(levelName, out var bestTime) ? bestTime : 0;
 
-            public LevelBestTimeStaticData(string levelName, LevelBestTime time) : this(levelName, time.AsSeconds) { }
-
-            public static implicit operator LevelBestTime(LevelBestTimeStaticData data) =>
-                new(data.TimeInSeconds);
-
-            public static LevelBestTimeStaticData Empty() =>
-                new(null, 0);
+            public static LevelsBestTimeData Empty() =>
+                new();
         }
+
+#if UNITY_EDITOR
+        [MenuItem("Project/Clear Level Scores")]
+        private static void ClearLevelScores() =>
+            File.Delete(GetFilePath());
+#endif
     }
 }
