@@ -27,5 +27,20 @@ namespace Project.Game.Levels
                 }
             }
         }
+        
+        public static class Unlocking
+        {
+            public const string FILE_NAME = "Unlocked";
+            
+            private static readonly string _filePath = Root + FILE_NAME;
+            public static string FilePath
+            {
+                get
+                {
+                    CreateFolderIfNecessary(Root);
+                    return _filePath;
+                }
+            }
+        }
     }
 }

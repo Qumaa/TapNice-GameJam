@@ -81,7 +81,8 @@ namespace Project.Architecture.States
                 _levelDescriptors,
                 _sceneLoader,
                 _uiConfig,
-                new LevelUnlocker(),
+                new LevelUnlocker(_levelDescriptors),
+                new NextLevelResolver(_levelDescriptors.Length),
                 new CollisionHandlerResolver(level, _game.InputService, _playerConfig),
                 savingSystem
             );

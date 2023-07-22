@@ -1,11 +1,7 @@
-using System;
-
 namespace Project.Game.Levels
 {
-    public interface ILevelUnlocker
+    public interface ILevelUnlocker : IPersistentDataProcessor
     {
-        event Action<int, string> OnLevelUnlocked;
-        
         void UnlockLevel(int levelIndex);
         bool IsLevelUnlocked(int levelIndex);
         

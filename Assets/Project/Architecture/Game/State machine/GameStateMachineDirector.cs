@@ -18,7 +18,9 @@ namespace Project.Architecture.States
 
         public GameStateMachineDirector(IGame game, ILevelDescriptor[] levels,
             ISceneLoader sceneLoader, UIConfig uiConfig, ILevelUnlocker levelUnlocker,
-            ICollisionHandlerResolver handlerResolver, ILevelBestTimeService savingSystem)
+            INextLevelResolver nextLevelResolver,
+            ICollisionHandlerResolver handlerResolver,
+            ILevelBestTimeService savingSystem)
         {
             _game = game;
             _levels = levels;
@@ -26,9 +28,8 @@ namespace Project.Architecture.States
             _uiConfig = uiConfig;
             _levelUnlocker = levelUnlocker;
             _handlerResolver = handlerResolver;
+            _nextLevelResolver = nextLevelResolver;
             _savingSystem = savingSystem;
-
-            _nextLevelResolver = new NextLevelResolver(_levels.Length, _levelUnlocker);
         }
 
         public void Build(IGameStateMachine machine) =>
@@ -51,13 +52,12 @@ namespace Project.Architecture.States
                         machine,
                         _uiConfig.GameUiPrefab,
                         _uiConfig.PauseUiPrefab,
-                        _uiConfig.WinUiPrefab,
-                        _savingSystem
+                        _uiConfig.WinUiPrefab
                     )
                 )
-                .AddState(new KillGameLoopState(_game, machine, _savingSystem))
+                .AddState(new KillGameLoopState(_game, machine, _savingSystem, _levelUnlocker))
                 .AddState(new PausedGameLoopState(_game, machine))
                 .AddState(new RestartLevelState(_game, machine))
-                .AddState(new FinishLevelState(_game, machine, _nextLevelResolver));
+                .AddState(new FinishLevelState(_game, machine, _nextLevelResolver, _levelUnlocker));
     }
 }
