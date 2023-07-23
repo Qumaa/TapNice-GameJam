@@ -31,12 +31,16 @@ MonoBehaviour:
     instantiationMode: 1
   - dependency: {fileID: 2800000, guid: 07b803ba552384b458f08b11a021285e, type: 3}
     instantiationMode: 1
+  - dependency: {fileID: 11400000, guid: 67491574e1919a840900c4c7ac97a138, type: 2}
+    instantiationMode: 1
   - dependency: {fileID: 11400000, guid: 7b054e6337e947047aa5b429ddcc9b58, type: 2}
     instantiationMode: 1
   - dependency: {fileID: 2800000, guid: 5f2a108eb023faf43a809979fd3d38f2, type: 3}
     instantiationMode: 1
   - dependency: {fileID: 6491434587289666971, guid: 36959310f5f4d4840913dbeb3e645a45, type: 3}
     instantiationMode: 1
+  - dependency: {fileID: 5807585215873466941, guid: c34df59ba0d4b6348a27653827955e99, type: 3}
+    instantiationMode: 0
   templatePipeline: {fileID: 0}
   badge: {fileID: 0}
   addToDefaults: 0
