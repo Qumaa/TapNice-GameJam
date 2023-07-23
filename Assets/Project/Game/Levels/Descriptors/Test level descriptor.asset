@@ -16,3 +16,4 @@ MonoBehaviour:
     _name: Test level scene
     _buildIndex: 2
   _name: Test Level
+  _unlockedByDefault: 1

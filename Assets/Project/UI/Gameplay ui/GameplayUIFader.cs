@@ -8,11 +8,13 @@ namespace Project.UI
     {
         private readonly Button _pauseButton;
         private readonly TextMeshProUGUI _timeLabel;
+        private readonly TextMeshProUGUI _bestTimeLabel;
 
-        public GameplayUIFader(Button pauseButton, TextMeshProUGUI timeLabel)
+        public GameplayUIFader(Button pauseButton, TextMeshProUGUI timeLabel, TextMeshProUGUI bestTimeLabel)
         {
             _pauseButton = pauseButton;
             _timeLabel = timeLabel;
+            _bestTimeLabel = bestTimeLabel;
         }
 
         public override void SetFade(float fade)
@@ -32,9 +34,15 @@ namespace Project.UI
 
         private void SetScoreFade(float fade)
         {
-            var color = _timeLabel.color;
+            SetTextFade(_timeLabel, fade);
+            SetTextFade(_bestTimeLabel, fade);
+        }
+
+        private static void SetTextFade(TextMeshProUGUI text, float fade)
+        {
+            var color = text.color;
             color.a = fade;
-            _timeLabel.color = color;
+            text.color = color;
         }
     }
 }

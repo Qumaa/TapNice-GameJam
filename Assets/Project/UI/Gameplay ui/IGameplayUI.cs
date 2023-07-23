@@ -8,6 +8,7 @@ namespace Project.UI
         event Action OnPausePressed;
         
         void DisplayTime(float time);
-        void SetHighestTime(float highestTime);
+        void SetBestTime(float bestTime);
+        void HideBestTime();
     }
 }

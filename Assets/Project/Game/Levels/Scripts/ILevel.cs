@@ -7,6 +7,7 @@ namespace Project.Game.Levels
     {
         float TimeElapsed { get; }
         string Name { get; set; }
+        LevelBestTime BestTime { get; }
 
         event Action OnStarted;
         event Action OnRestarted;

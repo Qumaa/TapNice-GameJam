@@ -12,6 +12,7 @@ namespace Project.UI
     {
         [SerializeField] private Button _pauseButton;
         [SerializeField] private TextMeshProUGUI _timeLabel;
+        [SerializeField] private TextMeshProUGUI _bestTimeLabel;
         private IShowableUIAnimator _animator;
 
         public event Action OnPausePressed;
@@ -29,7 +30,14 @@ namespace Project.UI
         public void DisplayTime(float time) =>
             _timeLabel.text = UIUtils.FormatTime(time);
 
-        public void SetHighestTime(float highestTime) { }
+        public void SetBestTime(float bestTime)
+        {
+            SetBestTimeVisibility(true);
+            _bestTimeLabel.text = $"Best: {UIUtils.FormatTime(bestTime)}";
+        }
+        
+        public void HideBestTime() =>
+            SetBestTimeVisibility(false);
 
         public void ShowAnimated()
         {
@@ -42,5 +50,8 @@ namespace Project.UI
 
         private void EmitPauseEvent() =>
             OnPausePressed?.Invoke();
+
+        private void SetBestTimeVisibility(bool visibility) =>
+            _bestTimeLabel.gameObject.SetActive(visibility);
     }
 }

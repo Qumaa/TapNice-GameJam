@@ -15,6 +15,7 @@ namespace Project.Game.Levels
 
         public float TimeElapsed => _elapsedTimeStrategy();
         public string Name { get; set; }
+        public LevelBestTime BestTime => _savingSystem.GetBestTime(Name);
         public event Action OnStarted;
         public event Action OnRestarted;
         public event Action<float> OnFinishedWithTime;
