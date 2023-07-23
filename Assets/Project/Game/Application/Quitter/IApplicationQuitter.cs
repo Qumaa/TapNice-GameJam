@@ -1,4 +1,4 @@
-﻿namespace Project.Game
+﻿namespace Project.Game.ApplicationServices
 {
     public interface IApplicationQuitter
     {

@@ -7,6 +7,6 @@ namespace Project.UI
     {
         public event Action<int> OnLevelPlayPressed;
         public event Action OnQuitPressed;
-        void SetLevels(ILevelDescriptor[] levels);
+        void SetLevels(ILevelDescriptor[] levels, ILevelUnlocker levelUnlocker);
     }
 }

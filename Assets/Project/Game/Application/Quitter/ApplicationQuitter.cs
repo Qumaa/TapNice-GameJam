@@ -3,7 +3,7 @@
 using UnityEditor;
 #endif
 
-namespace Project.Game
+namespace Project.Game.ApplicationServices
 {
     public class ApplicationQuitter : IApplicationQuitter
     {

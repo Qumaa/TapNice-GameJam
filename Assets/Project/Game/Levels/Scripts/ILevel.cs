@@ -6,6 +6,7 @@ namespace Project.Game.Levels
     public interface ILevel : IResettable
     {
         float TimeElapsed { get; }
+        string Name { get; set; }
 
         event Action OnStarted;
         event Action OnRestarted;

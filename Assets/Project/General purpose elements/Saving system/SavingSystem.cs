@@ -2,27 +2,21 @@
 {
     public abstract class SavingSystem<T> : ISavingSystem<T>
     {
-        private readonly string _savePath;
         private T _cachedInstance;
         private bool _hasCachedInstance;
-        
-        protected SavingSystem(string savePath)
-        {
-            _savePath = savePath;
-        }
-        
-        public void SaveData(T data)
+
+        public void SaveData(T data, string path)
         {
             SetCachedInstance(data);
-            WriteInstanceToDisk(data, _savePath);
+            WriteInstanceToDisk(data, path);
         }
 
-        public T LoadData()
+        public T LoadData(string path)
         {
             if (_hasCachedInstance)
                 return _cachedInstance;
 
-            var dataInstance = CanLoadFromDisk(_savePath) ? LoadInstanceFromDisk(_savePath) : CreateEmptyDataInstance();
+            var dataInstance = CanLoadFromDisk(path) ? LoadInstanceFromDisk(path) : CreateEmptyDataInstance();
             SetCachedInstance(dataInstance);
             return dataInstance;
         }

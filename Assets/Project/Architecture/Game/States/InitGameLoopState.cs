@@ -1,4 +1,5 @@
-﻿using Project.Game.Player;
+﻿using Project.Game.Levels;
+using Project.Game.Player;
 using Project.UI;
 using Project.UI.Animation;
 using UnityEngine;
@@ -27,7 +28,7 @@ namespace Project.Architecture.States
         {
             _game.Player.Activate();
             _game.InputService.OnScreenTouchInput += _game.Player.JumpIfPossible;
-
+            
             CreateUI();
         }
 

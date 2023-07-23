@@ -8,19 +8,22 @@ namespace Project.Game.Levels
     public class Level : ILevel
     {
         private readonly IPlayer _player;
+        private readonly ILevelBestTimeService _savingSystem;
         private double _startTime;
         private float _timeElapsedCached;
         private Func<float> _elapsedTimeStrategy;
 
         public float TimeElapsed => _elapsedTimeStrategy();
+        public string Name { get; set; }
         public event Action OnStarted;
         public event Action OnRestarted;
         public event Action<float> OnFinishedWithTime;
         public event Action OnFinished;
 
-        public Level(IPlayer player)
+        public Level(IPlayer player, ILevelBestTimeService savingSystem)
         {
             _player = player;
+            _savingSystem = savingSystem;
         }
 
         public void Start()
@@ -28,6 +31,7 @@ namespace Project.Game.Levels
             Reset();
             
             OnStarted?.Invoke();
+
         }
 
         public void Restart()
@@ -40,6 +44,7 @@ namespace Project.Game.Levels
         public void Finish()
         {
             StopCountingTime();
+            UpdateBestTime();
             
             OnFinishedWithTime?.Invoke(TimeElapsed);
             OnFinished?.Invoke();
@@ -81,5 +86,13 @@ namespace Project.Game.Levels
 
         private float CalculateTimeStrategy() =>
             (float) (GetGameTime() - _startTime);
+
+        private void UpdateBestTime()
+        {
+            var previous = _savingSystem.GetBestTime(Name);
+            
+            if (TimeElapsed < previous.AsSeconds || previous.IsEmpty)
+                _savingSystem.SetBestTime(Name, TimeElapsed);
+        }
     }
 }

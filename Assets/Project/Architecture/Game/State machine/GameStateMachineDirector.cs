@@ -11,23 +11,38 @@ namespace Project.Architecture.States
         private readonly ILevelDescriptor[] _levels;
         private readonly ISceneLoader _sceneLoader;
         private readonly UIConfig _uiConfig;
+        private readonly ILevelUnlocker _levelUnlocker;
         private readonly INextLevelResolver _nextLevelResolver;
         private readonly ICollisionHandlerResolver _handlerResolver;
+        private readonly ILevelBestTimeService _savingSystem;
 
         public GameStateMachineDirector(IGame game, ILevelDescriptor[] levels,
-            ISceneLoader sceneLoader, UIConfig uiConfig, INextLevelResolver nextLevelResolver,
-            ICollisionHandlerResolver handlerResolver)
+            ISceneLoader sceneLoader, UIConfig uiConfig, ILevelUnlocker levelUnlocker,
+            INextLevelResolver nextLevelResolver,
+            ICollisionHandlerResolver handlerResolver,
+            ILevelBestTimeService savingSystem)
         {
             _game = game;
             _levels = levels;
             _sceneLoader = sceneLoader;
             _uiConfig = uiConfig;
-            _nextLevelResolver = nextLevelResolver;
+            _levelUnlocker = levelUnlocker;
             _handlerResolver = handlerResolver;
+            _nextLevelResolver = nextLevelResolver;
+            _savingSystem = savingSystem;
         }
 
         public void Build(IGameStateMachine machine) =>
-            machine.AddState(new MenuState(_game, machine, _sceneLoader, _levels, _uiConfig.MenuUiPrefab))
+            machine.AddState(
+                    new MenuState(
+                        _game,
+                        machine,
+                        _sceneLoader,
+                        _levels,
+                        _uiConfig.MenuUiPrefab,
+                        _levelUnlocker
+                    )
+                )
                 .AddState(new LoadLevelState(_game, machine, _sceneLoader, _levels, _nextLevelResolver))
                 .AddState(new LevelInitState(_game, machine, _handlerResolver))
                 .AddState(new GameLoopState(_game, machine))
@@ -40,9 +55,9 @@ namespace Project.Architecture.States
                         _uiConfig.WinUiPrefab
                     )
                 )
-                .AddState(new KillGameLoopState(_game, machine))
+                .AddState(new KillGameLoopState(_game, machine, _savingSystem, _levelUnlocker))
                 .AddState(new PausedGameLoopState(_game, machine))
                 .AddState(new RestartLevelState(_game, machine))
-                .AddState(new FinishLevelState(_game, machine, _nextLevelResolver));
+                .AddState(new FinishLevelState(_game, machine, _nextLevelResolver, _levelUnlocker));
     }
 }

@@ -6,18 +6,21 @@ namespace Project.Architecture.States
     public class FinishLevelState : GameState
     {
         private readonly INextLevelResolver _levelResolver;
+        private readonly ILevelUnlocker _levelUnlocker;
         private IGameplayWinUI _winUI;
 
-        public FinishLevelState(IGame game, IGameStateMachine stateMachine, INextLevelResolver levelResolver) : 
+        public FinishLevelState(IGame game, IGameStateMachine stateMachine, INextLevelResolver levelResolver,
+            ILevelUnlocker levelUnlocker) :
             base(game, stateMachine)
         {
             _levelResolver = levelResolver;
+            _levelUnlocker = levelUnlocker;
         }
 
         public override void Enter()
         {
             _winUI = _game.UI.Get<IGameplayWinUI>();
-            
+
             _winUI.SetNextLevelButtonAvailability(_levelResolver.HasNextLevel());
             _winUI.SetElapsedTime(_game.LoadedLevel.TimeElapsed);
             _winUI.ShowAnimated();
@@ -25,18 +28,21 @@ namespace Project.Architecture.States
             _winUI.OnNextLevelPressed += HandleNextLevelPress;
             _winUI.OnRestartPressed += HandleRestartPress;
             _winUI.OnQuitLevelPressed += HandleQuitLevelPress;
-            
+
             _game.Pause();
+
+            if (_levelResolver.HasNextLevel(out var nextLevel))
+                _levelUnlocker.UnlockLevel(nextLevel);
         }
 
         public override void Exit()
         {
             _winUI.Hide();
-            
+
             _winUI.OnNextLevelPressed -= HandleNextLevelPress;
             _winUI.OnRestartPressed -= HandleRestartPress;
             _winUI.OnQuitLevelPressed -= HandleQuitLevelPress;
-            
+
             _game.Resume();
         }
 
@@ -52,10 +58,9 @@ namespace Project.Architecture.States
         {
             if (!_levelResolver.TrySwitchToNextLevel(out var level))
                 return false;
-            
+
             _stateMachine.SetState<LoadLevelState, int>(level);
             return true;
-
         }
 
         private void LoadMainMenu() =>
