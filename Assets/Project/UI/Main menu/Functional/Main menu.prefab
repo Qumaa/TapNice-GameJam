@@ -171,7 +171,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.4
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -641,6 +641,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5886771392451284347, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674192866549251566, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
+      propertyPath: m_text
+      value: quit game
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674192866549251566, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
+      propertyPath: m_fontSize
+      value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674192866549251566, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
+      propertyPath: m_fontStyle
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674192866549251566, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674192866549251566, guid: 61049c96849ae534eb7395cd6ff7d4d6, type: 3}
+      propertyPath: m_enableAutoSizing
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
