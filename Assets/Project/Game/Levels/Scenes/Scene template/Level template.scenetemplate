@@ -40,7 +40,7 @@ MonoBehaviour:
   - dependency: {fileID: 6491434587289666971, guid: 36959310f5f4d4840913dbeb3e645a45, type: 3}
     instantiationMode: 1
   - dependency: {fileID: 5807585215873466941, guid: c34df59ba0d4b6348a27653827955e99, type: 3}
-    instantiationMode: 0
+    instantiationMode: 1
   templatePipeline: {fileID: 0}
   badge: {fileID: 0}
   addToDefaults: 0
