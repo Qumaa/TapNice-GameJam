@@ -4,6 +4,7 @@ using System.Collections.Generic;
 #if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 #endif
 
 namespace Project.Game.Levels
@@ -64,6 +65,31 @@ namespace Project.Game.Levels
         [MenuItem("Project/Clear Unlocked Levels")]
         private static void ClearUnlockedLevels() =>
             File.Delete(GetFilePath());
+
+        [MenuItem("Project/Unlock All Levels")]
+        private static void UnlockAllLevels()
+        {
+            const string _DESCRIPTORS_FOLDER_PATH = "/Project/Game/Levels/Descriptors";
+
+            var files = Directory.GetFiles(Application.dataPath + _DESCRIPTORS_FOLDER_PATH, "*.asset");
+            var descriptors = new ILevelDescriptor[files.Length];
+            
+            for (var i = 0; i < files.Length; i++)
+            {
+                var file = files[i];
+                var assetPath = "Assets" + file.Replace(Application.dataPath, "").Replace('\\', '/');
+                var descriptor = AssetDatabase.LoadAssetAtPath<LevelDescriptor>(assetPath);
+                
+                descriptors[i] = descriptor;
+            }
+
+            var unlocker = new LevelUnlocker(descriptors);
+            
+            foreach(var descriptor in descriptors)
+                unlocker.UnlockLevel(descriptor.LevelName);
+            
+            unlocker.SaveLoadedData();
+        }
 #endif
     }
 }

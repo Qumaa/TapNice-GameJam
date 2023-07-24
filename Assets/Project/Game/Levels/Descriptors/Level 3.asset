@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f6ba1fd895bbe74786ddcf9c11676ba, type: 3}
-  m_Name: Test level descriptor
+  m_Name: Level 3
   m_EditorClassIdentifier: 
   _targetScene:
-    _name: Test level scene
-    _buildIndex: 2
-  _name: Test Level
-  _unlockedByDefault: 1
+    _name: Level 3
+    _buildIndex: 4
+  _name: Level 3
+  _unlockedByDefault: 0
