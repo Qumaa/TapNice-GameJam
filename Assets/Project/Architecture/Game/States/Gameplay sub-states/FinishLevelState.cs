@@ -7,14 +7,16 @@ namespace Project.Architecture.States
     {
         private readonly INextLevelResolver _levelResolver;
         private readonly ILevelUnlocker _levelUnlocker;
+        private readonly IGameplayLeaver _gameplayLeaver;
         private IGameplayWinUI _winUI;
 
         public FinishLevelState(IGame game, IGameStateMachine stateMachine, INextLevelResolver levelResolver,
-            ILevelUnlocker levelUnlocker) :
+            ILevelUnlocker levelUnlocker, IGameplayLeaver gameplayLeaver) :
             base(game, stateMachine)
         {
             _levelResolver = levelResolver;
             _levelUnlocker = levelUnlocker;
+            _gameplayLeaver = gameplayLeaver;
         }
 
         public override void Enter()
@@ -64,7 +66,7 @@ namespace Project.Architecture.States
         }
 
         private void LoadMainMenu() =>
-            _stateMachine.SetState<KillGameLoopState>();
+            _gameplayLeaver.LeaveToMainMenu();
 
         private void HandleNextLevelPress() =>
             LoadNextLevelOrMainMenu();

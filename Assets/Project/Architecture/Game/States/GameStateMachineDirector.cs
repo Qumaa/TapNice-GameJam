@@ -14,13 +14,13 @@ namespace Project.Architecture.States
         private readonly ILevelUnlocker _levelUnlocker;
         private readonly INextLevelResolver _nextLevelResolver;
         private readonly ICollisionHandlerResolver _handlerResolver;
-        private readonly ILevelBestTimeService _savingSystem;
+        private readonly ILevelBestTimeService _levelBestTimeService;
 
         public GameStateMachineDirector(IGame game, ILevelDescriptor[] levels,
             ISceneLoader sceneLoader, UIConfig uiConfig, ILevelUnlocker levelUnlocker,
             INextLevelResolver nextLevelResolver,
             ICollisionHandlerResolver handlerResolver,
-            ILevelBestTimeService savingSystem)
+            ILevelBestTimeService levelBestTimeService)
         {
             _game = game;
             _levels = levels;
@@ -29,7 +29,7 @@ namespace Project.Architecture.States
             _levelUnlocker = levelUnlocker;
             _handlerResolver = handlerResolver;
             _nextLevelResolver = nextLevelResolver;
-            _savingSystem = savingSystem;
+            _levelBestTimeService = levelBestTimeService;
         }
 
         public void Build(IGameStateMachine machine) =>
@@ -43,21 +43,18 @@ namespace Project.Architecture.States
                         _levelUnlocker
                     )
                 )
-                .AddState(new LoadLevelState(_game, machine, _sceneLoader, _levels, _nextLevelResolver))
-                .AddState(new LevelInitState(_game, machine, _handlerResolver))
-                .AddState(new GameLoopState(_game, machine))
                 .AddState(
-                    new InitGameLoopState(
+                    new GameplayState(
                         _game,
                         machine,
-                        _uiConfig.GameUiPrefab,
-                        _uiConfig.PauseUiPrefab,
-                        _uiConfig.WinUiPrefab
+                        _sceneLoader,
+                        _levels,
+                        _nextLevelResolver,
+                        _handlerResolver,
+                        _uiConfig,
+                        _levelBestTimeService,
+                        _levelUnlocker
                     )
-                )
-                .AddState(new KillGameLoopState(_game, machine, _savingSystem, _levelUnlocker))
-                .AddState(new PausedGameLoopState(_game, machine))
-                .AddState(new RestartLevelState(_game, machine))
-                .AddState(new FinishLevelState(_game, machine, _nextLevelResolver, _levelUnlocker));
+                );
     }
 }

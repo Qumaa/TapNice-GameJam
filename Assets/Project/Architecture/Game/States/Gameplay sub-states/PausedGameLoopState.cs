@@ -5,9 +5,14 @@ namespace Project.Architecture.States
     public class PausedGameLoopState : GameState
     {
         private IGameplayPauseUI _pauseUI;
+        private readonly IGameplayLeaver _gameplayLeaver;
 
-        public PausedGameLoopState(IGame game, IGameStateMachine stateMachine) : base(game, stateMachine) { }
-        
+        public PausedGameLoopState(IGame game, IGameStateMachine stateMachine, IGameplayLeaver gameplayLeaver) :
+            base(game, stateMachine)
+        {
+            _gameplayLeaver = gameplayLeaver;
+        }
+
         public override void Enter()
         {
             _pauseUI = _game.UI.Get<IGameplayPauseUI>();
@@ -16,18 +21,18 @@ namespace Project.Architecture.States
             _pauseUI.OnResumePressed += HandleResumePress;
             _pauseUI.OnRestartPressed += HandleRestartPress;
             _pauseUI.OnQuitLevelPressed += HandleQuitLevelPress;
-            
+
             _game.Pause();
         }
 
         public override void Exit()
         {
             _pauseUI.Hide();
-            
+
             _pauseUI.OnResumePressed -= HandleResumePress;
             _pauseUI.OnRestartPressed -= HandleRestartPress;
             _pauseUI.OnQuitLevelPressed -= HandleQuitLevelPress;
-            
+
             _game.Resume();
         }
 
@@ -38,6 +43,6 @@ namespace Project.Architecture.States
             _stateMachine.SetState<RestartLevelState>();
 
         private void HandleQuitLevelPress() =>
-            _stateMachine.SetState<KillGameLoopState>();
+            _gameplayLeaver.LeaveToMainMenu();
     }
 }

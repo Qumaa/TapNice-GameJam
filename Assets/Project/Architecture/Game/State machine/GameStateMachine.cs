@@ -12,10 +12,16 @@ namespace Project.Architecture.States
             _states.Add(typeof(T), state);
 
         public void SetState<T>() where T : IEnterableGameState =>
-            SetStateInternal<T>().Enter();
+            SetStateInternal<T>()?.Enter();
 
         public void SetState<T, TArg>(TArg arg) where T : IEnterableGameState<TArg> =>
-            SetStateInternal<T>().Enter(arg);
+            SetStateInternal<T>()?.Enter(arg);
+
+        public void ExitCurrentState()
+        {
+            _currentState?.Exit();
+            _currentState = null;
+        }
 
         private T SetStateInternal<T>()
         {
