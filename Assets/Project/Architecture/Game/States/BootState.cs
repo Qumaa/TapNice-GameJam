@@ -33,12 +33,10 @@ namespace Project.Architecture.States
 
         public override void Enter()
         {
-            var savingSystem = new LevelBestTimeSavingSystem();
-            
             var player = CreatePlayer();
-            var level = CreateLevel(player, savingSystem);
+            var level = CreateLevel(player);
             var ui = CreateUI();
-            var director = CreateMachineDirector(level, savingSystem);
+            var director = CreateMachineDirector(level);
 
             player.OnBounced += _effectsManager.UseEffects;
             level.OnStarted += _effectsManager.ClearEffects;
@@ -61,8 +59,8 @@ namespace Project.Architecture.States
         private IPlayer CreatePlayer() =>
             new PlayerFactory(_playerConfig, _effectsManager).CreateNew();
 
-        private ILevel CreateLevel(IPlayer player, ILevelBestTimeService savingSystem) =>
-            new Level(player, savingSystem);
+        private ILevel CreateLevel(IPlayer player) =>
+            new Level(player);
 
         private IGameUIRenderer CreateUI()
         {
@@ -75,7 +73,7 @@ namespace Project.Architecture.States
             return gameUIRenderer;
         }
 
-        private IGameStateMachineDirector CreateMachineDirector(ILevel level, ILevelBestTimeService savingSystem) =>
+        private IGameStateMachineDirector CreateMachineDirector(ILevel level) =>
             new GameStateMachineDirector(
                 _game,
                 _levelDescriptors,
@@ -84,7 +82,7 @@ namespace Project.Architecture.States
                 new LevelUnlocker(_levelDescriptors),
                 new NextLevelResolver(_levelDescriptors.Length),
                 new CollisionHandlerResolver(level, _game.InputService, _playerConfig),
-                savingSystem
+                new LevelBestTimeSavingSystem()
             );
 
         private void MoveNext() =>

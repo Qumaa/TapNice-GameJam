@@ -20,9 +20,7 @@ namespace Project.Architecture.States
 
             var ui = _game.UI.Get<IGameplayUI>().ShowAnimatedFluent();
             ui.OnPausePressed += HandlePausePress;
-            ui.SetLevelName(_game.LoadedLevel.Index + 1, _game.LoadedLevel.Name);
-            SetBestTime(ui);
-            
+
             _uiUpdater.Target = ui;
             _game.Add(_uiUpdater);
         }
@@ -41,14 +39,6 @@ namespace Project.Architecture.States
 
         private void HandlePausePress() =>
             _stateMachine.SetState<PausedGameLoopState>();
-
-        private void SetBestTime(IGameplayUI ui)
-        {
-            if (_game.LoadedLevel.BestTime.IsEmpty)
-                ui.HideBestTime();
-            else
-                ui.SetBestTime(_game.LoadedLevel.BestTime.AsSeconds);
-        }
 
         private class UIUpdater : IUpdatable
         {

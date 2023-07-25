@@ -6,10 +6,7 @@ namespace Project.Game.Levels
     public interface ILevel : IResettable
     {
         float TimeElapsed { get; }
-        int Index { get; set; }
-        string Name { get; set; }
-        LevelBestTime BestTime { get; }
-
+        
         event Action OnStarted;
         event Action OnRestarted;
 
@@ -23,7 +20,7 @@ namespace Project.Game.Levels
         /// <summary>
         /// Call this method when a scene is loaded and level needs to be initialized.
         /// </summary>
-        void Start();
+        void Start(string levelName);
 
         void Restart();
         void Finish();

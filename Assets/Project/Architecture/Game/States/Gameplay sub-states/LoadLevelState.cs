@@ -20,28 +20,43 @@ namespace Project.Architecture.States
             _nextLevelResolver = nextLevelResolver;
         }
 
-        public override void Enter(int levelIndex) =>
-            EnterInternal(levelIndex, MoveNext);
-
-        public void Enter(RichLoadLevelArgument arg) =>
-            EnterInternal(arg.LevelIndex, () => { arg.LoadedCallback(); MoveNext(); } );
-
-        public override void Exit()
+        public override void Enter(int levelIndex)
         {
+            EnterInternal(levelIndex, Callback);
+
+            void Callback() =>
+                MoveNext(LevelIndexToName(levelIndex));
         }
 
-        private void MoveNext() =>
-            _stateMachine.SetState<LevelInitState>();
+        public void Enter(RichLoadLevelArgument arg)
+        {
+            EnterInternal(
+                arg.LevelIndex,
+                Callback
+            );
+
+            void Callback()
+            {
+                arg.LoadedCallback();
+                MoveNext(LevelIndexToName(arg.LevelIndex));
+            }
+        }
+
+        public override void Exit() { }
+
+        private void MoveNext(string levelName) =>
+            _stateMachine.SetState<LevelInitState, string>(levelName);
 
         private int LevelIndexToScene(int levelIndex) =>
             _levels[levelIndex].SceneIndex;
+
+        private string LevelIndexToName(int levelIndex) =>
+            _levels[levelIndex].LevelName;
 
         private void EnterInternal(int levelIndex, Action callback)
         {
             _nextLevelResolver.SetLevel(levelIndex);
             _sceneLoader.LoadSceneHandled(LevelIndexToScene(levelIndex), callback);
-            _game.LoadedLevel.Name = _levels[levelIndex].LevelName;
-            _game.LoadedLevel.Index = levelIndex;
         }
     }
 }

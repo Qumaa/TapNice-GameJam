@@ -31,8 +31,9 @@ namespace Project.Architecture.States
                 game,
                 _internalStateMachine,
                 uiConfig,
+                levels,
                 levelBestTimeService,
-                levelUnlocker
+                dataProcessors: new IPersistentDataProcessor[] { levelBestTimeService, levelUnlocker }
             );
         }
 

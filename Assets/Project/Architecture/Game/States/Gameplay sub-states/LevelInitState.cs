@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Architecture.States
 {
-    public class LevelInitState : GameState
+    public class LevelInitState : GameState<string>
     {
         private readonly ICollisionHandlerResolver _handlerResolver;
 
@@ -14,10 +14,10 @@ namespace Project.Architecture.States
             _handlerResolver = handlerResolver;
         }
 
-        public override void Enter()
+        public override void Enter(string levelName)
         {
             InitCollisionHandlers();
-            _game.LoadedLevel.Start();
+            _game.LoadedLevel.Start(levelName);
             
             MoveNext();
         }
