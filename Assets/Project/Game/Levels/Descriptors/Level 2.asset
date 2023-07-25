@@ -15,5 +15,5 @@ MonoBehaviour:
   _targetScene:
     _name: Level 2
     _buildIndex: 3
-  _name: Level 2
+  _name: Column
   _unlockedByDefault: 0
