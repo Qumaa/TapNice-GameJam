@@ -6,6 +6,7 @@ namespace Project.Game.Levels
     public interface ILevel : IResettable
     {
         float TimeElapsed { get; }
+        int Index { get; set; }
         string Name { get; set; }
         LevelBestTime BestTime { get; }
 

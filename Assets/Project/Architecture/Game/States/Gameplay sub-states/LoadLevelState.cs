@@ -41,6 +41,7 @@ namespace Project.Architecture.States
             _nextLevelResolver.SetLevel(levelIndex);
             _sceneLoader.LoadSceneHandled(LevelIndexToScene(levelIndex), callback);
             _game.LoadedLevel.Name = _levels[levelIndex].LevelName;
+            _game.LoadedLevel.Index = levelIndex;
         }
     }
 }

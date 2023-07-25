@@ -9,6 +9,7 @@ namespace Project.UI
         
         void DisplayTime(float time);
         void SetBestTime(float bestTime);
+        void SetLevelName(int displayIndex, string displayName);
         void HideBestTime();
     }
 }

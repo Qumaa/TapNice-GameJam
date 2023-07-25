@@ -20,6 +20,7 @@ namespace Project.Architecture.States
 
             var ui = _game.UI.Get<IGameplayUI>().ShowAnimatedFluent();
             ui.OnPausePressed += HandlePausePress;
+            ui.SetLevelName(_game.LoadedLevel.Index + 1, _game.LoadedLevel.Name);
             SetBestTime(ui);
             
             _uiUpdater.Target = ui;
