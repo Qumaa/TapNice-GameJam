@@ -5,12 +5,12 @@ namespace Project.Architecture.States
 {
     public class FinishLevelState : GameState
     {
-        private readonly INextLevelResolver _levelResolver;
+        private readonly ILevelResolver _levelResolver;
         private readonly ILevelUnlocker _levelUnlocker;
         private readonly IGameplayLeaver _gameplayLeaver;
         private IGameplayWinUI _winUI;
 
-        public FinishLevelState(IGame game, IGameStateMachine stateMachine, INextLevelResolver levelResolver,
+        public FinishLevelState(IGame game, IGameStateMachine stateMachine, ILevelResolver levelResolver,
             ILevelUnlocker levelUnlocker, IGameplayLeaver gameplayLeaver) :
             base(game, stateMachine)
         {

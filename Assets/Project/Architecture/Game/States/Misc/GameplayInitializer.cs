@@ -14,33 +14,31 @@ namespace Project.Architecture.States
         private readonly IGameStateMachine _stateMachine;
         private readonly ILevelDescriptor[] _levelDescriptors;
         private readonly ILevelBestTimeService _levelBestTimeService;
+        private readonly ILevelResolver _levelResolver;
         private readonly GameObject _gameplayUiPrefab;
         private readonly GameObject _pauseUiPrefab;
         private readonly GameObject _winUiPrefab;
         private readonly IPersistentDataProcessor[] _dataProcessors;
 
         private WinUIAnimator _winUIAnimator;
-        private int _loadedLevel;
 
         public GameplayInitializer(IGame game, IGameStateMachine stateMachine, UIConfig uiConfig,
             ILevelDescriptor[] levelDescriptors, ILevelBestTimeService levelBestTimeService,
-            params IPersistentDataProcessor[] dataProcessors)
+            ILevelResolver levelResolver, params IPersistentDataProcessor[] dataProcessors)
         {
             _game = game;
             _stateMachine = stateMachine;
             _levelDescriptors = levelDescriptors;
             _levelBestTimeService = levelBestTimeService;
+            _levelResolver = levelResolver;
             _gameplayUiPrefab = uiConfig.GameUiPrefab;
             _pauseUiPrefab = uiConfig.PauseUiPrefab;
             _winUiPrefab = uiConfig.WinUiPrefab;
             _dataProcessors = dataProcessors;
         }
 
-        public void InitializeGameplay(int levelToLoad)
-        {
-            _loadedLevel = levelToLoad;
+        public void InitializeGameplay(int levelToLoad) =>
             _stateMachine.SetState<LoadLevelState, RichLoadLevelArgument>(new RichLoadLevelArgument(levelToLoad, Init));
-        }
 
         private void Init()
         {
@@ -53,9 +51,7 @@ namespace Project.Architecture.States
             _game.UI.Add(HiddenUIFactory<IGameplayPauseUI>(_pauseUiPrefab));
             _game.UI.Add(CreateWinUI());
 
-            var levelName = _levelDescriptors[_loadedLevel].LevelName;
-            ui.SetLevelName(_loadedLevel + 1, levelName);
-            SetBestTime(ui, levelName);
+            _game.LoadedLevel.OnStarted += UpdateUI;
         }
 
         public void KillGameplay()
@@ -72,6 +68,8 @@ namespace Project.Architecture.States
 
             foreach (var processor in _dataProcessors)
                 processor.SaveLoadedData();
+
+            _game.LoadedLevel.OnStarted -= UpdateUI;
         }
 
         private IGameplayWinUI CreateWinUI()
@@ -82,6 +80,17 @@ namespace Project.Architecture.States
             _game.LoadedLevel.OnFinishedWithTime += _winUIAnimator.SetElapsedTime;
 
             return obj.GetComponent<IGameplayWinUI>().HideFluent();
+        }
+
+        private void UpdateUI()
+        {
+            var loadedLevel = _levelResolver.CurrentLevel;
+            
+            var ui = _game.UI.Get<IGameplayUI>();
+            var levelName = _levelDescriptors[loadedLevel].LevelName;
+            
+            ui.SetLevelName(loadedLevel + 1, levelName);
+            SetBestTime(ui, levelName);
         }
 
         private void SetBestTime(IGameplayUI ui, string levelName)
@@ -96,7 +105,7 @@ namespace Project.Architecture.States
         
         private void UpdateBestTime(float timeElapsed)
         {
-            var name = _levelDescriptors[_loadedLevel].LevelName;
+            var name = _levelDescriptors[_levelResolver.CurrentLevel].LevelName;
             
             var previous = _levelBestTimeService.GetBestTime(name);
             

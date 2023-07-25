@@ -9,29 +9,29 @@ namespace Project.Architecture.States
         private readonly IGame _game;
         private readonly ISceneLoader _sceneLoader;
         private readonly ILevelDescriptor[] _levels;
-        private readonly INextLevelResolver _nextLevelResolver;
+        private readonly ILevelResolver _levelResolver;
         private readonly ICollisionHandlerResolver _handlerResolver;
         private readonly ILevelUnlocker _levelUnlocker;
         private readonly IGameplayLeaver _gameplayLeaver;
 
         public GameplayStateMachineDirector(IGame game, ISceneLoader sceneLoader, ILevelDescriptor[] levels,
-            INextLevelResolver nextLevelResolver, ICollisionHandlerResolver handlerResolver, ILevelUnlocker levelUnlocker, IGameplayLeaver gameplayLeaver)
+            ILevelResolver levelResolver, ICollisionHandlerResolver handlerResolver, ILevelUnlocker levelUnlocker, IGameplayLeaver gameplayLeaver)
         {
             _game = game;
             _sceneLoader = sceneLoader;
             _levels = levels;
-            _nextLevelResolver = nextLevelResolver;
+            _levelResolver = levelResolver;
             _handlerResolver = handlerResolver;
             _levelUnlocker = levelUnlocker;
             _gameplayLeaver = gameplayLeaver;
         }
 
         public void Build(IGameStateMachine machine) =>
-            machine.AddState(new LoadLevelState(_game, machine, _sceneLoader, _levels, _nextLevelResolver))
+            machine.AddState(new LoadLevelState(_game, machine, _sceneLoader, _levels, _levelResolver))
                 .AddState(new LevelInitState(_game, machine, _handlerResolver))
                 .AddState(new GameLoopState(_game, machine))
                 .AddState(new PausedGameLoopState(_game, machine, _gameplayLeaver))
                 .AddState(new RestartLevelState(_game, machine))
-                .AddState(new FinishLevelState(_game, machine, _nextLevelResolver, _levelUnlocker, _gameplayLeaver));
+                .AddState(new FinishLevelState(_game, machine, _levelResolver, _levelUnlocker, _gameplayLeaver));
     }
 }

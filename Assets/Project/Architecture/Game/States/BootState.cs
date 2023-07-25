@@ -80,9 +80,9 @@ namespace Project.Architecture.States
                 _sceneLoader,
                 _uiConfig,
                 new LevelUnlocker(_levelDescriptors),
-                new NextLevelResolver(_levelDescriptors.Length),
+                new LevelResolver(_levelDescriptors.Length),
                 new CollisionHandlerResolver(level, _game.InputService, _playerConfig),
-                new LevelBestTimeSavingSystem()
+                new LevelBestTimeSavingSystem(_levelDescriptors)
             );
 
         private void MoveNext() =>

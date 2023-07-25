@@ -9,15 +9,15 @@ namespace Project.Architecture.States
     {
         private readonly ISceneLoader _sceneLoader;
         private readonly ILevelDescriptor[] _levels;
-        private readonly INextLevelResolver _nextLevelResolver;
+        private readonly ILevelResolver _levelResolver;
 
         public LoadLevelState(IGame game, IGameStateMachine stateMachine, ISceneLoader sceneLoader,
-            ILevelDescriptor[] levels, INextLevelResolver nextLevelResolver) :
+            ILevelDescriptor[] levels, ILevelResolver levelResolver) :
             base(game, stateMachine)
         {
             _sceneLoader = sceneLoader;
             _levels = levels;
-            _nextLevelResolver = nextLevelResolver;
+            _levelResolver = levelResolver;
         }
 
         public override void Enter(int levelIndex)
@@ -55,7 +55,7 @@ namespace Project.Architecture.States
 
         private void EnterInternal(int levelIndex, Action callback)
         {
-            _nextLevelResolver.SetLevel(levelIndex);
+            _levelResolver.SetLevel(levelIndex);
             _sceneLoader.LoadSceneHandled(LevelIndexToScene(levelIndex), callback);
         }
     }

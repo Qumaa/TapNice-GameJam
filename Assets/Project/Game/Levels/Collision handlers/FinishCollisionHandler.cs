@@ -32,6 +32,9 @@ namespace Project.Game.CollisionHandling
                     BounceOnceBeforeFinishing(collision);
                 return;
             }
+            
+            if (_shouldFinish)
+                return;
 
             DefaultHandling(collision);
         }

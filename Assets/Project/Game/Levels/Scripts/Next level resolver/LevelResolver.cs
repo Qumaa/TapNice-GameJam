@@ -2,19 +2,20 @@
 
 namespace Project.Game.Levels
 {
-    public class NextLevelResolver : INextLevelResolver
+    public class LevelResolver : ILevelResolver
     {
         private readonly int _maxLevels;
-        private int _currentLevel;
 
-        public NextLevelResolver(int maxLevels)
+        public LevelResolver(int maxLevels)
         {
             _maxLevels = maxLevels;
         }
 
+        public int CurrentLevel { get; private set; }
+
         public bool HasNextLevel(out int levelIndex)
         {
-            var nextLevel = _currentLevel + 1;
+            var nextLevel = CurrentLevel + 1;
             var hasNextLevel = nextLevel < _maxLevels;
             
             levelIndex = hasNextLevel ? nextLevel : 0;
@@ -26,7 +27,7 @@ namespace Project.Game.Levels
             if (levelIndex < 0 || levelIndex >= _maxLevels)
                 throw new ArgumentException();
             
-            _currentLevel = levelIndex;
+            CurrentLevel = levelIndex;
         }
     }
 }

@@ -12,13 +12,13 @@ namespace Project.Architecture.States
         private readonly ISceneLoader _sceneLoader;
         private readonly UIConfig _uiConfig;
         private readonly ILevelUnlocker _levelUnlocker;
-        private readonly INextLevelResolver _nextLevelResolver;
+        private readonly ILevelResolver _levelResolver;
         private readonly ICollisionHandlerResolver _handlerResolver;
         private readonly ILevelBestTimeService _levelBestTimeService;
 
         public GameStateMachineDirector(IGame game, ILevelDescriptor[] levels,
             ISceneLoader sceneLoader, UIConfig uiConfig, ILevelUnlocker levelUnlocker,
-            INextLevelResolver nextLevelResolver,
+            ILevelResolver levelResolver,
             ICollisionHandlerResolver handlerResolver,
             ILevelBestTimeService levelBestTimeService)
         {
@@ -28,7 +28,7 @@ namespace Project.Architecture.States
             _uiConfig = uiConfig;
             _levelUnlocker = levelUnlocker;
             _handlerResolver = handlerResolver;
-            _nextLevelResolver = nextLevelResolver;
+            _levelResolver = levelResolver;
             _levelBestTimeService = levelBestTimeService;
         }
 
@@ -49,7 +49,7 @@ namespace Project.Architecture.States
                         machine,
                         _sceneLoader,
                         _levels,
-                        _nextLevelResolver,
+                        _levelResolver,
                         _handlerResolver,
                         _uiConfig,
                         _levelBestTimeService,

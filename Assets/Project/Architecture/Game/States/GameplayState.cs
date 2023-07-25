@@ -11,7 +11,7 @@ namespace Project.Architecture.States
         private readonly IGameStateMachine _internalStateMachine;
 
         public GameplayState(IGame game, IGameStateMachine stateMachine, ISceneLoader sceneLoader,
-            ILevelDescriptor[] levels, INextLevelResolver nextLevelResolver, ICollisionHandlerResolver handlerResolver, 
+            ILevelDescriptor[] levels, ILevelResolver levelResolver, ICollisionHandlerResolver handlerResolver, 
             UIConfig uiConfig, ILevelBestTimeService levelBestTimeService, ILevelUnlocker levelUnlocker) :
             base(game, stateMachine)
         {
@@ -21,7 +21,7 @@ namespace Project.Architecture.States
                 game,
                 sceneLoader,
                 levels,
-                nextLevelResolver,
+                levelResolver,
                 handlerResolver,
                 levelUnlocker,
                 this
@@ -33,6 +33,7 @@ namespace Project.Architecture.States
                 uiConfig,
                 levels,
                 levelBestTimeService,
+                levelResolver,
                 dataProcessors: new IPersistentDataProcessor[] { levelBestTimeService, levelUnlocker }
             );
         }

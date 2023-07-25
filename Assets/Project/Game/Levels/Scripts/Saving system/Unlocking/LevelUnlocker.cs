@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using System.IO;
@@ -18,27 +17,36 @@ namespace Project.Game.Levels
         public LevelUnlocker(ILevelDescriptor[] levels)
         {
             _levels = levels;
-            _savingSystem = new UniversalSavingSystem<UnlockedLevelsData>(UnlockedLevelsData.Empty);
+            _savingSystem = new UniversalSavingSystem<UnlockedLevelsData>(EmptyDataFactory);
             _unlockedLevelsData = _savingSystem.LoadData(GetFilePath());
         }
-        
+
         public void UnlockLevel(int levelIndex) =>
-            UnlockLevel(LevelIndexToItsName(levelIndex));
+            _unlockedLevelsData.SetUnlocked(levelIndex);
 
         public bool IsLevelUnlocked(int levelIndex) =>
-            IsLevelUnlocked(LevelIndexToItsName(levelIndex));
+            _unlockedLevelsData.IsUnlocked(levelIndex);
 
         public void UnlockLevel(string levelName) =>
-            _unlockedLevelsData.SetUnlocked(levelName);
+            UnlockLevel(LevelNameToIndex(levelName));
 
         public bool IsLevelUnlocked(string levelName) =>
-            _unlockedLevelsData.IsUnlocked(levelName);
+            IsLevelUnlocked(LevelNameToIndex(levelName));
 
-        private string LevelIndexToItsName(int levelIndex) =>
-            _levels[levelIndex].LevelName;
+        private int LevelNameToIndex(string levelName)
+        {
+            for (var i = 0; i < _levels.Length; i++)
+                if (_levels[i].LevelName == levelName)
+                    return i;
+
+            throw new ArgumentException();
+        }
 
         public void SaveLoadedData() =>
             _savingSystem.SaveData(_unlockedLevelsData, GetFilePath());
+
+        private UnlockedLevelsData EmptyDataFactory() =>
+            new(_levels.Length);
 
         private static string GetFilePath() =>
             LevelsDataPaths.Unlocking.FilePath;
@@ -46,19 +54,18 @@ namespace Project.Game.Levels
         [Serializable]
         private record UnlockedLevelsData
         {
-            private readonly Dictionary<string, bool> _unlockedTable = new();
+            private readonly bool[] _unlockedTable;
 
-            public void SetUnlocked(string levelName)
+            public UnlockedLevelsData(int levelsCount)
             {
-                if (!_unlockedTable.TryAdd(levelName, true))
-                    _unlockedTable[levelName] = true;
+                _unlockedTable = new bool[levelsCount];
             }
 
-            public bool IsUnlocked(string levelName) =>
-                _unlockedTable.TryGetValue(levelName, out var unlocked) && unlocked;
+            public void SetUnlocked(int levelIndex) =>
+                _unlockedTable[levelIndex] = true;
 
-            public static UnlockedLevelsData Empty() =>
-                new();
+            public bool IsUnlocked(int levelIndex) =>
+                _unlockedTable[levelIndex];
         }
         
 #if UNITY_EDITOR
