@@ -507,7 +507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f137f03015e242d8a21b7b67a242da8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonPrefab: {fileID: -4827333692507960964, guid: 13fd321d4ac10ae4aad7b7752dc257f0, type: 3}
+  _buttonPrefab: {fileID: -4827333692507960964, guid: 73d893b2d8ceff2468e8d9e28f4591e5, type: 3}
   _quitButton: {fileID: 2798035211394673511}
   _buttonsParent: {fileID: 1939438492937122460}
 --- !u!1 &6974042046804433923
