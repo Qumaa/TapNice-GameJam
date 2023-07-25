@@ -54,7 +54,6 @@ namespace Project.Game.Player
         {
             _jumpStrategy();
             PlayRippleEffect();
-            Debug.Break();
             OnJumped?.Invoke();
         }
 
