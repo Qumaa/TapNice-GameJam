@@ -10,12 +10,13 @@ namespace Project.UI.Animation
         [SerializeField] private Button _pauseButton;
         [SerializeField] private TextMeshProUGUI _timeLabel;
         [SerializeField] private TextMeshProUGUI _bestTimeLabel;
+        [SerializeField] private TextMeshProUGUI _levelNameLabel;
         
         protected override void Awake()
         {
             base.Awake();
 
-            var ui = new GameplayUIFader(_pauseButton, _timeLabel, _bestTimeLabel);
+            var ui = new GameplayUIFader(_pauseButton, _timeLabel, _bestTimeLabel, _levelNameLabel);
             _showAnimation = new GameplayUIShowAnimation(ui, _showDuration);
             _hideAnimation = new GameplayUIHideAnimation(ui, _hideDuration);
         }

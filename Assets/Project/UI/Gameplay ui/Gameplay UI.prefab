@@ -208,6 +208,7 @@ MonoBehaviour:
   _pauseButton: {fileID: 7536497059635277991}
   _timeLabel: {fileID: 362930108318713116}
   _bestTimeLabel: {fileID: 8821208867830473825}
+  _levelNameLabel: {fileID: 8248360621306552499}
 --- !u!1 &3905421945760977113
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,7 +380,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -102, y: -99}
+  m_AnchoredPosition: {x: -102, y: -138}
   m_SizeDelta: {x: 96, y: 102}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4756405066669400600
