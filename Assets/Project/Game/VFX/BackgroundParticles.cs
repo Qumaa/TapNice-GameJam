@@ -6,6 +6,8 @@ namespace Project.Game.VFX
 {
     public class BackgroundParticles : MonoBehaviour
     {
+        private const float _PARTICLE_SIZE_ERROR = 0.7f;
+        
         [SerializeField] private VFXConfig _vfxConfig;
         [SerializeField] private ParticleSystem _particleSystem;
         [SerializeField] private Transform _lowerBound;
@@ -21,9 +23,8 @@ namespace Project.Game.VFX
         {
             var activeParticles = GetActiveParticlesCount();
 
-            var halfSize = _size / 2f;
             for (var i = 0; i < activeParticles; i++)
-                UpdateParticlePosition(i, halfSize);
+                UpdateParticlePosition(i, _size / 2f);
 
             SetUpdatedParticles(activeParticles);
         }
@@ -32,7 +33,7 @@ namespace Project.Game.VFX
         {
             SetCenterPosition((areaFrom + areaTo) / 2f);
 
-            _size = areaTo - areaFrom;
+            _size = areaTo - areaFrom - new Vector2(_PARTICLE_SIZE_ERROR, _PARTICLE_SIZE_ERROR);
             var shape = _particleSystem.shape;
             shape.scale = new Vector3(_size.x, _size.y, shape.scale.z);
             
