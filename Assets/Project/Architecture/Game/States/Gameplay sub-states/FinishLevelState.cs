@@ -34,7 +34,10 @@ namespace Project.Architecture.States
             _game.Pause();
 
             if (_levelResolver.HasNextLevel(out var nextLevel))
+            {
                 _levelUnlocker.UnlockLevel(nextLevel);
+                _levelUnlocker.SaveLoadedData();
+            }
         }
 
         public override void Exit()

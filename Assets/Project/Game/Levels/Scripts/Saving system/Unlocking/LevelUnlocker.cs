@@ -28,20 +28,6 @@ namespace Project.Game.Levels
         public bool IsLevelUnlocked(int levelIndex) =>
             _unlockedLevelsData[levelIndex];
 
-        public void UnlockLevel(string levelName) =>
-            UnlockLevel(LevelNameToIndex(levelName));
-
-        public bool IsLevelUnlocked(string levelName) =>
-            IsLevelUnlocked(LevelNameToIndex(levelName));
-
-        private int LevelNameToIndex(string levelName)
-        {
-            for (var i = 0; i < _levels.Length; i++)
-                if (_levels[i].LevelName == levelName)
-                    return i;
-
-            throw new ArgumentException();
-        }
 
         public void SaveLoadedData() =>
             _savingSystem.SaveData(_unlockedLevelsData, GetFilePath());
@@ -81,10 +67,10 @@ namespace Project.Game.Levels
             }
 
             var unlocker = new LevelUnlocker(descriptors);
-            
-            foreach(var descriptor in descriptors)
-                unlocker.UnlockLevel(descriptor.LevelName);
-            
+
+            for (var i = 0; i < descriptors.Length; i++)
+                unlocker.UnlockLevel(i);
+
             unlocker.SaveLoadedData();
         }
 #endif
