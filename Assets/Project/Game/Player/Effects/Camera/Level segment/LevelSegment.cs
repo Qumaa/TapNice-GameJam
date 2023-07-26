@@ -10,36 +10,35 @@ namespace Project.Game.Levels
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
 
         private static LevelSegment _activeSegment;
-        
-        private void Start() =>
-            SetActive(false);
+
+        private void Awake() =>
+            Deactivate(this);
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (IsPlayer(other))
-                SetSegmentAsActive(this);
-        }
-
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if (IsPlayer(other))
-                DeactivateSegment(this);
+                SetAsActive(this);
         }
 
         private void SetActive(bool active) =>
             _virtualCamera.gameObject.SetActive(active);
 
-        private static void SetSegmentAsActive(LevelSegment levelSegment)
+        private static void SetAsActive(LevelSegment levelSegment)
         {
             if (_activeSegment != null)
-                DeactivateSegment(_activeSegment);
+                Deactivate(_activeSegment);
             
             _activeSegment = levelSegment;
-            _activeSegment._virtualCamera.Priority = 1;
-            _activeSegment.SetActive(true);
+            Activate(_activeSegment);
+        }
+        
+        private static void Activate(LevelSegment levelSegment)
+        {
+            levelSegment.SetActive(true);
+            levelSegment._virtualCamera.Priority = 1;
         }
 
-        private static void DeactivateSegment(LevelSegment levelSegment)
+        private static void Deactivate(LevelSegment levelSegment)
         {
             levelSegment.SetActive(false);
             levelSegment._virtualCamera.Priority = 0;
