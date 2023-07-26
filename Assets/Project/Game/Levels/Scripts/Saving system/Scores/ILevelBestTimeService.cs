@@ -1,8 +1,8 @@
 ﻿namespace Project.Game.Levels
 {
-    public interface ILevelBestTimeService : IPersistentDataProcessor
+    public interface ILevelBestTimeService : IPersistentDataSaver
     {
-        LevelBestTime GetBestTime(string levelName);
-        void SetBestTime(string levelName, LevelBestTime time);
+        LevelBestTime GetBestTime(int levelIndex);
+        void SetBestTime(int levelIndex, LevelBestTime time);
     }
 }

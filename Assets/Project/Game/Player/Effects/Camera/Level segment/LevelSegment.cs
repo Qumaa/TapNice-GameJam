@@ -25,6 +25,9 @@ namespace Project.Game.Levels
 
         private static void SetAsActive(LevelSegment levelSegment)
         {
+            if (levelSegment == _activeSegment)
+                return;
+            
             if (_activeSegment != null)
                 Deactivate(_activeSegment);
             

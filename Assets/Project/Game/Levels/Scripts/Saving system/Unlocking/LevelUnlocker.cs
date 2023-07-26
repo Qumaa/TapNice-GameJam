@@ -19,13 +19,14 @@ namespace Project.Game.Levels
             _levels = levels;
             _savingSystem = new UniversalSavingSystem<UnlockedLevelsData>(EmptyDataFactory);
             _unlockedLevelsData = _savingSystem.LoadData(GetFilePath());
+            _unlockedLevelsData.ValidateCapacity(_levels.Length);
         }
 
         public void UnlockLevel(int levelIndex) =>
-            _unlockedLevelsData.SetUnlocked(levelIndex);
+            _unlockedLevelsData[levelIndex] = true;
 
         public bool IsLevelUnlocked(int levelIndex) =>
-            _unlockedLevelsData.IsUnlocked(levelIndex);
+            _unlockedLevelsData[levelIndex];
 
         public void UnlockLevel(string levelName) =>
             UnlockLevel(LevelNameToIndex(levelName));
@@ -52,20 +53,9 @@ namespace Project.Game.Levels
             LevelsDataPaths.Unlocking.FilePath;
 
         [Serializable]
-        private record UnlockedLevelsData
+        private record UnlockedLevelsData : SimpleTableData<bool>
         {
-            private readonly bool[] _unlockedTable;
-
-            public UnlockedLevelsData(int levelsCount)
-            {
-                _unlockedTable = new bool[levelsCount];
-            }
-
-            public void SetUnlocked(int levelIndex) =>
-                _unlockedTable[levelIndex] = true;
-
-            public bool IsUnlocked(int levelIndex) =>
-                _unlockedTable[levelIndex];
+            public UnlockedLevelsData(int capacity) : base(capacity) { }
         }
         
 #if UNITY_EDITOR

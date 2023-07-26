@@ -18,13 +18,13 @@ namespace Project.Architecture.States
         private readonly GameObject _gameplayUiPrefab;
         private readonly GameObject _pauseUiPrefab;
         private readonly GameObject _winUiPrefab;
-        private readonly IPersistentDataProcessor[] _dataProcessors;
+        private readonly IPersistentDataSaver[] _dataProcessors;
 
         private WinUIAnimator _winUIAnimator;
 
         public GameplayInitializer(IGame game, IGameStateMachine stateMachine, UIConfig uiConfig,
             ILevelDescriptor[] levelDescriptors, ILevelBestTimeService levelBestTimeService,
-            ILevelResolver levelResolver, params IPersistentDataProcessor[] dataProcessors)
+            ILevelResolver levelResolver, params IPersistentDataSaver[] dataProcessors)
         {
             _game = game;
             _stateMachine = stateMachine;
@@ -90,12 +90,12 @@ namespace Project.Architecture.States
             var levelName = _levelDescriptors[loadedLevel].LevelName;
             
             ui.SetLevelName(loadedLevel + 1, levelName);
-            SetBestTime(ui, levelName);
+            SetBestTime(ui, loadedLevel);
         }
 
-        private void SetBestTime(IGameplayUI ui, string levelName)
+        private void SetBestTime(IGameplayUI ui, int levelIndex)
         {
-            var bestTime = _levelBestTimeService.GetBestTime(levelName);
+            var bestTime = _levelBestTimeService.GetBestTime(levelIndex);
 
             if (bestTime.IsEmpty)
                 ui.HideBestTime();
@@ -105,12 +105,12 @@ namespace Project.Architecture.States
         
         private void UpdateBestTime(float timeElapsed)
         {
-            var name = _levelDescriptors[_levelResolver.CurrentLevel].LevelName;
+            var levelName = _levelResolver.CurrentLevel;
             
-            var previous = _levelBestTimeService.GetBestTime(name);
+            var previous = _levelBestTimeService.GetBestTime(levelName);
             
             if (timeElapsed < previous.AsSeconds || previous.IsEmpty)
-                _levelBestTimeService.SetBestTime(name, timeElapsed);
+                _levelBestTimeService.SetBestTime(levelName, timeElapsed);
         }
 
         private static T UIFactory<T>(GameObject prefab)

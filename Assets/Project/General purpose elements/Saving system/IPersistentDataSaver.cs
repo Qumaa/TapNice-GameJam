@@ -1,6 +1,6 @@
 ﻿namespace Project
 {
-    public interface IPersistentDataProcessor
+    public interface IPersistentDataSaver
     {
         void SaveLoadedData();
     }

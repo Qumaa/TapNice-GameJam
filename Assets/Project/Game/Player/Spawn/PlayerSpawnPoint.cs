@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Project.Game.Player
@@ -9,9 +10,10 @@ namespace Project.Game.Player
         public PlayerDirection PlayerDirection => _playerDirection;
         public Vector3 Position => transform.position;
 
-        public void Destroy()
+        private void OnDrawGizmosSelected()
         {
-            Object.Destroy(this);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(Position, 0.5f);
         }
     }
 }

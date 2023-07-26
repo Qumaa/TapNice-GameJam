@@ -34,7 +34,7 @@ namespace Project.Architecture.States
                 levels,
                 levelBestTimeService,
                 levelResolver,
-                dataProcessors: new IPersistentDataProcessor[] { levelBestTimeService, levelUnlocker }
+                dataProcessors: new IPersistentDataSaver[] { levelBestTimeService, levelUnlocker }
             );
         }
 

@@ -1,12 +1,9 @@
 namespace Project.Game.Levels
 {
-    public interface ILevelUnlocker : IPersistentDataProcessor
+    public interface ILevelUnlocker : IPersistentDataSaver
     {
         void UnlockLevel(int levelIndex);
         bool IsLevelUnlocked(int levelIndex);
-        
-        void UnlockLevel(string levelName);
-        bool IsLevelUnlocked(string levelName);
     }
 
     public static class LevelUnlockerExtensions
@@ -17,15 +14,6 @@ namespace Project.Game.Levels
                 return false;
             
             unlocker.UnlockLevel(levelIndex);
-            return true;
-        }
-        
-        public static bool TryUnlockLevel(this ILevelUnlocker unlocker, string levelName)
-        {
-            if (unlocker.IsLevelUnlocked(levelName))
-                return false;
-            
-            unlocker.UnlockLevel(levelName);
             return true;
         }
     }

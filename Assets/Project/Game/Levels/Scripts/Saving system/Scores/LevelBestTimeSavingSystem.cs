@@ -1,5 +1,5 @@
-using System;
 
+using System;
 #if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
@@ -18,28 +18,17 @@ namespace Project.Game.Levels
             _levelDescriptors = levelDescriptors;
             _savingSystem = new UniversalSavingSystem<LevelsBestTimeData>(EmptyDataFactory);
             _bestTimes = _savingSystem.LoadData(GetFilePath());
+            _bestTimes.ValidateCapacity(_levelDescriptors.Length);
         }
 
-        public LevelBestTime GetBestTime(string levelName)
-        {
-            var levelIndex = LevelNameToIndex(levelName);
-            return _bestTimes[levelIndex];
-        }
+        public LevelBestTime GetBestTime(int levelIndex) =>
+            _bestTimes[levelIndex];
 
-        public void SetBestTime(string levelName, LevelBestTime time) =>
-            _bestTimes[LevelNameToIndex(levelName)] = time.AsSeconds;
+        public void SetBestTime(int levelIndex, LevelBestTime time) =>
+            _bestTimes[levelIndex] = time.AsSeconds;
 
         public void SaveLoadedData() =>
             _savingSystem.SaveData(_bestTimes, GetFilePath());
-        
-        private int LevelNameToIndex(string levelName)
-        {
-            for (var i = 0; i < _levelDescriptors.Length; i++)
-                if (_levelDescriptors[i].LevelName == levelName)
-                    return i;
-
-            throw new ArgumentException();
-        }
 
         private LevelsBestTimeData EmptyDataFactory() =>
             new(_levelDescriptors.Length);
@@ -48,20 +37,9 @@ namespace Project.Game.Levels
             LevelsDataPaths.Scores.FilePath;
 
         [Serializable]
-        private record LevelsBestTimeData
+        private record LevelsBestTimeData : SimpleTableData<float>
         {
-            private readonly float[] _bestScoresTable;
-
-            public float this[int levelIndex]
-            {
-                get => _bestScoresTable[levelIndex];
-                set => _bestScoresTable[levelIndex] = value;
-            }
-
-            public LevelsBestTimeData(int levelsCount)
-            {
-                _bestScoresTable = new float[levelsCount];
-            }
+            public LevelsBestTimeData(int capacity) : base(capacity) { }
         }
 
 #if UNITY_EDITOR
